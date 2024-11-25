@@ -18,6 +18,9 @@ public class HelloApplication extends Application {
 
         // comment
         //muhsmmsdiso's comment
+
+        System.out.println("hello from iso");
+
     }
 
     public static void main(String[] args) {
