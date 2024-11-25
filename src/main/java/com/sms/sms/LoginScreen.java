@@ -22,7 +22,7 @@ public class LoginScreen extends Application {
         root.setStyle("-fx-background-color: white;");
 
 
-        VBox leftPane = new VBox(20);  // Added spacing between elements
+        VBox leftPane = new VBox(20);
         leftPane.setAlignment(Pos.CENTER);
         leftPane.setPadding(new Insets(20));
         leftPane.setStyle("-fx-background-color: white;");
