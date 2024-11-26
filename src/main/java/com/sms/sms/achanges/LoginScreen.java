@@ -1,4 +1,4 @@
-package com.sms.sms;
+package com.sms.sms.achanges;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -27,7 +27,7 @@ public class LoginScreen extends Application {
         leftPane.setPadding(new Insets(20));
         leftPane.setStyle("-fx-background-color: white;");
 
-        ImageView logo = new ImageView(new Image("/logo.png"));
+        ImageView logo = new ImageView(new Image("https://listinstorage.s3.eu-north-1.amazonaws.com/logo.png"));
         logo.setFitHeight(150);
         logo.setFitWidth(150);
         logo.setPreserveRatio(true);
