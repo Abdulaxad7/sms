@@ -13,4 +13,7 @@ module com.sms.sms {
 
     opens com.sms.sms to javafx.fxml;
     exports com.sms.sms;
+    exports com.sms.sms.achanges;
+
+    opens com.sms.sms.achanges to javafx.fxml;
 }
