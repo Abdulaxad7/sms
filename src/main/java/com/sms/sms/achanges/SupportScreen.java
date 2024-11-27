@@ -21,7 +21,7 @@ public class SupportScreen extends Application {
         // Header
         HBox header = new HBox(50);
         header.setPadding(new Insets(10));
-        header.setStyle("-fx-background-color: #FFFFFF;");
+        header.setStyle("-fx-background-color: #F4F4F4;");
         header.setMaxWidth(Double.MAX_VALUE);
         header.setAlignment(Pos.TOP_CENTER);
 
@@ -56,26 +56,38 @@ public class SupportScreen extends Application {
         formBox.setPadding(new Insets(20));
 
         Label title = new Label("Help & Support Center");
-        title.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        title.setFont(new Font("Arial", 36));
         title.setAlignment(Pos.CENTER_LEFT);
         title.setTextFill(Color.DARKSLATEBLUE);
 
 
+
         TextField nameField = new TextField();
-        nameField.setStyle("-fx-background-color: #ffffff; -fx-border-radius: 15; -fx-background-radius: 15;");
+        nameField.setStyle("-fx-background-color: #e6e6fa; -fx-border-radius: 15; -fx-background-radius: 15;");
+        nameField.setFont(new Font("Arial", 18));
         nameField.setAlignment(Pos.CENTER_LEFT);
-        nameField.setPromptText("Full Name");
+        Label fullNameLabelField = new Label("Full Name");
+        fullNameLabelField.setFont(new Font("Arial", 18));
+        VBox nameBox = new VBox(fullNameLabelField,nameField);
 
         TextField emailField = new TextField();
-        emailField.setStyle("-fx-background-color: #ffffff; -fx-border-radius: 15; -fx-background-radius: 15;");
+        emailField.setStyle("-fx-background-color: #e6e6fa; -fx-border-radius: 15; -fx-background-radius: 15;");
+        emailField.setFont(new Font("Arial", 18));
         emailField.setAlignment(Pos.CENTER_LEFT);
-        emailField.setPromptText("Email");
+        Label emailLabelField = new Label("Email");
+        emailLabelField.setFont(new Font("Arial", 18));
+        VBox emailFieldBox = new VBox(emailLabelField,emailField);
 
         TextArea messageField = new TextArea();
-        messageField.setStyle("-fx-background-color: #ffffff; -fx-border-radius: 15; -fx-background-radius: 15;");
-        messageField.setPromptText("Message");
+        messageField.setStyle("-fx-background-color: #e6e6fa; -fx-border-radius: 15; -fx-background-radius: 15;");
+        messageField.setFont(new Font("Arial", 18));
         messageField.setPrefRowCount(5);
+        Label messageLabelField = new Label("Message");
+        messageLabelField.setFont(new Font("Arial", 18));
+        VBox messageFieldBox = new VBox(messageLabelField,messageField);
 
+        VBox fullBox = new VBox(5);
+        fullBox.getChildren().addAll(nameBox,emailFieldBox,messageFieldBox);
         Button sendButton = new Button("Save");
         sendButton.setFont(new Font("Arial", 18));
         sendButton.setStyle("-fx-background-color: #1e90ff; -fx-text-fill: #ffffff; -fx-border-radius: 20; -fx-background-radius: 20;");
@@ -85,7 +97,7 @@ public class SupportScreen extends Application {
         HBox buttonBox = new HBox(sendButton);
         buttonBox.setAlignment(Pos.CENTER);
 
-        formBox.getChildren().addAll(header, title, nameField, emailField, messageField, buttonBox);
+        formBox.getChildren().addAll(header, title, fullBox, sendButton, buttonBox);
 
         // Main layout
         BorderPane layout = new BorderPane();
@@ -96,8 +108,8 @@ public class SupportScreen extends Application {
         Scene scene = new Scene(layout, 900, 600);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Help & Support");
-        primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(600);
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(800);
         primaryStage.show();
     }
 

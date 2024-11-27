@@ -26,6 +26,9 @@ public class ChatScreen extends Application implements EventListener {
         // Chat area
         BorderPane chatPane = new BorderPane();
         chatPane.setPadding(new Insets(10));
+        chatPane.setStyle("-fx-background-color: #F4F4F4;");
+
+
 
         // Header
         HBox header = new HBox(10);
@@ -63,8 +66,8 @@ public class ChatScreen extends Application implements EventListener {
         BorderPane mainLayout = new BorderPane();
         mainLayout.setLeft(sideBar());
         mainLayout.setCenter(chatPane);
-        primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(600);
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(800);
 
 
         Scene scene = new Scene(mainLayout, 1000, 600);
@@ -86,44 +89,42 @@ public class ChatScreen extends Application implements EventListener {
         return chatList;
     }
 
-    //createSidebarButton is a  helper method to create a sidebar button
-    private static Button createSidebarButton(String text) {
-        Button button = new Button(text);
-        button.setFont(new Font("Arial", 14));
-        button.setStyle("-fx-background-color: transparent; -fx-text-fill: white;");
-        button.setAlignment(Pos.CENTER_LEFT);
-        button.setPrefWidth(150);
-        return button;
-    }
-
-    public static VBox sideBar(){
+    public static VBox sideBar()
+    {
         VBox sidebar = new VBox(20);
         sidebar.setPadding(new Insets(20));
         sidebar.setStyle("-fx-background-color: #1a1a2e;");
 
+        // Sidebar logo
         ImageView logo = new ImageView(new Image("https://listinstorage.s3.eu-north-1.amazonaws.com/logo.png"));
         logo.setFitHeight(100);
         logo.setFitWidth(100);
         logo.setPreserveRatio(true);
 
-        Label titleLabel = new Label("Student management system");
+        // Sidebar title
+        Label titleLabel = new Label("Student Management System");
         titleLabel.setFont(new Font("Arial", 14));
         titleLabel.setTextFill(Color.LIGHTGRAY);
 
-        Button coursesButton = createSidebarButton("Courses");
-        Button gradesButton = createSidebarButton("Total Grade");
-        Button chatButton = createSidebarButton("Chat   <");
-        Button settingsButton = createSidebarButton("Settings");
-        Button logoutButton = createSidebarButton("Logout");
-        Button helpButton = createSidebarButton("Help");
+        // Buttons with different icons
+        Button coursesButton = createSidebarButton("Courses", "https://cdn-icons-png.flaticon.com/128/10433/10433048.png");
+        Button gradesButton = createSidebarButton("Total Grade", "https://cdn-icons-png.flaticon.com/128/9913/9913544.png");
+        Button chatButton = createSidebarButton("Chat   <", "https://cdn-icons-png.flaticon.com/128/724/724715.png");
+        Button settingsButton = createSidebarButton("Settings", "https://cdn-icons-png.flaticon.com/128/3953/3953226.png");
+        Button logoutButton = createSidebarButton("Logout", "https://cdn-icons-png.flaticon.com/128/1828/1828490.png");
+        Button helpButton = createSidebarButton("Help", "https://cdn-icons-png.flaticon.com/128/189/189665.png");
 
+        // Spacers
         Region spacer = new Region();
         spacer.setPrefHeight(5);
         Region spacer1 = new Region();
         spacer1.setPrefHeight(10);
         Region spacer2 = new Region();
         spacer2.setPrefHeight(40);
-        sidebar.getChildren().addAll(logo,
+
+        // Add items to the sidebar
+        sidebar.getChildren().addAll(
+                logo,
                 spacer,
                 titleLabel,
                 spacer1,
@@ -133,8 +134,28 @@ public class ChatScreen extends Application implements EventListener {
                 settingsButton,
                 spacer2,
                 logoutButton,
-                helpButton);
+                helpButton
+        );
+
         return sidebar;
+    }
+
+
+    private static Button createSidebarButton(String text, String iconUrl) {
+        Button button = new Button(text);
+        button.setStyle("-fx-background-color: transparent; -fx-text-fill: lightgray; -fx-font-size: 14px;");
+        button.setPrefWidth(150);
+        button.setAlignment(Pos.CENTER_LEFT);
+
+
+        if (iconUrl != null && !iconUrl.isEmpty()) {
+            ImageView icon = new ImageView(new Image(iconUrl));
+            icon.setFitWidth(16);
+            icon.setFitHeight(16);
+            button.setGraphic(icon);
+        }
+
+        return button;
     }
 
     // Helper method to create a chat message
