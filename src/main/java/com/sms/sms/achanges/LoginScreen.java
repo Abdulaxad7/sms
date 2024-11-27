@@ -27,13 +27,13 @@ public class LoginScreen extends Application {
         leftPane.setPadding(new Insets(20));
         leftPane.setStyle("-fx-background-color: white;");
 
-        ImageView logo = new ImageView(new Image("https://listinstorage.s3.eu-north-1.amazonaws.com/logo.png"));
+        ImageView logo = new ImageView(new Image("https://s-m-s.s3.eu-north-1.amazonaws.com/whiteLogo.png"));
         logo.setFitHeight(150);
         logo.setFitWidth(150);
         logo.setPreserveRatio(true);
 
 
-        ImageView illustration = new ImageView(new Image("/illustration.png"));
+        ImageView illustration = new ImageView(new Image("https://s-m-s.s3.eu-north-1.amazonaws.com/illustration.png"));
         illustration.setPreserveRatio(true);
 
 
