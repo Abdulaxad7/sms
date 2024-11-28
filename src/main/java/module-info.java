@@ -16,6 +16,7 @@ module com.sms.sms {
     exports com.sms.sms.achanges;
     exports com.sms.sms.kamron;
     exports com.sms.sms.Bobur;
+    exports com.sms.sms.muhammadiso;
 
     opens com.sms.sms.achanges to javafx.fxml;
 }
