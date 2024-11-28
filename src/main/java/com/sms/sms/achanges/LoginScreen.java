@@ -21,7 +21,6 @@ public class LoginScreen extends Application {
         HBox root = new HBox();
         root.setStyle("-fx-background-color: white;");
 
-
         VBox leftPane = new VBox(20);
         leftPane.setAlignment(Pos.CENTER);
         leftPane.setPadding(new Insets(20));
@@ -32,28 +31,23 @@ public class LoginScreen extends Application {
         logo.setFitWidth(150);
         logo.setPreserveRatio(true);
 
-
         ImageView illustration = new ImageView(new Image("https://s-m-s.s3.eu-north-1.amazonaws.com/illustration.png"));
         illustration.setPreserveRatio(true);
-
 
         illustration.fitWidthProperty().bind(leftPane.widthProperty().multiply(0.8));
         illustration.fitHeightProperty().bind(leftPane.heightProperty().multiply(0.6));
 
         leftPane.getChildren().addAll(logo, illustration);
 
-
         VBox rightPane = new VBox(20);
         rightPane.setAlignment(Pos.CENTER);
         rightPane.setPadding(new Insets(40));
         rightPane.setStyle("-fx-background-color: #1a1a2e;");
 
-
         Label welcomeLabel = new Label("Welcome Back!");
         welcomeLabel.setFont(Font.font("System", FontWeight.BOLD, 32));
         welcomeLabel.setTextFill(Color.WHITE);
         welcomeLabel.setWrapText(true);
-
 
         HBox accountPrompt = new HBox(5);
         accountPrompt.setAlignment(Pos.CENTER);
@@ -63,12 +57,10 @@ public class LoginScreen extends Application {
         contactLink.setTextFill(Color.web("#8B9FFF"));
         accountPrompt.getChildren().addAll(noAccountLabel, contactLink);
 
-
         VBox formBox = new VBox(10);
         formBox.setAlignment(Pos.CENTER);
         formBox.maxWidthProperty().bind(rightPane.widthProperty().multiply(0.9));
         formBox.minWidthProperty().bind(rightPane.widthProperty().multiply(0.5));
-
 
         Label usernameLabel = new Label("Username");
         usernameLabel.setTextFill(Color.WHITE);
@@ -77,14 +69,12 @@ public class LoginScreen extends Application {
         usernameField.setPrefHeight(40);
         usernameField.maxWidthProperty().bind(formBox.widthProperty());
 
-
         Label passwordLabel = new Label("Password");
         passwordLabel.setTextFill(Color.WHITE);
         PasswordField passwordField = new PasswordField();
         passwordField.setStyle("-fx-background-color: white; -fx-background-radius: 5;");
         passwordField.setPrefHeight(40);
         passwordField.maxWidthProperty().bind(formBox.widthProperty());
-
 
         HBox optionsBox = new HBox();
         optionsBox.setAlignment(Pos.CENTER_LEFT);
@@ -109,7 +99,6 @@ public class LoginScreen extends Application {
         loginButton.maxWidthProperty().bind(formBox.widthProperty());
         loginButton.setOnAction(e -> handleLogin(usernameField.getText(), passwordField.getText()));
 
-
         formBox.getChildren().addAll(
                 usernameLabel,
                 usernameField,
@@ -126,26 +115,21 @@ public class LoginScreen extends Application {
                 formBox
         );
 
-
         leftPane.setPrefWidth(500);
         rightPane.setPrefWidth(400);
 
-
-        HBox.setHgrow(leftPane,Priority.ALWAYS);
-        HBox.setHgrow(rightPane,Priority.ALWAYS);
-
+        HBox.setHgrow(leftPane, Priority.ALWAYS);
+        HBox.setHgrow(rightPane, Priority.ALWAYS);
 
         leftPane.setMinWidth(300);
         rightPane.setMinWidth(300);
 
-
         root.getChildren().addAll(leftPane, rightPane);
-
 
         Scene scene = new Scene(root);
 
-        primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(600);
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(800);
         primaryStage.setTitle("SMS Login");
         primaryStage.setScene(scene);
         primaryStage.show();

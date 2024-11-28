@@ -16,8 +16,8 @@ import javafx.stage.Stage;
 
 public class AddNewStudent extends Application {
 
-    String logo_url = "https://listinstorage.s3.eu-north-1.amazonaws.com/logo.png";
-    String profile_image_url = "https://listinstorage.s3.eu-north-1.amazonaws.com/i1.png"; // Admin image
+    String logo_url = "https://s-m-s.s3.eu-north-1.amazonaws.com/logo.png";
+    String profile_image_url = "https://s-m-s.s3.eu-north-1.amazonaws.com/i1.png"; // Admin image
 
     private VBox sideBar() {
         VBox sidebar = new VBox(20);
@@ -43,8 +43,8 @@ public class AddNewStudent extends Application {
         menu.setAlignment(Pos.CENTER);
         menu.setPadding(new Insets(20, 10, 20, 10));
 
-        Button studentsButton = createSidebarButton("Students", "");
-        Button logoutButton = createSidebarButton("Logout", "");
+        Button studentsButton = createSidebarButton("Students");
+        Button logoutButton = createSidebarButton("Logout");
 
         menu.getChildren().addAll(studentsButton, logoutButton);
         sidebar.getChildren().addAll(logoPane, titleLabel, menu);
@@ -52,8 +52,8 @@ public class AddNewStudent extends Application {
         return sidebar;
     }
 
-    private Button createSidebarButton(String text, String icon) {
-        Button button = new Button(icon + "  " + text);
+    private Button createSidebarButton(String text) {
+        Button button = new Button("  " + text);
         button.setFont(new Font("Arial", 16));
         button.setStyle("-fx-background-color: #16213e; -fx-text-fill: white; -fx-padding: 10;");
         button.setAlignment(Pos.CENTER_LEFT);
@@ -129,8 +129,10 @@ public class AddNewStudent extends Application {
         mainLayout.setCenter(form);
         BorderPane.setAlignment(sidebar, Pos.TOP_LEFT); // Align sidebar to the top
 
-        Scene scene = new Scene(mainLayout, 1200, 800);
-        primaryStage.setTitle("Student Management System");
+        Scene scene = new Scene(mainLayout);
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(800);
+        primaryStage.setTitle("Add New Student");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

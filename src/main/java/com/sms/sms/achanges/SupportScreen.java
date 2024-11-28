@@ -10,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class SupportScreen extends Application {
@@ -61,14 +60,13 @@ public class SupportScreen extends Application {
         title.setTextFill(Color.DARKSLATEBLUE);
 
 
-
         TextField nameField = new TextField();
         nameField.setStyle("-fx-background-color: #e6e6fa; -fx-border-radius: 15; -fx-background-radius: 15;");
         nameField.setFont(new Font("Arial", 18));
         nameField.setAlignment(Pos.CENTER_LEFT);
         Label fullNameLabelField = new Label("Full Name");
         fullNameLabelField.setFont(new Font("Arial", 18));
-        VBox nameBox = new VBox(fullNameLabelField,nameField);
+        VBox nameBox = new VBox(fullNameLabelField, nameField);
 
         TextField emailField = new TextField();
         emailField.setStyle("-fx-background-color: #e6e6fa; -fx-border-radius: 15; -fx-background-radius: 15;");
@@ -76,7 +74,7 @@ public class SupportScreen extends Application {
         emailField.setAlignment(Pos.CENTER_LEFT);
         Label emailLabelField = new Label("Email");
         emailLabelField.setFont(new Font("Arial", 18));
-        VBox emailFieldBox = new VBox(emailLabelField,emailField);
+        VBox emailFieldBox = new VBox(emailLabelField, emailField);
 
         TextArea messageField = new TextArea();
         messageField.setStyle("-fx-background-color: #e6e6fa; -fx-border-radius: 15; -fx-background-radius: 15;");
@@ -84,20 +82,19 @@ public class SupportScreen extends Application {
         messageField.setPrefRowCount(5);
         Label messageLabelField = new Label("Message");
         messageLabelField.setFont(new Font("Arial", 18));
-        VBox messageFieldBox = new VBox(messageLabelField,messageField);
+        VBox messageFieldBox = new VBox(messageLabelField, messageField);
 
         VBox fullBox = new VBox(5);
-        fullBox.getChildren().addAll(nameBox,emailFieldBox,messageFieldBox);
+        fullBox.getChildren().addAll(nameBox, emailFieldBox, messageFieldBox);
         Button sendButton = new Button("Save");
         sendButton.setFont(new Font("Arial", 18));
+        sendButton.setAlignment(Pos.CENTER);
         sendButton.setStyle("-fx-background-color: #1e90ff; -fx-text-fill: #ffffff; -fx-border-radius: 20; -fx-background-radius: 20;");
         sendButton.setPrefSize(100, 40);
+        HBox hBox = new HBox(sendButton);
+        hBox.setAlignment(Pos.CENTER);
 
-        // Create an HBox to align the send button to the right
-        HBox buttonBox = new HBox(sendButton);
-        buttonBox.setAlignment(Pos.CENTER);
-
-        formBox.getChildren().addAll(header, title, fullBox, sendButton, buttonBox);
+        formBox.getChildren().addAll(header, title, fullBox, hBox);
 
         // Main layout
         BorderPane layout = new BorderPane();
@@ -113,5 +110,7 @@ public class SupportScreen extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {launch(args);}
+    public static void main(String[] args) {
+        launch(args);
+    }
 }

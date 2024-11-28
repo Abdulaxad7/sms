@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 public class Settings extends Application {
 
-    String profile_image_url = "https://listinstorage.s3.eu-north-1.amazonaws.com/i1.png";
+    String profile_image_url = "https://s-m-s.s3.eu-north-1.amazonaws.com/i1.png";
 
     @Override
     public void start(Stage primaryStage) {
@@ -67,8 +67,10 @@ public class Settings extends Application {
         mainLayout.setLeft(ChatScreen.sideBar());
         mainLayout.setCenter(form);
 
-        Scene scene = new Scene(mainLayout, 1200, 800);
-        primaryStage.setTitle("Student Management System");
+        Scene scene = new Scene(mainLayout);
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(800);
+        primaryStage.setTitle("Student Settings");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
