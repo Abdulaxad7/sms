@@ -20,17 +20,16 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.EventListener;
+import java.util.List;
 
 public class ChatScreen extends Application implements EventListener {
     @Override
     public void start(Stage primaryStage) {
-        // Chat area
+
         BorderPane chatPane = new BorderPane();
         chatPane.setPadding(new Insets(10));
         chatPane.setStyle("-fx-background-color: #F4F4F4;");
 
-
-        // Header
         HBox header = new HBox(10);
         header.setPadding(new Insets(10));
         header.setAlignment(Pos.CENTER_LEFT);
@@ -47,7 +46,6 @@ public class ChatScreen extends Application implements EventListener {
         chatPane.setTop(header);
         chatPane.setCenter(chatViewList());
 
-        // Message input section
         HBox inputSection = new HBox(10);
         inputSection.setPadding(new Insets(10));
         inputSection.setAlignment(Pos.CENTER);
@@ -62,9 +60,8 @@ public class ChatScreen extends Application implements EventListener {
         inputSection.getChildren().addAll(messageField, sendButton);
         chatPane.setBottom(inputSection);
 
-        // Main layout
         BorderPane mainLayout = new BorderPane();
-        mainLayout.setLeft(sideBar());
+        mainLayout.setLeft(sideBar(2,false));
         mainLayout.setCenter(chatPane);
 
 
@@ -88,52 +85,68 @@ public class ChatScreen extends Application implements EventListener {
         return chatList;
     }
 
-    public static VBox sideBar() {
+    public static VBox sideBar(int i, boolean isAdmin) {
         VBox sidebar = new VBox(20);
         sidebar.setPadding(new Insets(20));
         sidebar.setStyle("-fx-background-color: #1a1a2e;");
 
-        // Sidebar logo
         ImageView logo = new ImageView(new Image("https://listinstorage.s3.eu-north-1.amazonaws.com/logo.png"));
         logo.setFitHeight(100);
         logo.setFitWidth(100);
         logo.setPreserveRatio(true);
 
-        // Sidebar title
-        Label titleLabel = new Label("Student Management System");
+        Label titleLabel = new Label("Student management system");
         titleLabel.setFont(new Font("Arial", 14));
         titleLabel.setTextFill(Color.LIGHTGRAY);
 
-        // Buttons with different icons
-        Button coursesButton = createSidebarButton("Courses", "https://cdn-icons-png.flaticon.com/128/10433/10433048.png");
-        Button gradesButton = createSidebarButton("Total Grade", "https://cdn-icons-png.flaticon.com/128/9913/9913544.png");
-        Button chatButton = createSidebarButton("Chat   <", "https://cdn-icons-png.flaticon.com/128/724/724715.png");
-        Button settingsButton = createSidebarButton("Settings", "https://cdn-icons-png.flaticon.com/128/3953/3953226.png");
-        Button logoutButton = createSidebarButton("Logout", "https://cdn-icons-png.flaticon.com/128/1828/1828490.png");
-        Button helpButton = createSidebarButton("Help", "https://cdn-icons-png.flaticon.com/128/189/189665.png");
-
-        // Spacers
+        String [] texts = {"Courses","Total Grade","Chat","Settings","Logout","Help"};
+        switch (i){
+            case 0-> texts[0]+="   <";
+            case 1-> texts[1]+="   <";
+            case 2-> texts[2]+="   <";
+            case 3-> texts[3]+="   <";
+            case 5-> texts[5]+="   <";
+        }
         Region spacer = new Region();
         spacer.setPrefHeight(5);
         Region spacer1 = new Region();
         spacer1.setPrefHeight(10);
-        Region spacer2 = new Region();
-        spacer2.setPrefHeight(40);
 
-        // Add items to the sidebar
-        sidebar.getChildren().addAll(
-                logo,
-                spacer,
-                titleLabel,
-                spacer1,
-                coursesButton,
-                gradesButton,
-                chatButton,
-                settingsButton,
-                spacer2,
-                logoutButton,
-                helpButton
-        );
+
+        Button coursesButton,gradesButton,chatButton,settingsButton,logoutButton,helpButton;
+        if (!isAdmin){
+             coursesButton = createSidebarButton(texts[0], "https://cdn-icons-png.flaticon.com/128/10433/10433048.png");
+             gradesButton = createSidebarButton(texts[1], "https://cdn-icons-png.flaticon.com/128/9913/9913544.png");
+             chatButton = createSidebarButton(texts[2], "https://cdn-icons-png.flaticon.com/128/724/724715.png");
+             settingsButton = createSidebarButton(texts[3], "https://cdn-icons-png.flaticon.com/128/3953/3953226.png");
+             logoutButton = createSidebarButton(texts[4], "https://cdn-icons-png.flaticon.com/128/1828/1828490.png");
+             helpButton = createSidebarButton(texts[5], "https://cdn-icons-png.flaticon.com/128/189/189665.png");
+            Region spacer2 = new Region();
+            spacer2.setPrefHeight(40);
+            sidebar.getChildren().addAll(
+                    logo,
+                    spacer,
+                    titleLabel,
+                    spacer1,
+                    coursesButton,
+                    gradesButton,
+                    chatButton,
+                    settingsButton,
+                    spacer2,
+                    logoutButton,
+                    helpButton);
+
+        }else{
+           Button studentTable = createSidebarButton("Students   <", "https:s-m-s.s3.eu-north-1.amazonaws.com/studentIcon.png");
+            logoutButton = createSidebarButton(texts[4], "https://cdn-icons-png.flaticon.com/128/1828/1828490.png");
+            sidebar.getChildren().addAll(
+                    logo,
+                    spacer,
+                    titleLabel,
+                    spacer1,
+                    studentTable,
+                    logoutButton);
+        }
 
         return sidebar;
     }
@@ -156,12 +169,10 @@ public class ChatScreen extends Application implements EventListener {
         return button;
     }
 
-    // Helper method to create a chat message
     private static HBox createChatMessage(String message, boolean isUser) {
         HBox messageBox = new HBox(10);
         messageBox.setPadding(new Insets(5));
 
-        // Avatar
         ImageView avatar = new ImageView(new Image("https://s-m-s.s3.eu-north-1.amazonaws.com/i1.png"));
         avatar.setFitWidth(40);
         avatar.setFitHeight(40);
