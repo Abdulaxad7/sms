@@ -20,6 +20,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.EventListener;
+
 public class ChatScreen extends Application implements EventListener {
     @Override
     public void start(Stage primaryStage) {
@@ -27,7 +28,6 @@ public class ChatScreen extends Application implements EventListener {
         BorderPane chatPane = new BorderPane();
         chatPane.setPadding(new Insets(10));
         chatPane.setStyle("-fx-background-color: #F4F4F4;");
-
 
 
         // Header
@@ -72,12 +72,13 @@ public class ChatScreen extends Application implements EventListener {
 
         Scene scene = new Scene(mainLayout, 1000, 600);
         primaryStage.setScene(scene);
-        primaryStage.setWidth(900);
-        primaryStage.setHeight(700);
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(800);
         primaryStage.setTitle("Chat UI Example");
         primaryStage.show();
     }
-    static ListView<HBox> chatViewList(){
+
+    static ListView<HBox> chatViewList() {
         ListView<HBox> chatList = new ListView<>();
         chatList.setStyle("-fx-background-color: #F9F9F9;");
 
@@ -89,8 +90,7 @@ public class ChatScreen extends Application implements EventListener {
         return chatList;
     }
 
-    public static VBox sideBar()
-    {
+    public static VBox sideBar() {
         VBox sidebar = new VBox(20);
         sidebar.setPadding(new Insets(20));
         sidebar.setStyle("-fx-background-color: #1a1a2e;");

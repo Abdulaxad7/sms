@@ -1,5 +1,6 @@
 package com.sms.sms.Bobur;
 
+import com.sms.sms.achanges.ChatScreen;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,68 +16,32 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class AddNewStudent extends Application {
-
-    String logo_url = "https://listinstorage.s3.eu-north-1.amazonaws.com/logo.png";
-    String profile_image_url = "https://listinstorage.s3.eu-north-1.amazonaws.com/i1.png"; // Admin image
-
-    private VBox sideBar() {
-        VBox sidebar = new VBox(20);
-        sidebar.setPadding(new Insets(30, 0, 30, 0));
-        sidebar.setStyle("-fx-background-color: #1a1a2e;");
-        sidebar.setAlignment(Pos.TOP_CENTER);
-        VBox.setVgrow(sidebar, Priority.ALWAYS);
-
-        ImageView logo = new ImageView(new Image(logo_url));
-        logo.setFitHeight(100);
-        logo.setFitWidth(100);
-        logo.setPreserveRatio(true);
-
-        Circle logoCircle = new Circle(50, 50, 50);
-        StackPane logoPane = new StackPane(logoCircle, logo);
-        logoPane.setAlignment(Pos.CENTER);
-
-        Label titleLabel = new Label("Student Management System");
-        titleLabel.setFont(new Font("Arial", 14));
-        titleLabel.setTextFill(Color.LIGHTGRAY);
-
-        VBox menu = new VBox(15);
-        menu.setAlignment(Pos.CENTER);
-        menu.setPadding(new Insets(20, 10, 20, 10));
-
-        Button studentsButton = createSidebarButton("Students", "");
-        Button logoutButton = createSidebarButton("Logout", "");
-
-        menu.getChildren().addAll(studentsButton, logoutButton);
-        sidebar.getChildren().addAll(logoPane, titleLabel, menu);
-
-        return sidebar;
-    }
-
-    private Button createSidebarButton(String text, String icon) {
-        Button button = new Button(icon + "  " + text);
-        button.setFont(new Font("Arial", 16));
-        button.setStyle("-fx-background-color: #16213e; -fx-text-fill: white; -fx-padding: 10;");
-        button.setAlignment(Pos.CENTER_LEFT);
-        button.setPrefSize(200, 40);
-        return button;
-    }
+    String profile_image_url = "https://s-m-s.s3.eu-north-1.amazonaws.com/i1.png"; // Admin image
 
     @Override
     public void start(Stage primaryStage) {
-        // Top toolbar with search functionality and admin image
-        HBox topToolbar = new HBox(15);
-        topToolbar.setAlignment(Pos.CENTER_RIGHT);
-        topToolbar.setPadding(new Insets(15, 15, 15, 15)); // Added top padding
+        // Header with "Add New Student" label and admin name & text on the same level
+        HBox header = new HBox(20);
+        header.setAlignment(Pos.CENTER_LEFT);
+        header.setPadding(new Insets(15, 80, 0, 80)); // Adjusted left padding to match form fields
 
-        TextField searchField = new TextField();
-        searchField.setPromptText("Search...");
-        searchField.setPrefHeight(40);
-        searchField.setStyle("-fx-background-color: #e6e6fa; -fx-border-radius: 15; -fx-background-radius: 15;");
+        Label studentNameLabel = new Label("Add New Student");
+        studentNameLabel.setFont(Font.font("Arial", FontWeight.BOLD, 36));
+        studentNameLabel.setTextFill(Color.BLACK);
 
-        Button searchButton = new Button("Search");
-        searchButton.setFont(new Font("Arial", 16));
-        searchButton.setStyle("-fx-background-color: #1e90ff; -fx-text-fill: white; -fx-border-radius: 15; -fx-background-radius: 15;");
-        searchButton.setPrefSize(100, 40);
+        VBox adminBox = new VBox(5);
+        adminBox.setAlignment(Pos.CENTER_RIGHT);
+        adminBox.setPadding(new Insets(10));
+
+        Label adminNameLabel = new Label("Admin Name");
+        adminNameLabel.setFont(new Font("Arial", 16));
+        adminNameLabel.setTextFill(Color.BLACK);
+
+        Label adminTextLabel = new Label("Admin");
+        adminTextLabel.setFont(new Font("Arial", 14));
+        adminTextLabel.setTextFill(Color.GRAY);
+
+        adminBox.getChildren().addAll(adminNameLabel, adminTextLabel);
 
         ImageView adminImage = new ImageView(new Image(profile_image_url));
         adminImage.setFitWidth(60);
@@ -87,17 +52,16 @@ public class AddNewStudent extends Application {
         StackPane adminPane = new StackPane(adminCircle, adminImage);
         adminPane.setAlignment(Pos.CENTER);
 
-        topToolbar.getChildren().addAll(searchField, searchButton, adminPane);
+        HBox adminInfoBox = new HBox(10, adminBox, adminPane);
+        adminInfoBox.setAlignment(Pos.CENTER_RIGHT);
+
+        HBox.setHgrow(adminInfoBox, Priority.ALWAYS);
+
+        header.getChildren().addAll(studentNameLabel, adminInfoBox);
 
         // Form fields
         VBox form = new VBox(20);
         form.setPadding(new Insets(40, 80, 20, 80));
-
-        Label studentNameLabel = new Label("Add New Student");
-        studentNameLabel.setFont(Font.font("Arial", FontWeight.BOLD, 36));
-        studentNameLabel.setTextFill(Color.BLACK);
-
-        form.getChildren().add(studentNameLabel);
 
         String[] labels = {"Username", "Email", "Phone", "Address", "Password"};
         for (String label : labels) {
@@ -121,16 +85,18 @@ public class AddNewStudent extends Application {
         saveButtonBox.setAlignment(Pos.CENTER);
         form.getChildren().add(saveButtonBox);
 
-        // Main layout
-        VBox sidebar = sideBar();
-        BorderPane mainLayout = new BorderPane();
-        mainLayout.setLeft(sidebar);
-        mainLayout.setTop(topToolbar);
-        mainLayout.setCenter(form);
-        BorderPane.setAlignment(sidebar, Pos.TOP_LEFT); // Align sidebar to the top
 
-        Scene scene = new Scene(mainLayout, 1200, 800);
+        VBox content = new VBox(10, header, form);
+
+        BorderPane mainLayout = new BorderPane();
+        mainLayout.setLeft(ChatScreen.sideBar());
+        mainLayout.setCenter(content);
+        BorderPane.setAlignment(ChatScreen.sideBar(), Pos.TOP_LEFT);
+
+        Scene scene = new Scene(mainLayout);
         primaryStage.setTitle("Student Management System");
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(800);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

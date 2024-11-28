@@ -45,9 +45,7 @@ public class StudentInfo extends Application {
         topBar.setStyle("-fx-background-color: #F4F4F4;");
         topBar.setAlignment(Pos.CENTER_LEFT);
 
-        TextField searchField = new TextField();
-        searchField.setPromptText("Explore courses...");
-        searchField.setStyle("-fx-font-size: 14px; -fx-pref-width: 300px;");
+
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);  // Pushes user info to the right
@@ -69,7 +67,7 @@ public class StudentInfo extends Application {
 
         userPicture.setImage(new Image("https://s-m-s.s3.eu-north-1.amazonaws.com/i1.png")); // Replace with actual image path
 
-        topBar.getChildren().addAll(searchField, spacer, userInfo, userPicture);
+        topBar.getChildren().addAll( spacer, userInfo, userPicture);
 
         // Title and Student Name Below Search
         VBox titleBox = new VBox(5);
@@ -90,7 +88,7 @@ public class StudentInfo extends Application {
 
 // Create TableView for Grades
         TableView<String> gradeTable = new TableView<>();
-        gradeTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // Columns automatically resize to fit the table
+        gradeTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS); // Columns automatically resize to fit the table
 
 // Define Columns with static headers and custom style
         String[] columns = {"Course", "Attendance", "Assignment", "Quiz", "MidTerm", "FinalTerm", "Total", "Grade"};
@@ -119,9 +117,11 @@ public class StudentInfo extends Application {
         VBox.setVgrow(navPanel, Priority.ALWAYS);
         VBox.setVgrow(mainContent, Priority.ALWAYS);
 
-        Scene scene = new Scene(mainLayout, 1000, 700);
+        Scene scene = new Scene(mainLayout);
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(800);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Student Management System");
+        primaryStage.setTitle("Student Total Grades");
         primaryStage.show();
     }
 
