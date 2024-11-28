@@ -134,7 +134,6 @@ public class LoginScreen extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        // Set initial window size
         primaryStage.setWidth(900);
         primaryStage.setHeight(700);
     }
