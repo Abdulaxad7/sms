@@ -66,11 +66,9 @@ public class ChatScreen extends Application implements EventListener {
         BorderPane mainLayout = new BorderPane();
         mainLayout.setLeft(sideBar());
         mainLayout.setCenter(chatPane);
-        primaryStage.setMinWidth(1000);
-        primaryStage.setMinHeight(800);
 
 
-        Scene scene = new Scene(mainLayout, 1000, 600);
+        Scene scene = new Scene(mainLayout);
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(1000);
         primaryStage.setMinHeight(800);
