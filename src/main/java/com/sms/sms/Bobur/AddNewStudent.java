@@ -16,14 +16,34 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class AddNewStudent extends Application {
-    String profile_image_url = "https://s-m-s.s3.eu-north-1.amazonaws.com/i1.png"; // Admin image
+    private static final String PROFILE_IMAGE_URL = "https://s-m-s.s3.eu-north-1.amazonaws.com/i1.png";
+    private static final String INPUT_STYLE = "-fx-background-color: #e6e6fa; -fx-border-radius: 15; -fx-background-radius: 15;";
+    private static final Font LABEL_FONT = Font.font("Arial", 18);
+    private static final Font BUTTON_FONT = Font.font("Arial", 18);
 
     @Override
     public void start(Stage primaryStage) {
-        // Header with "Add New Student" label and admin name & text on the same level
+        HBox header = createHeader();
+
+        VBox form = createForm();
+
+        VBox content = new VBox(10, header, form);
+        BorderPane mainLayout = new BorderPane();
+        mainLayout.setLeft(ChatScreen.sideBar(0, true));
+        mainLayout.setCenter(content);
+
+        Scene scene = new Scene(mainLayout);
+        primaryStage.setTitle("Student Management System");
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(800);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private HBox createHeader() {
         HBox header = new HBox(20);
         header.setAlignment(Pos.CENTER_LEFT);
-        header.setPadding(new Insets(15, 80, 0, 80)); // Adjusted left padding to match form fields
+        header.setPadding(new Insets(15, 80, 0, 80));
 
         Label studentNameLabel = new Label("Add New Student");
         studentNameLabel.setFont(Font.font("Arial", FontWeight.BOLD, 36));
@@ -43,7 +63,7 @@ public class AddNewStudent extends Application {
 
         adminBox.getChildren().addAll(adminNameLabel, adminTextLabel);
 
-        ImageView adminImage = new ImageView(new Image(profile_image_url));
+        ImageView adminImage = new ImageView(new Image(PROFILE_IMAGE_URL));
         adminImage.setFitWidth(60);
         adminImage.setFitHeight(60);
         adminImage.setPreserveRatio(true);
@@ -54,51 +74,42 @@ public class AddNewStudent extends Application {
 
         HBox adminInfoBox = new HBox(10, adminBox, adminPane);
         adminInfoBox.setAlignment(Pos.CENTER_RIGHT);
-
         HBox.setHgrow(adminInfoBox, Priority.ALWAYS);
 
         header.getChildren().addAll(studentNameLabel, adminInfoBox);
+        return header;
+    }
 
-        // Form fields
+    private VBox createForm() {
         VBox form = new VBox(20);
         form.setPadding(new Insets(40, 80, 20, 80));
 
         String[] labels = {"Username", "Email", "Phone", "Address", "Password"};
         for (String label : labels) {
-            Label lbl = new Label(label);
-            lbl.setFont(new Font("Arial", 18));
-
-            TextField inputField = label.equals("Password") ? new PasswordField() : new TextField();
-            inputField.setStyle("-fx-background-color: #e6e6fa; -fx-border-radius: 15; -fx-background-radius: 15;");
-            inputField.setPrefHeight(40);
-
-            VBox fieldBox = new VBox(5, lbl, inputField);
-            form.getChildren().add(fieldBox);
+            form.getChildren().add(createFormField(label));
         }
 
         Button saveButton = new Button("Save");
-        saveButton.setFont(new Font("Arial", 18));
+        saveButton.setFont(BUTTON_FONT);
         saveButton.setStyle("-fx-background-color: #1e90ff; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
         saveButton.setPrefSize(100, 40);
 
         HBox saveButtonBox = new HBox(saveButton);
         saveButtonBox.setAlignment(Pos.CENTER);
+
         form.getChildren().add(saveButtonBox);
+        return form;
+    }
 
+    private VBox createFormField(String labelText) {
+        Label label = new Label(labelText);
+        label.setFont(LABEL_FONT);
 
-        VBox content = new VBox(10, header, form);
+        TextField inputField = labelText.equals("Password") ? new PasswordField() : new TextField();
+        inputField.setStyle(INPUT_STYLE);
+        inputField.setPrefHeight(40);
 
-        BorderPane mainLayout = new BorderPane();
-        mainLayout.setLeft(ChatScreen.sideBar());
-        mainLayout.setCenter(content);
-        BorderPane.setAlignment(ChatScreen.sideBar(), Pos.TOP_LEFT);
-
-        Scene scene = new Scene(mainLayout);
-        primaryStage.setTitle("Student Management System");
-        primaryStage.setMinWidth(1000);
-        primaryStage.setMinHeight(800);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        return new VBox(5, label, inputField);
     }
 
     public static void main(String[] args) {
