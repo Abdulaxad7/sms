@@ -1,5 +1,7 @@
-package com.sms.sms.achanges;
+package com.sms.sms.security;
 
+import com.sms.sms.User.CoursesScreen;
+import com.sms.sms.User.StudentInfo;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,15 +14,26 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import lombok.RequiredArgsConstructor;
 
-public class LoginScreen extends Application {
-
+@RequiredArgsConstructor
+public class LoginScreenImpl extends Application implements LoginScreen {
+    private final CoursesScreen courseScreen;
+    private final LoginService loginService;
     @Override
     public void start(Stage primaryStage) {
-
         HBox root = new HBox();
         root.setStyle("-fx-background-color: white;");
 
+        root.getChildren().addAll(leftPane(), rightPane(primaryStage));
+
+        Scene scene = new Scene(root, 1000, 800);
+
+        configurePrimaryStage(primaryStage, scene);
+        primaryStage.show();
+    }
+
+    private VBox leftPane() {
         VBox leftPane = new VBox(20);
         leftPane.setAlignment(Pos.CENTER);
         leftPane.setPadding(new Insets(20));
@@ -39,6 +52,14 @@ public class LoginScreen extends Application {
 
         leftPane.getChildren().addAll(logo, illustration);
 
+        leftPane.setPrefWidth(500);
+        HBox.setHgrow(leftPane, Priority.ALWAYS);
+        leftPane.setMinWidth(300);
+
+        return leftPane;
+    }
+
+    public VBox rightPane(Stage primaryStage) {
         VBox rightPane = new VBox(20);
         rightPane.setAlignment(Pos.CENTER);
         rightPane.setPadding(new Insets(40));
@@ -57,6 +78,19 @@ public class LoginScreen extends Application {
         contactLink.setTextFill(Color.web("#8B9FFF"));
         accountPrompt.getChildren().addAll(noAccountLabel, contactLink);
 
+        rightPane.setPrefWidth(400);
+
+        HBox.setHgrow(rightPane, Priority.ALWAYS);
+        rightPane.getChildren().addAll(
+                welcomeLabel,
+                accountPrompt,
+                formBox(rightPane, primaryStage)
+        );
+        rightPane.setMinWidth(300);
+        return rightPane;
+    }
+
+    public VBox formBox(VBox rightPane, Stage primaryStage) {
         VBox formBox = new VBox(10);
         formBox.setAlignment(Pos.CENTER);
         formBox.maxWidthProperty().bind(rightPane.widthProperty().multiply(0.9));
@@ -86,8 +120,6 @@ public class LoginScreen extends Application {
         HBox.setHgrow(forgotPassword, Priority.ALWAYS);
         forgotPassword.setAlignment(Pos.CENTER_RIGHT);
         optionsBox.getChildren().addAll(rememberMe, forgotPassword);
-
-
         Button loginButton = new Button("Login");
         loginButton.setStyle(
                 "-fx-background-color: #8B9FFF; " +
@@ -97,8 +129,12 @@ public class LoginScreen extends Application {
                         "-fx-padding: 10 0;"
         );
         loginButton.maxWidthProperty().bind(formBox.widthProperty());
-        loginButton.setOnAction(e -> handleLogin(usernameField.getText(), passwordField.getText()));
-
+        loginButton.setOnAction(e -> {
+            boolean isValid = loginService.validateCredentials(usernameField.getText(), passwordField.getText());
+            if (isValid) {
+                primaryStage.setScene(courseScreen.scene());
+            }
+        });
         formBox.getChildren().addAll(
                 usernameLabel,
                 usernameField,
@@ -108,39 +144,14 @@ public class LoginScreen extends Application {
                 loginButton
         );
 
+        return formBox;
+    }
 
-        rightPane.getChildren().addAll(
-                welcomeLabel,
-                accountPrompt,
-                formBox
-        );
-
-        leftPane.setPrefWidth(500);
-        rightPane.setPrefWidth(400);
-
-        HBox.setHgrow(leftPane, Priority.ALWAYS);
-        HBox.setHgrow(rightPane, Priority.ALWAYS);
-
-        leftPane.setMinWidth(300);
-        rightPane.setMinWidth(300);
-
-        root.getChildren().addAll(leftPane, rightPane);
-
-        Scene scene = new Scene(root);
-
+    public void configurePrimaryStage(Stage primaryStage, Scene scene) {
         primaryStage.setMinWidth(1000);
         primaryStage.setMinHeight(800);
         primaryStage.setTitle("SMS Login");
         primaryStage.setScene(scene);
-        primaryStage.show();
-
-        primaryStage.setWidth(900);
-        primaryStage.setHeight(700);
-    }
-
-    private void handleLogin(String username, String password) {
-        System.out.println("Login attempted with username: " + username);
-        System.out.println("Login attempted with password: " + password);
     }
 
     public static void main(String[] args) {

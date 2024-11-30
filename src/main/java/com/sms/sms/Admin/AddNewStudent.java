@@ -1,6 +1,6 @@
-package com.sms.sms.Bobur;
+package com.sms.sms.Admin;
 
-import com.sms.sms.achanges.ChatScreen;
+import com.sms.sms.User.ChatScreen;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,12 +10,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-public class Settings extends Application {
-
+public class AddNewStudent extends Application {
     private static final String PROFILE_IMAGE_URL = "https://s-m-s.s3.eu-north-1.amazonaws.com/i1.png";
     private static final String INPUT_STYLE = "-fx-background-color: #e6e6fa; -fx-border-radius: 15; -fx-background-radius: 15;";
     private static final Font LABEL_FONT = Font.font("Arial", 18);
@@ -25,11 +25,12 @@ public class Settings extends Application {
     public void start(Stage primaryStage) {
         HBox header = createHeader();
 
-        VBox form = createForm(header);
+        VBox form = createForm();
 
+        VBox content = new VBox(10, header, form);
         BorderPane mainLayout = new BorderPane();
-        mainLayout.setLeft(ChatScreen.sideBar(3, false));
-        mainLayout.setCenter(form);
+        mainLayout.setLeft(ChatScreen.sideBar(0, true,null));
+        mainLayout.setCenter(content);
 
         Scene scene = new Scene(mainLayout);
         primaryStage.setTitle("Student Management System");
@@ -40,28 +41,48 @@ public class Settings extends Application {
     }
 
     private HBox createHeader() {
-        ImageView studentImage = new ImageView(new Image(PROFILE_IMAGE_URL));
-        studentImage.setFitWidth(100);
-        studentImage.setFitHeight(100);
-        studentImage.setPreserveRatio(true);
-        studentImage.setSmooth(true);
+        HBox header = new HBox(20);
+        header.setAlignment(Pos.CENTER_LEFT);
+        header.setPadding(new Insets(15, 80, 0, 80));
 
-        Label studentNameLabel = new Label("Student Name");
+        Label studentNameLabel = new Label("Add New Student");
         studentNameLabel.setFont(Font.font("Arial", FontWeight.BOLD, 36));
         studentNameLabel.setTextFill(Color.BLACK);
 
-        HBox header = new HBox(20, studentImage, studentNameLabel);
-        header.setPadding(new Insets(20));
-        header.setAlignment(Pos.CENTER_LEFT);
+        VBox adminBox = new VBox(5);
+        adminBox.setAlignment(Pos.CENTER_RIGHT);
+        adminBox.setPadding(new Insets(10));
 
+        Label adminNameLabel = new Label("Admin Name");
+        adminNameLabel.setFont(new Font("Arial", 16));
+        adminNameLabel.setTextFill(Color.BLACK);
+
+        Label adminTextLabel = new Label("Admin");
+        adminTextLabel.setFont(new Font("Arial", 14));
+        adminTextLabel.setTextFill(Color.GRAY);
+
+        adminBox.getChildren().addAll(adminNameLabel, adminTextLabel);
+
+        ImageView adminImage = new ImageView(new Image(PROFILE_IMAGE_URL));
+        adminImage.setFitWidth(60);
+        adminImage.setFitHeight(60);
+        adminImage.setPreserveRatio(true);
+
+        Circle adminCircle = new Circle(30, 30, 30);
+        StackPane adminPane = new StackPane(adminCircle, adminImage);
+        adminPane.setAlignment(Pos.CENTER);
+
+        HBox adminInfoBox = new HBox(10, adminBox, adminPane);
+        adminInfoBox.setAlignment(Pos.CENTER_RIGHT);
+        HBox.setHgrow(adminInfoBox, Priority.ALWAYS);
+
+        header.getChildren().addAll(studentNameLabel, adminInfoBox);
         return header;
     }
 
-    private VBox createForm(HBox header) {
+    private VBox createForm() {
         VBox form = new VBox(20);
         form.setPadding(new Insets(40, 80, 20, 80));
-
-        form.getChildren().add(header);
 
         String[] labels = {"Username", "Email", "Phone", "Address", "Password"};
         for (String label : labels) {
@@ -77,7 +98,6 @@ public class Settings extends Application {
         saveButtonBox.setAlignment(Pos.CENTER);
 
         form.getChildren().add(saveButtonBox);
-
         return form;
     }
 

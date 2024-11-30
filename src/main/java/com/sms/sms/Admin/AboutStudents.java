@@ -1,6 +1,6 @@
-package com.sms.sms.kamron;
+package com.sms.sms.Admin;
 
-import com.sms.sms.achanges.ChatScreen;
+import com.sms.sms.User.ChatScreen;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -29,7 +29,7 @@ public class AboutStudents extends Application {
         VBox centerContent = createCenterContent(topBar, titleBar, studentTable);
 
         BorderPane mainLayout = new BorderPane();
-        mainLayout.setLeft(ChatScreen.sideBar(0, true));
+        mainLayout.setLeft(ChatScreen.sideBar(0, true,null));
         mainLayout.setCenter(centerContent);
 
         Scene scene = new Scene(mainLayout, 1000, 600);

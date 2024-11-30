@@ -1,4 +1,4 @@
-package com.sms.sms.achanges;
+package com.sms.sms.User;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -123,7 +123,7 @@ public class SupportScreen extends Application {
 
     private BorderPane createMainLayout(VBox formBox) {
         BorderPane layout = new BorderPane();
-        layout.setLeft(ChatScreen.sideBar(5, false));
+        layout.setLeft(ChatScreen.sideBar(5, false,null));
         layout.setCenter(formBox);
         return layout;
     }

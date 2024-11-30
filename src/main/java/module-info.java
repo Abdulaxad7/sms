@@ -10,13 +10,17 @@ module com.sms.sms {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.desktop;
+    requires jbcrypt;
+    requires java.persistence;
+    requires static lombok;
 
     opens com.sms.sms to javafx.fxml;
     exports com.sms.sms;
-    exports com.sms.sms.achanges;
-    exports com.sms.sms.kamron;
-    exports com.sms.sms.Bobur;
-    exports com.sms.sms.muhammadiso;
 
-    opens com.sms.sms.achanges to javafx.fxml;
+    exports com.sms.sms.security;
+    opens com.sms.sms.security to javafx.fxml;
+    exports com.sms.sms.User;
+    opens com.sms.sms.User to javafx.fxml;
+    exports com.sms.sms.Admin;
 }

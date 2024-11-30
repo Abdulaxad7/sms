@@ -1,6 +1,5 @@
-package com.sms.sms.kamron;
+package com.sms.sms.User;
 
-import com.sms.sms.achanges.ChatScreen;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,12 +10,10 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 
-public class StudentInfo extends Application {
+public class StudentInfo {
+    public Scene scene() {
 
-    @Override
-    public void start(Stage primaryStage) {
 
         VBox navPanel = new VBox(20);
         navPanel.setPadding(new Insets(20));
@@ -152,18 +149,16 @@ public class StudentInfo extends Application {
         centerContent.setPadding(new Insets(10));
 
         BorderPane mainLayout = new BorderPane();
-        mainLayout.setLeft(ChatScreen.sideBar(1,false));
+        mainLayout.setLeft(ChatScreen.sideBar(1,false,null));
         mainLayout.setCenter(centerContent);
 
-        Scene scene = new Scene(mainLayout);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Student Information");
-        primaryStage.show();
+        return new Scene(mainLayout);
     }
 
     public static void main(String[] args) {
-        launch(args);
     }
+
+
 }
 record GradeEntry(
         String course,

@@ -1,4 +1,4 @@
-package com.sms.sms.achanges;
+package com.sms.sms.User;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -20,9 +20,10 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.EventListener;
-import java.util.List;
 
 public class ChatScreen extends Application implements EventListener {
+    private static final StudentInfo studentInfo = new StudentInfo();
+
     @Override
     public void start(Stage primaryStage) {
 
@@ -61,7 +62,7 @@ public class ChatScreen extends Application implements EventListener {
         chatPane.setBottom(inputSection);
 
         BorderPane mainLayout = new BorderPane();
-        mainLayout.setLeft(sideBar(2,false));
+        mainLayout.setLeft(sideBar(2,false,null));
         mainLayout.setCenter(chatPane);
 
 
@@ -85,7 +86,7 @@ public class ChatScreen extends Application implements EventListener {
         return chatList;
     }
 
-    public static VBox sideBar(int i, boolean isAdmin) {
+    public static VBox sideBar(int i, boolean isAdmin, Stage primaryStage) {
         VBox sidebar = new VBox(20);
         sidebar.setPadding(new Insets(20));
         sidebar.setStyle("-fx-background-color: #1a1a2e;");
@@ -117,6 +118,7 @@ public class ChatScreen extends Application implements EventListener {
         if (!isAdmin){
              coursesButton = createSidebarButton(texts[0], "https://cdn-icons-png.flaticon.com/128/10433/10433048.png");
              gradesButton = createSidebarButton(texts[1], "https://cdn-icons-png.flaticon.com/128/9913/9913544.png");
+            gradesButton.setOnAction(actionEvent -> primaryStage.setScene(studentInfo.scene()));
              chatButton = createSidebarButton(texts[2], "https://cdn-icons-png.flaticon.com/128/724/724715.png");
              settingsButton = createSidebarButton(texts[3], "https://cdn-icons-png.flaticon.com/128/3953/3953226.png");
              logoutButton = createSidebarButton(texts[4], "https://cdn-icons-png.flaticon.com/128/1828/1828490.png");

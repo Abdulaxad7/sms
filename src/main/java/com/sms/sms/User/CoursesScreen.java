@@ -1,7 +1,5 @@
-package com.sms.sms.muhammadiso;
+package com.sms.sms.User;
 
-import com.sms.sms.achanges.ChatScreen;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,28 +9,22 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoursesScreen extends Application {
-    @Override
-    public void start(Stage primaryStage) {
+public class CoursesScreen {
+    public Scene scene() {
         VBox mainPanel = createMainPanel();
         HBox layout = createLayout(mainPanel);
 
-        Scene scene = new Scene(layout, 1000, 800);
-        primaryStage.setMinWidth(1000);
-        primaryStage.setMinHeight(800);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("SMS - Sidebar and Main Screen");
-        primaryStage.show();
+        return new Scene(layout, 1000, 800);
     }
 
     private HBox createLayout(VBox mainPanel) {
         HBox layout = new HBox();
-        layout.getChildren().addAll(ChatScreen.sideBar(0, false), mainPanel);
+        layout.getChildren().addAll(ChatScreen.sideBar(0, false,null), mainPanel);
         HBox.setHgrow(mainPanel, Priority.ALWAYS);
         return layout;
     }
@@ -105,7 +97,7 @@ public class CoursesScreen extends Application {
         scrollableContent.setPadding(new Insets(20));
 
         VBox coursesSection = createCoursesSection();
-        VBox continueLearningSection = createContinueLearningSection();
+        VBox continueLearningSection = createContinueLearningContainer();
 
         scrollableContent.getChildren().addAll(coursesSection, continueLearningSection);
         return scrollableContent;
@@ -134,7 +126,7 @@ public class CoursesScreen extends Application {
 
         addSearchFieldStyles(searchField);
 
-        ImageView searchIcon = new ImageView(new Image("https:s-m-s.s3.eu-north-1.amazonaws.com/searchIcon.png"));
+        ImageView searchIcon = new ImageView("https://s-m-s.s3.eu-north-1.amazonaws.com/searchIcon.png");
         searchIcon.setFitWidth(30);
         searchIcon.setFitHeight(30);
 
@@ -154,16 +146,16 @@ public class CoursesScreen extends Application {
                         "-fx-padding: 10px 15px;" +
                         "-fx-font-size: 14px;";
         searchField.setStyle(searchFieldStyle);
-        searchField.setOnMouseEntered(e -> searchField.setStyle(searchFieldStyle + "-fx-border-color: #a0a0a0;"));
+        searchField.setOnMouseEntered(e -> searchField.setStyle(searchFieldStyle ));
         searchField.setOnMouseExited(e -> searchField.setStyle(searchFieldStyle));
-        searchField.setOnMousePressed(e -> searchField.setStyle(searchFieldStyle + "-fx-border-color: #4a90e2;"));
+        searchField.setOnMousePressed(e -> searchField.setStyle(searchFieldStyle ));
     }
 
     private VBox createProfileSection() {
         VBox profileSection = new VBox(5);
         profileSection.setAlignment(Pos.CENTER_RIGHT);
 
-        ImageView profileImage = new ImageView(new Image("https:s-m-s.s3.eu-north-1.amazonaws.com/i1.png"));
+        ImageView profileImage = new ImageView(new Image("https://s-m-s.s3.eu-north-1.amazonaws.com/i1.png"));
         profileImage.setFitHeight(40);
         profileImage.setFitWidth(40);
 
@@ -237,34 +229,70 @@ public class CoursesScreen extends Application {
         courseCard.getChildren().addAll(courseImage, title, instructor, description, grade);
         return courseCard;
     }
-
-    private VBox createContinueLearningSection() {
-        VBox continueLearningSection = new VBox(20);
-        continueLearningSection.setPadding(new Insets(20));
-
+    private VBox createContinueLearningContainer() {
+        VBox vBox = new VBox();
+        vBox.setPadding(new Insets(10));
         Label sectionTitle = new Label("Continue Learning");
         sectionTitle.setFont(Font.font("Arial", 24));
         sectionTitle.setTextFill(Color.BLACK);
+        vBox.getChildren().addAll(sectionTitle);
+        List<Course> courses = getCourses();
+        for (Course course : courses) {
+            vBox.getChildren().add(createContinueLearningSection(course));
+        }
+        return vBox;
+    }
+
+    private VBox createContinueLearningSection(Course course) {
+        VBox continueLearningSection = new VBox(20);
+        continueLearningSection.setPadding(new Insets(20));
 
 
-        continueLearningSection.getChildren().add(sectionTitle);
+        HBox courseCard = new HBox(20);
+        courseCard.setPadding(new Insets(10));
+        courseCard.setStyle("-fx-border-color: #ccc; -fx-border-width: 1px; -fx-background-color: #f9f9f9;");
+        courseCard.setAlignment(Pos.CENTER_LEFT);
+
+        ImageView courseImage = new ImageView(new Image(course.imageUrl()));
+        courseImage.setFitWidth(100);
+        courseImage.setFitHeight(100);
+
+        VBox courseDetails = new VBox(10);
+        Label title = new Label(course.title());
+        title.setFont(Font.font("Arial", 18));
+        title.setTextFill(Color.BLACK);
+
+        Label instructor = new Label(course.description());
+        instructor.setFont(Font.font("Arial", 12));
+        instructor.setTextFill(Color.GRAY);
+
+        ProgressBar progressBar = new ProgressBar(course.completed()); // 75% completed
+        Label progressLabel = new Label("2 lectures of 2 weeks left");
+
+        courseDetails.getChildren().addAll(title, instructor, progressBar, progressLabel);
+        courseCard.getChildren().addAll(courseImage, courseDetails);
+
+        continueLearningSection.getChildren().addAll(courseCard);
         return continueLearningSection;
     }
 
     private List<Course> getCourses() {
         List<Course> courses = new ArrayList<>();
-        courses.add(new Course("Course 1", "Instructor 1", "Description 1", "A", "https:s-m-s.s3.eu-north-1.amazonaws.com/course_image.png"));
-        courses.add(new Course("Course 2", "Instructor 2", "Description 2", "B", "https:s-m-s.s3.eu-north-1.amazonaws.com/course_image.png"));
+        courses.add(new Course("Course 1", "https://s-m-s.s3.eu-north-1.amazonaws.com/courseImage.png", " Instructor 1", "Description 1", "A",0.75));
+        courses.add(new Course("Course 2", "https://s-m-s.s3.eu-north-1.amazonaws.com/courseImage.png", "Instructor 2", "Description 2", "B",0.80));
+        courses.add(new Course("Course 3", "https://s-m-s.s3.eu-north-1.amazonaws.com/courseImage.png", "Instructor 3", "Description 3", "A+",0.50));
+        courses.add(new Course("Course 4", "https://s-m-s.s3.eu-north-1.amazonaws.com/courseImage.png", "Instructor 4", "Description 4", "B+",0.34));
+
         return courses;
     }
 
     public static void main(String[] args) {
-        launch(args);
+
     }
 }
 
 
-record Course(String title, String imageUrl, String instructorName, String description, String grade) {
+record Course(String title, String imageUrl, String instructorName, String description, String grade, Double completed) {
 }
 
 
