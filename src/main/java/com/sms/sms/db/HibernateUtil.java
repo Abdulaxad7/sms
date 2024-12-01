@@ -1,5 +1,7 @@
 package com.sms.sms.db;
 
+import com.sms.sms.User.entity.Course;
+import com.sms.sms.User.entity.Grade;
 import com.sms.sms.User.entity.Student;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,8 +13,12 @@ public class HibernateUtil {
 
     static {
         try {
-            // Create the SessionFactory from hibernate.cfg.xml
-            sessionFactory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Student.class).buildSessionFactory();
+            sessionFactory = new Configuration()
+                    .configure("hibernate.cfg.xml")
+                    .addAnnotatedClass(Student.class)
+                    .addAnnotatedClass(Grade.class)
+                    .addAnnotatedClass(Course.class)
+                    .buildSessionFactory();
         } catch (Throwable ex) {
             throw new ExceptionInInitializerError(ex);
         }

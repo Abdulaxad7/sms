@@ -5,7 +5,9 @@ import com.sms.sms.User.CoursesScreen;
 import com.sms.sms.User.entity.Course;
 import com.sms.sms.User.entity.Grade;
 import com.sms.sms.User.entity.Student;
+import com.sms.sms.db.Hibernate;
 import com.sms.sms.db.HibernateUtil;
+import com.sms.sms.exceptions.FailedToStartHibernate;
 import com.sms.sms.leftbar.LeftSideBar;
 import com.sms.sms.security.service.LoginServiceImpl;
 import javafx.application.Application;
@@ -25,8 +27,7 @@ import org.hibernate.Session;
 import java.util.List;
 
 import static com.sms.sms.styles.Colors.*;
-import static com.sms.sms.styles.Images.ILLUSTRATION_ICON;
-import static com.sms.sms.styles.Images.WHITE_LOGO;
+import static com.sms.sms.styles.Images.*;
 
 public class LoginScreenImpl extends Application implements LoginScreen {
     private final AboutStudents students = new AboutStudents();
@@ -38,6 +39,7 @@ public class LoginScreenImpl extends Application implements LoginScreen {
     }
     @Override
     public void start(Stage primaryStage) {
+        Hibernate.start();
         HBox root = new HBox();
         root.setStyle(START_STYLE);
 
@@ -168,31 +170,6 @@ public class LoginScreenImpl extends Application implements LoginScreen {
     }
 
     public static void main(String[] args) {
-        Session session = HibernateUtil.getSession();
-
-        try {
-            // Start a transaction
-            session.beginTransaction();
-
-            // Create a new User object
-            Student student = Student.builder().name("name").username("uname").password("pass")
-                    .courses(List.of(Course.builder().build()))
-                    .grades(List.of(Grade.builder().build())).build();
-
-
-            // Save the user object
-            session.save(student);
-
-            // Commit the transaction
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-
-        HibernateUtil.close();
-
         launch(args);
     }
 
