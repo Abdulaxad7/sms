@@ -2,12 +2,7 @@ package com.sms.sms.security;
 
 import com.sms.sms.Admin.AboutStudents;
 import com.sms.sms.User.CoursesScreen;
-import com.sms.sms.User.entity.Course;
-import com.sms.sms.User.entity.Grade;
-import com.sms.sms.User.entity.Student;
-import com.sms.sms.db.Hibernate;
-import com.sms.sms.db.HibernateUtil;
-import com.sms.sms.exceptions.FailedToStartHibernate;
+import com.sms.sms.db.service.StudentService;
 import com.sms.sms.leftbar.LeftSideBar;
 import com.sms.sms.security.service.LoginServiceImpl;
 import javafx.application.Application;
@@ -21,10 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import org.hibernate.Session;
 
-
-import java.util.List;
 
 import static com.sms.sms.styles.Colors.*;
 import static com.sms.sms.styles.Images.*;
@@ -39,7 +31,6 @@ public class LoginScreenImpl extends Application implements LoginScreen {
     }
     @Override
     public void start(Stage primaryStage) {
-        Hibernate.start();
         HBox root = new HBox();
         root.setStyle(START_STYLE);
 

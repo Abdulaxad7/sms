@@ -10,11 +10,11 @@ import jakarta.persistence.*;
 @Entity
 @Setter
 @Getter
-@Table(name = "student")
 @Builder
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "student")
+@NoArgsConstructor(force = true)
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,6 +28,12 @@ public class Student {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String phone;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)  // Add CascadeType.ALL to persist courses along with student
     private List<Course> courses;

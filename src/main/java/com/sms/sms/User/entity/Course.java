@@ -9,10 +9,10 @@ import java.util.UUID;
 @Setter
 @Getter
 @Builder
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
 @Entity
+@AllArgsConstructor
 @Table(name = "courses")
+@NoArgsConstructor(force = true)
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

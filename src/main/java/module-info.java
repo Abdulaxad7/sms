@@ -16,6 +16,7 @@ module com.sms.sms {
     requires java.naming;
     requires jakarta.persistence;
     requires static lombok;
+    requires org.slf4j;
 
     opens com.sms.sms to javafx.fxml;
     exports com.sms.sms;

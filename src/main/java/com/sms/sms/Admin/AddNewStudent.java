@@ -1,5 +1,7 @@
 package com.sms.sms.Admin;
 
+import com.sms.sms.User.entity.Student;
+import com.sms.sms.db.service.StudentService;
 import com.sms.sms.leftbar.LeftSideBar;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -78,7 +80,7 @@ public class AddNewStudent {
         VBox form = new VBox(20);
         form.setPadding(new Insets(40, 80, 20, 80));
 
-        String[] labels = {"Username", "Email", "Phone", "Address", "Password"};
+        String[] labels = {"FullName","Username", "Email", "Phone", "Address", "Password"};
         for (String label : labels) {
             form.getChildren().add(createFormField(label));
         }
@@ -87,6 +89,26 @@ public class AddNewStudent {
         saveButton.setFont(BUTTON_FONT);
         saveButton.setStyle(CREATE_FORM);
         saveButton.setPrefSize(100, 40);
+        saveButton.setOnAction(event -> {
+            if (saveButton.getText().trim().isEmpty()) {
+
+                showValidationError("This field cannot be empty!");
+                saveButton.setStyle(INPUT_STYLE + "; -fx-border-color: red;");
+            } else {
+                //todo -> Process form if validation passes
+                saveButton.setStyle(INPUT_STYLE);  // Reset style
+                StudentService.persistNewStudent(Student
+                        .builder()
+                        .name("Abdaulaxad")
+                        .username("Is")
+                        .email("a.i@gmail.com")
+                        .phone("+99899999999")
+                        .password("1234qwer")
+                        .build()
+                );
+                System.out.println("Form submitted with: " + saveButton.getText());
+            }
+        });
 
         HBox saveButtonBox = new HBox(saveButton);
         saveButtonBox.setAlignment(Pos.CENTER);
@@ -105,8 +127,11 @@ public class AddNewStudent {
 
         return new VBox(5, label, inputField);
     }
-
-
-    public static void main(String[] args) {
+    private static void showValidationError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Validation Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
