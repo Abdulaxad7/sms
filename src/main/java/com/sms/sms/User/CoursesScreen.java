@@ -1,5 +1,7 @@
 package com.sms.sms.User;
 
+import com.sms.sms.User.entity.Course;
+import com.sms.sms.leftbar.LeftSideBar;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,9 +12,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sms.sms.styles.Images.*;
 
 public class CoursesScreen {
     public Scene scene() {
@@ -24,7 +27,7 @@ public class CoursesScreen {
 
     private HBox createLayout(VBox mainPanel) {
         HBox layout = new HBox();
-        layout.getChildren().addAll(ChatScreen.sideBar(0, false,null), mainPanel);
+        layout.getChildren().addAll(LeftSideBar.sideBar(0, false), mainPanel);
         HBox.setHgrow(mainPanel, Priority.ALWAYS);
         return layout;
     }
@@ -126,7 +129,7 @@ public class CoursesScreen {
 
         addSearchFieldStyles(searchField);
 
-        ImageView searchIcon = new ImageView("https://s-m-s.s3.eu-north-1.amazonaws.com/searchIcon.png");
+        ImageView searchIcon = new ImageView(SEARCH_ICON);
         searchIcon.setFitWidth(30);
         searchIcon.setFitHeight(30);
 
@@ -151,11 +154,11 @@ public class CoursesScreen {
         searchField.setOnMousePressed(e -> searchField.setStyle(searchFieldStyle ));
     }
 
-    private VBox createProfileSection() {
+    public static VBox createProfileSection() {
         VBox profileSection = new VBox(5);
         profileSection.setAlignment(Pos.CENTER_RIGHT);
 
-        ImageView profileImage = new ImageView(new Image("https://s-m-s.s3.eu-north-1.amazonaws.com/i1.png"));
+        ImageView profileImage = new ImageView(AVATAR_ICON1);
         profileImage.setFitHeight(40);
         profileImage.setFitWidth(40);
 
@@ -206,23 +209,23 @@ public class CoursesScreen {
         courseCard.setAlignment(Pos.TOP_CENTER);
         courseCard.setPrefWidth(250);
 
-        ImageView courseImage = new ImageView(new Image(course.imageUrl()));
+        ImageView courseImage = new ImageView(new Image(course.getImageUrl()));
         courseImage.setFitWidth(230);
         courseImage.setFitHeight(130);
 
-        Label title = new Label(course.title());
+        Label title = new Label(course.getTitle());
         title.setFont(Font.font("Arial", 18));
         title.setTextFill(Color.BLACK);
 
-        Label instructor = new Label(course.instructorName());
+        Label instructor = new Label(course.getInstructorName());
         instructor.setFont(Font.font("Arial", 12));
         instructor.setTextFill(Color.GRAY);
 
-        Label description = new Label(course.description());
+        Label description = new Label(course.getDescription());
         description.setFont(Font.font("Arial", 12));
         description.setWrapText(true);
 
-        Label grade = new Label(course.grade());
+        Label grade = new Label(course.getGrade());
         grade.setFont(Font.font("Arial", 14));
         grade.setTextFill(Color.GREEN);
 
@@ -253,20 +256,20 @@ public class CoursesScreen {
         courseCard.setStyle("-fx-border-color: #ccc; -fx-border-width: 1px; -fx-background-color: #f9f9f9;");
         courseCard.setAlignment(Pos.CENTER_LEFT);
 
-        ImageView courseImage = new ImageView(new Image(course.imageUrl()));
+        ImageView courseImage = new ImageView(new Image(course.getImageUrl()));
         courseImage.setFitWidth(100);
         courseImage.setFitHeight(100);
 
         VBox courseDetails = new VBox(10);
-        Label title = new Label(course.title());
+        Label title = new Label(course.getTitle());
         title.setFont(Font.font("Arial", 18));
         title.setTextFill(Color.BLACK);
 
-        Label instructor = new Label(course.description());
+        Label instructor = new Label(course.getDescription());
         instructor.setFont(Font.font("Arial", 12));
         instructor.setTextFill(Color.GRAY);
 
-        ProgressBar progressBar = new ProgressBar(course.completed()); // 75% completed
+        ProgressBar progressBar = new ProgressBar(course.getStatus()); // 75% completed
         Label progressLabel = new Label("2 lectures of 2 weeks left");
 
         courseDetails.getChildren().addAll(title, instructor, progressBar, progressLabel);
@@ -278,21 +281,33 @@ public class CoursesScreen {
 
     private List<Course> getCourses() {
         List<Course> courses = new ArrayList<>();
-        courses.add(new Course("Course 1", "https://s-m-s.s3.eu-north-1.amazonaws.com/courseImage.png", " Instructor 1", "Description 1", "A",0.75));
-        courses.add(new Course("Course 2", "https://s-m-s.s3.eu-north-1.amazonaws.com/courseImage.png", "Instructor 2", "Description 2", "B",0.80));
-        courses.add(new Course("Course 3", "https://s-m-s.s3.eu-north-1.amazonaws.com/courseImage.png", "Instructor 3", "Description 3", "A+",0.50));
-        courses.add(new Course("Course 4", "https://s-m-s.s3.eu-north-1.amazonaws.com/courseImage.png", "Instructor 4", "Description 4", "B+",0.34));
 
+//        courses.add(Course.builder()
+//                .title("Course 1")
+//                .imageUrl(COURSE_IMAGE1)
+//                .instructorName(" Instructor 1")
+//                .description("Description 1")
+//                .grade("A")
+//                .status(0.75)
+//                .build());
+//        courses.add(Course.builder()
+//                .title("Course 2")
+//                .imageUrl(COURSE_IMAGE1)
+//                .instructorName(" Instructor 2")
+//                .description("Description 2")
+//                .grade("B")
+//                .status(0.80)
+//                .build());
+//        courses.add(Course.builder()
+//                .title("Course 3")
+//                .imageUrl(COURSE_IMAGE1)
+//                .instructorName(" Instructor 3")
+//                .description("Description 3")
+//                .grade("A+")
+//                .status(0.50)
+//                .build());
         return courses;
     }
 
-    public static void main(String[] args) {
-
-    }
 }
-
-
-record Course(String title, String imageUrl, String instructorName, String description, String grade, Double completed) {
-}
-
 

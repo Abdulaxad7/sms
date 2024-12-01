@@ -12,7 +12,9 @@ module com.sms.sms {
     requires com.almasb.fxgl.all;
     requires java.desktop;
     requires jbcrypt;
-    requires java.persistence;
+//    requires static lombok;
+    requires org.hibernate.orm.core;
+    requires jakarta.persistence;
     requires static lombok;
 
     opens com.sms.sms to javafx.fxml;
@@ -23,4 +25,12 @@ module com.sms.sms {
     exports com.sms.sms.User;
     opens com.sms.sms.User to javafx.fxml;
     exports com.sms.sms.Admin;
+    exports com.sms.sms.User.entity;
+    opens com.sms.sms.User.entity to javafx.fxml;
+    exports com.sms.sms.User.studentInfo;
+    opens com.sms.sms.User.studentInfo to javafx.fxml;
+    exports com.sms.sms.User.studentInfo.service;
+    opens com.sms.sms.User.studentInfo.service to javafx.fxml;
+    exports com.sms.sms.security.service;
+    opens com.sms.sms.security.service to javafx.fxml;
 }

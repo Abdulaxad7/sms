@@ -1,29 +1,45 @@
 package com.sms.sms.security;
 
+import com.sms.sms.Admin.AboutStudents;
 import com.sms.sms.User.CoursesScreen;
-import com.sms.sms.User.StudentInfo;
+import com.sms.sms.User.entity.Course;
+import com.sms.sms.User.entity.Grade;
+import com.sms.sms.User.entity.Student;
+import com.sms.sms.db.HibernateUtil;
+import com.sms.sms.leftbar.LeftSideBar;
+import com.sms.sms.security.service.LoginServiceImpl;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import lombok.RequiredArgsConstructor;
+import org.hibernate.Session;
 
-@RequiredArgsConstructor
+
+import java.util.List;
+
+import static com.sms.sms.styles.Colors.*;
+import static com.sms.sms.styles.Images.ILLUSTRATION_ICON;
+import static com.sms.sms.styles.Images.WHITE_LOGO;
+
 public class LoginScreenImpl extends Application implements LoginScreen {
-    private final CoursesScreen courseScreen;
-    private final LoginService loginService;
+    private final AboutStudents students = new AboutStudents();
+    private final CoursesScreen courseScreen = new CoursesScreen();
+    private final LoginServiceImpl loginService = new LoginServiceImpl();
+    public void scene() {
+        LeftSideBar.primaryStage.close();
+        start(new Stage());
+    }
     @Override
     public void start(Stage primaryStage) {
         HBox root = new HBox();
-        root.setStyle("-fx-background-color: white;");
+        root.setStyle(START_STYLE);
 
         root.getChildren().addAll(leftPane(), rightPane(primaryStage));
 
@@ -37,14 +53,14 @@ public class LoginScreenImpl extends Application implements LoginScreen {
         VBox leftPane = new VBox(20);
         leftPane.setAlignment(Pos.CENTER);
         leftPane.setPadding(new Insets(20));
-        leftPane.setStyle("-fx-background-color: white;");
+        leftPane.setStyle(START_STYLE);
 
-        ImageView logo = new ImageView(new Image("https://s-m-s.s3.eu-north-1.amazonaws.com/whiteLogo.png"));
+        ImageView logo = new ImageView(WHITE_LOGO);
         logo.setFitHeight(150);
         logo.setFitWidth(150);
         logo.setPreserveRatio(true);
 
-        ImageView illustration = new ImageView(new Image("https://s-m-s.s3.eu-north-1.amazonaws.com/illustration.png"));
+        ImageView illustration = new ImageView(ILLUSTRATION_ICON);
         illustration.setPreserveRatio(true);
 
         illustration.fitWidthProperty().bind(leftPane.widthProperty().multiply(0.8));
@@ -63,7 +79,7 @@ public class LoginScreenImpl extends Application implements LoginScreen {
         VBox rightPane = new VBox(20);
         rightPane.setAlignment(Pos.CENTER);
         rightPane.setPadding(new Insets(40));
-        rightPane.setStyle("-fx-background-color: #1a1a2e;");
+        rightPane.setStyle(RIGHT_PANE);
 
         Label welcomeLabel = new Label("Welcome Back!");
         welcomeLabel.setFont(Font.font("System", FontWeight.BOLD, 32));
@@ -99,14 +115,14 @@ public class LoginScreenImpl extends Application implements LoginScreen {
         Label usernameLabel = new Label("Username");
         usernameLabel.setTextFill(Color.WHITE);
         TextField usernameField = new TextField();
-        usernameField.setStyle("-fx-background-color: white; -fx-background-radius: 5;");
+        usernameField.setStyle(FORM_BOX1);
         usernameField.setPrefHeight(40);
         usernameField.maxWidthProperty().bind(formBox.widthProperty());
 
         Label passwordLabel = new Label("Password");
         passwordLabel.setTextFill(Color.WHITE);
         PasswordField passwordField = new PasswordField();
-        passwordField.setStyle("-fx-background-color: white; -fx-background-radius: 5;");
+        passwordField.setStyle(FORM_BOX1);
         passwordField.setPrefHeight(40);
         passwordField.maxWidthProperty().bind(formBox.widthProperty());
 
@@ -121,17 +137,14 @@ public class LoginScreenImpl extends Application implements LoginScreen {
         forgotPassword.setAlignment(Pos.CENTER_RIGHT);
         optionsBox.getChildren().addAll(rememberMe, forgotPassword);
         Button loginButton = new Button("Login");
-        loginButton.setStyle(
-                "-fx-background-color: #8B9FFF; " +
-                        "-fx-text-fill: white; " +
-                        "-fx-background-radius: 5; " +
-                        "-fx-font-size: 14px; " +
-                        "-fx-padding: 10 0;"
-        );
+        loginButton.setStyle(FORM_BOX2);
         loginButton.maxWidthProperty().bind(formBox.widthProperty());
         loginButton.setOnAction(e -> {
-            boolean isValid = loginService.validateCredentials(usernameField.getText(), passwordField.getText());
-            if (isValid) {
+            LeftSideBar.primaryStage = primaryStage;
+            boolean [] isValid = loginService.validateCredentials(usernameField.getText(), passwordField.getText());
+            if (isValid[0] && isValid[1]) {
+                primaryStage.setScene(students.scene(primaryStage));
+            } else if (isValid[1]) {
                 primaryStage.setScene(courseScreen.scene());
             }
         });
@@ -155,6 +168,32 @@ public class LoginScreenImpl extends Application implements LoginScreen {
     }
 
     public static void main(String[] args) {
+        Session session = HibernateUtil.getSession();
+
+        try {
+            // Start a transaction
+            session.beginTransaction();
+
+            // Create a new User object
+            Student student = Student.builder().name("name").username("uname").password("pass")
+                    .courses(List.of(Course.builder().build()))
+                    .grades(List.of(Grade.builder().build())).build();
+
+
+            // Save the user object
+            session.save(student);
+
+            // Commit the transaction
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        HibernateUtil.close();
+
         launch(args);
     }
+
 }

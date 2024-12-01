@@ -1,6 +1,7 @@
 package com.sms.sms.User;
 
-import javafx.application.Application;
+import com.sms.sms.Admin.AddNewStudent;
+import com.sms.sms.leftbar.LeftSideBar;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,31 +12,21 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
 
-public class Settings extends Application {
+import static com.sms.sms.styles.Images.PROFILE_IMAGE_URL;
 
-    private static final String PROFILE_IMAGE_URL = "https://s-m-s.s3.eu-north-1.amazonaws.com/i1.png";
-    private static final String INPUT_STYLE = "-fx-background-color: #e6e6fa; -fx-border-radius: 15; -fx-background-radius: 15;";
-    private static final Font LABEL_FONT = Font.font("Arial", 18);
-    private static final Font BUTTON_FONT = Font.font("Arial", 18);
+public class Settings {
 
-    @Override
-    public void start(Stage primaryStage) {
+
+    public Scene scene() {
         HBox header = createHeader();
-
-        VBox form = createForm(header);
-
+        VBox form = new VBox();
+        form.getChildren().addAll(header,AddNewStudent.createForm());
         BorderPane mainLayout = new BorderPane();
-        mainLayout.setLeft(ChatScreen.sideBar(3, false,null));
+        mainLayout.setLeft(LeftSideBar.sideBar(3, false));
         mainLayout.setCenter(form);
 
-        Scene scene = new Scene(mainLayout);
-        primaryStage.setTitle("Student Management System");
-        primaryStage.setMinWidth(1000);
-        primaryStage.setMinHeight(800);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        return new Scene(mainLayout, 1000, 800);
     }
 
     private HBox createHeader() {
@@ -54,44 +45,5 @@ public class Settings extends Application {
         header.setAlignment(Pos.CENTER_LEFT);
 
         return header;
-    }
-
-    private VBox createForm(HBox header) {
-        VBox form = new VBox(20);
-        form.setPadding(new Insets(40, 80, 20, 80));
-
-        form.getChildren().add(header);
-
-        String[] labels = {"Username", "Email", "Phone", "Address", "Password"};
-        for (String label : labels) {
-            form.getChildren().add(createFormField(label));
-        }
-
-        Button saveButton = new Button("Save");
-        saveButton.setFont(BUTTON_FONT);
-        saveButton.setStyle("-fx-background-color: #1e90ff; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
-        saveButton.setPrefSize(100, 40);
-
-        HBox saveButtonBox = new HBox(saveButton);
-        saveButtonBox.setAlignment(Pos.CENTER);
-
-        form.getChildren().add(saveButtonBox);
-
-        return form;
-    }
-
-    private VBox createFormField(String labelText) {
-        Label label = new Label(labelText);
-        label.setFont(LABEL_FONT);
-
-        TextField inputField = labelText.equals("Password") ? new PasswordField() : new TextField();
-        inputField.setStyle(INPUT_STYLE);
-        inputField.setPrefHeight(40);
-
-        return new VBox(5, label, inputField);
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
