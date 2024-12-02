@@ -1,43 +1,39 @@
-package com.sms.sms.Bobur;
+package com.sms.sms.Admin;
 
-import com.sms.sms.achanges.ChatScreen;
-import javafx.application.Application;
+import com.sms.sms.User.entity.Student;
+import com.sms.sms.db.service.StudentService;
+import com.sms.sms.leftbar.LeftSideBar;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
 
-public class AddNewStudent extends Application {
-    private static final String PROFILE_IMAGE_URL = "https://s-m-s.s3.eu-north-1.amazonaws.com/i1.png";
-    private static final String INPUT_STYLE = "-fx-background-color: #e6e6fa; -fx-border-radius: 15; -fx-background-radius: 15;";
+import static com.sms.sms.styles.Colors.CREATE_FORM;
+import static com.sms.sms.styles.Colors.INPUT_STYLE;
+import static com.sms.sms.styles.Images.PROFILE_IMAGE_URL;
+
+public class AddNewStudent {
     private static final Font LABEL_FONT = Font.font("Arial", 18);
     private static final Font BUTTON_FONT = Font.font("Arial", 18);
 
-    @Override
-    public void start(Stage primaryStage) {
+
+    public Scene scene()  {
         HBox header = createHeader();
 
         VBox form = createForm();
 
         VBox content = new VBox(10, header, form);
         BorderPane mainLayout = new BorderPane();
-        mainLayout.setLeft(ChatScreen.sideBar(0, true));
+        mainLayout.setLeft(LeftSideBar.sideBar(0, true));
         mainLayout.setCenter(content);
 
-        Scene scene = new Scene(mainLayout);
-        primaryStage.setTitle("Student Management System");
-        primaryStage.setMinWidth(1000);
-        primaryStage.setMinHeight(800);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        return new Scene(mainLayout, 1000, 800);
     }
 
     private HBox createHeader() {
@@ -63,7 +59,7 @@ public class AddNewStudent extends Application {
 
         adminBox.getChildren().addAll(adminNameLabel, adminTextLabel);
 
-        ImageView adminImage = new ImageView(new Image(PROFILE_IMAGE_URL));
+        ImageView adminImage = new ImageView(PROFILE_IMAGE_URL);
         adminImage.setFitWidth(60);
         adminImage.setFitHeight(60);
         adminImage.setPreserveRatio(true);
@@ -80,19 +76,39 @@ public class AddNewStudent extends Application {
         return header;
     }
 
-    private VBox createForm() {
+    public static VBox createForm() {
         VBox form = new VBox(20);
         form.setPadding(new Insets(40, 80, 20, 80));
 
-        String[] labels = {"Username", "Email", "Phone", "Address", "Password"};
+        String[] labels = {"FullName","Username", "Email", "Phone", "Address", "Password"};
         for (String label : labels) {
             form.getChildren().add(createFormField(label));
         }
 
         Button saveButton = new Button("Save");
         saveButton.setFont(BUTTON_FONT);
-        saveButton.setStyle("-fx-background-color: #1e90ff; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
+        saveButton.setStyle(CREATE_FORM);
         saveButton.setPrefSize(100, 40);
+        saveButton.setOnAction(event -> {
+            if (saveButton.getText().trim().isEmpty()) {
+
+                showValidationError("This field cannot be empty!");
+                saveButton.setStyle(INPUT_STYLE + "; -fx-border-color: red;");
+            } else {
+                //todo -> Process form if validation passes
+                saveButton.setStyle(INPUT_STYLE);  // Reset style
+                StudentService.persistNewStudent(Student
+                        .builder()
+                        .name("Abdaulaxad")
+                        .username("Is")
+                        .email("a.i@gmail.com")
+                        .phone("+99899999999")
+                        .password("1234qwer")
+                        .build()
+                );
+                System.out.println("Form submitted with: " + saveButton.getText());
+            }
+        });
 
         HBox saveButtonBox = new HBox(saveButton);
         saveButtonBox.setAlignment(Pos.CENTER);
@@ -101,7 +117,7 @@ public class AddNewStudent extends Application {
         return form;
     }
 
-    private VBox createFormField(String labelText) {
+    public static VBox createFormField(String labelText) {
         Label label = new Label(labelText);
         label.setFont(LABEL_FONT);
 
@@ -111,8 +127,11 @@ public class AddNewStudent extends Application {
 
         return new VBox(5, label, inputField);
     }
-
-    public static void main(String[] args) {
-        launch(args);
+    private static void showValidationError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Validation Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

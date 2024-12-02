@@ -1,6 +1,6 @@
-package com.sms.sms.achanges;
+package com.sms.sms.User;
 
-import javafx.application.Application;
+import com.sms.sms.leftbar.LeftSideBar;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,20 +12,21 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class SupportScreen extends Application {
+import static com.sms.sms.styles.Images.MAIL_ICON;
+import static com.sms.sms.styles.Images.PHONE_ICON;
 
-    @Override
-    public void start(Stage primaryStage) {
+public class SupportScreen {
+
+    public Scene scene(){
         HBox header = createHeader();
-
 
         VBox formBox = createForm(header);
 
         BorderPane layout = createMainLayout(formBox);
 
-        Scene scene = new Scene(layout, 900, 600);
-        setupStage(primaryStage, scene);
+        return new Scene(layout, 1000, 800);
     }
+
 
     private HBox createHeader() {
         HBox header = new HBox(50);
@@ -34,8 +35,8 @@ public class SupportScreen extends Application {
         header.setMaxWidth(Double.MAX_VALUE);
         header.setAlignment(Pos.TOP_CENTER);
 
-        HBox phoneBox = createContactBox("https://s-m-s.s3.eu-north-1.amazonaws.com/phoneImage.png", "+999 99 999-99-99");
-        HBox emailBox = createContactBox("https://s-m-s.s3.eu-north-1.amazonaws.com/mailImage.png", "example@support.com");
+        HBox phoneBox = createContactBox(PHONE_ICON, "+999 99 999-99-99");
+        HBox emailBox = createContactBox(MAIL_ICON, "example@support.com");
 
         HBox contactBox = new HBox(50, phoneBox, emailBox);
         contactBox.setAlignment(Pos.TOP_CENTER);
@@ -123,7 +124,7 @@ public class SupportScreen extends Application {
 
     private BorderPane createMainLayout(VBox formBox) {
         BorderPane layout = new BorderPane();
-        layout.setLeft(ChatScreen.sideBar(5, false));
+        layout.setLeft(LeftSideBar.sideBar(5, false));
         layout.setCenter(formBox);
         return layout;
     }
@@ -136,7 +137,5 @@ public class SupportScreen extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+
 }
