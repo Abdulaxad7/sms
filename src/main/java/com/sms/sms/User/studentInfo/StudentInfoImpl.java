@@ -17,10 +17,11 @@ import static com.sms.sms.styles.Images.AVATAR_ICON1;
 
 public class StudentInfoImpl implements StudentInfo {
     private final StudentInfoServiceImpl infoService = new StudentInfoServiceImpl();
+
     public Scene scene() {
         BorderPane mainLayout = new BorderPane();
 
-        mainLayout.setLeft(LeftSideBar.sideBar(1,false));
+        mainLayout.setLeft(LeftSideBar.sideBar(1, false));
         mainLayout.setCenter(createCenterContent());
 
         return new Scene(mainLayout, 1000, 800);
@@ -74,7 +75,6 @@ public class StudentInfoImpl implements StudentInfo {
     public TableView<Grade> createGradeTable() {
         TableView<Grade> gradeTable = new TableView<>();
         gradeTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
-        gradeTable.setStyle(GRADE_TABLE);
 
         String[] columnNames = {"Course", "Attendance", "Assignment", "Quiz", "MidTerm", "FinalTerm", "Total", "Grade"};
 
@@ -82,7 +82,6 @@ public class StudentInfoImpl implements StudentInfo {
             final int colIndex = i;
             TableColumn<Grade, String> column = new TableColumn<>(columnNames[i]);
             column.setReorderable(false);
-            column.setStyle(TABLE_COLUMN);
             column.setCellValueFactory(cellData -> createCellValue(cellData.getValue(), colIndex));
 
             gradeTable.getColumns().add(column);

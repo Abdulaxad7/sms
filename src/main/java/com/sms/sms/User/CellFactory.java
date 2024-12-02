@@ -4,7 +4,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 
 public interface CellFactory {
-    static <T> void cellFactory(TableColumn<T, String> column){
+    static <T> void cellFactory(TableColumn<T, String> column) {
         column.setCellFactory(columnFactory -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {

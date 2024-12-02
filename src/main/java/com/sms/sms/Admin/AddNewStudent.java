@@ -1,6 +1,7 @@
 package com.sms.sms.Admin;
 
-import com.sms.sms.User.entity.Student;
+
+import com.sms.sms.User.mapper.StudentMapper;
 import com.sms.sms.db.service.StudentService;
 import com.sms.sms.leftbar.LeftSideBar;
 import javafx.geometry.Insets;
@@ -13,20 +14,30 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.sms.sms.styles.Colors.CREATE_FORM;
 import static com.sms.sms.styles.Colors.INPUT_STYLE;
 import static com.sms.sms.styles.Images.PROFILE_IMAGE_URL;
 
+@Slf4j
 public class AddNewStudent {
+    private static final Map<String, TextField> inputFields = new HashMap<>();
+    private static final StudentMapper studentMapper = new StudentMapper();
     private static final Font LABEL_FONT = Font.font("Arial", 18);
     private static final Font BUTTON_FONT = Font.font("Arial", 18);
+    private static final AboutStudents students = new AboutStudents();
 
 
-    public Scene scene()  {
+    public Scene scene(Stage primaryStage) {
         HBox header = createHeader();
 
-        VBox form = createForm();
+        VBox form = createForm(primaryStage, "admin");
 
         VBox content = new VBox(10, header, form);
         BorderPane mainLayout = new BorderPane();
@@ -76,45 +87,47 @@ public class AddNewStudent {
         return header;
     }
 
-    public static VBox createForm() {
+    public static VBox createForm(Stage primartStage, String text) {
         VBox form = new VBox(20);
         form.setPadding(new Insets(40, 80, 20, 80));
 
-        String[] labels = {"FullName","Username", "Email", "Phone", "Address", "Password"};
+        String[] labels = text.equals("student") ? new String[]{"Username", "Email", "Phone", "Address", "Password"} :
+                new String[]{"FullName", "Username", "Email", "Phone", "Address", "Password"};
         for (String label : labels) {
             form.getChildren().add(createFormField(label));
         }
 
-        Button saveButton = new Button("Save");
-        saveButton.setFont(BUTTON_FONT);
-        saveButton.setStyle(CREATE_FORM);
-        saveButton.setPrefSize(100, 40);
-        saveButton.setOnAction(event -> {
-            if (saveButton.getText().trim().isEmpty()) {
-
-                showValidationError("This field cannot be empty!");
-                saveButton.setStyle(INPUT_STYLE + "; -fx-border-color: red;");
-            } else {
-                //todo -> Process form if validation passes
-                saveButton.setStyle(INPUT_STYLE);  // Reset style
-                StudentService.persistNewStudent(Student
-                        .builder()
-                        .name("Abdaulaxad")
-                        .username("Is")
-                        .email("a.i@gmail.com")
-                        .phone("+99899999999")
-                        .password("1234qwer")
-                        .build()
-                );
-                System.out.println("Form submitted with: " + saveButton.getText());
-            }
-        });
+        final var saveButton = getButton(primartStage, text);
 
         HBox saveButtonBox = new HBox(saveButton);
         saveButtonBox.setAlignment(Pos.CENTER);
 
         form.getChildren().add(saveButtonBox);
         return form;
+    }
+
+    @NotNull
+    private static Button getButton(Stage primartStage, String text) {
+        Button saveButton = new Button("Save");
+        saveButton.setFont(BUTTON_FONT);
+        saveButton.setStyle(CREATE_FORM);
+        saveButton.setPrefSize(100, 40);
+        saveButton.setOnAction(event -> {
+
+            if (text.equals("admin")) {
+                StudentService
+                        .persistNewStudent(
+                                studentMapper
+                                        .toStudent(inputFields));
+                primartStage.setScene(students.scene(primartStage));
+            } else {
+                log.info("Student data has been changed:\n{}", StudentService.
+                        updateStudent(
+                                studentMapper
+                                        .toStudent(inputFields)));
+            }
+        });
+        return saveButton;
     }
 
     public static VBox createFormField(String labelText) {
@@ -125,8 +138,11 @@ public class AddNewStudent {
         inputField.setStyle(INPUT_STYLE);
         inputField.setPrefHeight(40);
 
+        inputFields.put(labelText, inputField);
+
         return new VBox(5, label, inputField);
     }
+
     private static void showValidationError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Validation Error");

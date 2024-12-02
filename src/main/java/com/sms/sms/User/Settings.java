@@ -12,16 +12,17 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
 import static com.sms.sms.styles.Images.PROFILE_IMAGE_URL;
 
 public class Settings {
 
 
-    public Scene scene() {
+    public Scene scene(Stage primartStage) {
         HBox header = createHeader();
         VBox form = new VBox();
-        form.getChildren().addAll(header,AddNewStudent.createForm());
+        form.getChildren().addAll(header, AddNewStudent.createForm(primartStage, "student"));
         BorderPane mainLayout = new BorderPane();
         mainLayout.setLeft(LeftSideBar.sideBar(3, false));
         mainLayout.setCenter(form);

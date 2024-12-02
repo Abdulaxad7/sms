@@ -2,6 +2,8 @@ package com.sms.sms.Admin;
 
 import com.sms.sms.User.CellFactory;
 import com.sms.sms.User.CoursesScreen;
+import com.sms.sms.User.entity.Student;
+import com.sms.sms.db.service.StudentService;
 import com.sms.sms.leftbar.LeftSideBar;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -24,7 +26,7 @@ public class AboutStudents implements CellFactory {
 
         HBox titleBar = createTitleBar(stage);
 
-        TableView<Students> studentTable = createStudentTable();
+        TableView<Student> studentTable = createStudentTable();
 
         VBox centerContent = createCenterContent(topBar, titleBar, studentTable);
 
@@ -72,7 +74,7 @@ public class AboutStudents implements CellFactory {
     }
 
 
-    private HBox createTitleBar(Stage stage) {
+    private HBox createTitleBar(Stage primartStage) {
         HBox titleBar = new HBox(10);
         titleBar.setAlignment(Pos.CENTER_LEFT);
         titleBar.setPadding(new Insets(10));
@@ -83,7 +85,7 @@ public class AboutStudents implements CellFactory {
         Button addStudentButton = new Button("Add New Student");
         addStudentButton.setStyle(TITLE_BAR2);
         addStudentButton.setPadding(new Insets(5, 10, 5, 10));
-        addStudentButton.setOnAction(actionEvent ->  stage.setScene(addStudent.scene()));
+        addStudentButton.setOnAction(actionEvent ->  primartStage.setScene(addStudent.scene(primartStage)));
         Region titleSpacer = new Region();
         HBox.setHgrow(titleSpacer, Priority.ALWAYS);
 
@@ -91,38 +93,35 @@ public class AboutStudents implements CellFactory {
         return titleBar;
     }
 
-    private TableView<Students> createStudentTable() {
-        TableView<Students> studentTable = new TableView<>();
+    private TableView<Student> createStudentTable() {
+        TableView<Student> studentTable = new TableView<>();
         studentTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
 
-        String[] columnNames = {"Student", "Email", "Phone", "Course"};
+        String[] columnNames = {"Student", "Username", "Email", "Phone","Address"};
         for (int i = 0; i < columnNames.length; i++) {
-            TableColumn<Students, String> column = createTableColumn(i, columnNames[i]);
+            TableColumn<Student, String> column = createTableColumn(i, columnNames[i]);
             studentTable.getColumns().add(column);
         }
 
-        ObservableList<Students> data = FXCollections.observableArrayList(
-                new Students("Alice Smith", "alice.smith@example.com", "123-456-7890", "Mathematics"),
-                new Students("Bob Johnson", "bob.johnson@example.com", "987-654-3210", "Physics"),
-                new Students("Charlie Brown", "charlie.brown@example.com", "456-123-7890", "Computer Science"),
-                new Students("Diana Prince", "diana.prince@example.com", "321-654-9870", "Chemistry")
-        );
+        ObservableList<Student> data = FXCollections
+                .observableArrayList(StudentService.findAllStudents());
         studentTable.setItems(data);
         return studentTable;
     }
 
-    private TableColumn<Students, String> createTableColumn(int index, String columnName) {
-        TableColumn<Students, String> column = new TableColumn<>(columnName);
+    private TableColumn<Student, String> createTableColumn(int index, String columnName) {
+        TableColumn<Student, String> column = new TableColumn<>(columnName);
         column.setReorderable(false);
         column.setStyle(TABLE_COLUMN);
 
         column.setCellValueFactory(cellData -> {
-            Students entry = cellData.getValue();
+            Student entry = cellData.getValue();
             return switch (index) {
-                case 0 -> new SimpleStringProperty(entry.name());
-                case 1 -> new SimpleStringProperty(entry.email());
-                case 2 -> new SimpleStringProperty(entry.phone());
-                case 3 -> new SimpleStringProperty(entry.course());
+                case 0 -> new SimpleStringProperty(entry.getFullName());
+                case 1 -> new SimpleStringProperty(entry.getUsername());
+                case 2 -> new SimpleStringProperty(entry.getEmail());
+                case 3 -> new SimpleStringProperty(entry.getPhone());
+                case 4 -> new SimpleStringProperty(entry.getAddress());
                 default -> null;
             };
         });
@@ -130,12 +129,10 @@ public class AboutStudents implements CellFactory {
         return column;
     }
 
-    private VBox createCenterContent(HBox topBar, HBox titleBar, TableView<Students> studentTable) {
+    private VBox createCenterContent(HBox topBar, HBox titleBar, TableView<Student> studentTable) {
         VBox centerContent = new VBox(10, topBar, titleBar, studentTable);
         centerContent.setPadding(new Insets(10));
         return centerContent;
     }
 
 }
-
-record Students(String name, String email, String phone, String course) {}

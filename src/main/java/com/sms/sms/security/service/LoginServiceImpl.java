@@ -1,26 +1,59 @@
 package com.sms.sms.security.service;
 
+import com.sms.sms.Admin.entity.Admin;
+import com.sms.sms.Admin.service.AdminService;
+import com.sms.sms.db.service.StudentService;
+import com.sms.sms.security.pass.PasswordEncoder;
 import org.mindrot.jbcrypt.BCrypt;
 
-public class LoginServiceImpl implements LoginService{
+import java.util.Arrays;
+import java.util.Objects;
 
+public class LoginServiceImpl implements LoginService {
+
+    @Override
     public boolean[] validateCredentials(String username, String password) {
-        String storedHashedPassword = getStoredHashedPasswordForUser(username);
-        System.out.println(username + "   " + password);
-        System.out.println(BCrypt.checkpw(password, storedHashedPassword));
-
-        return username.equals("validAdmin")?
-                new boolean[]{true, BCrypt.checkpw(password, storedHashedPassword)}:
-                new boolean[]{false, BCrypt.checkpw(password, storedHashedPassword)};
+        return username.startsWith("P") ?
+                new boolean[]{true, BCrypt.checkpw(password, getStoredHashedPasswordForAdmin(username))} :
+                new boolean[]{false, BCrypt.checkpw(password, getStoredHashedPasswordForUser(username))};
     }
 
-    // This simulates fetching a hashed password from the database
+    @Override
     public String getStoredHashedPasswordForUser(String username) {
-        if ("validUsername".equals(username)) {
-            return "$2a$10$mHY/GdzctN./3en.JFZoeOuFLNatvIhDwq.1uWdndIimon0wFFmsu";  // Example hashed password
-        } else if ("validAdmin".equals(username)) {
-            return "$2a$10$mHY/GdzctN./3en.JFZoeOuFLNatvIhDwq.1uWdndIimon0wFFmsu";
-        }
-        return null;
+        return Objects.requireNonNull(StudentService.findStudentByUsername(username)).getPassword();
     }
+
+    @Override
+    public String getStoredHashedPasswordForAdmin(String username) {
+        AdminService.persistNewAdmin(Admin
+                .builder()
+                .fullName("Abdulaxad Isroilov")
+                .username("P2310110")
+                .password(String.valueOf(PasswordEncoder.encodePassword("1234qwer")))
+                .build()
+        );
+        AdminService.persistNewAdmin(Admin
+                .builder()
+                .fullName("Bobur")
+                .username("P2310114")
+                .password(String.valueOf(PasswordEncoder.encodePassword("1234qwer")))
+                .build()
+        );
+        AdminService.persistNewAdmin(Admin
+                .builder()
+                .fullName("MuhammadIso")
+                .username("P2310122")
+                .password(String.valueOf(PasswordEncoder.encodePassword("1234qwer")))
+                .build()
+        );
+        AdminService.persistNewAdmin(Admin
+                .builder()
+                .fullName("Kamron")
+                .username("P2310115")
+                .password(String.valueOf(PasswordEncoder.encodePassword("1234qwer")))
+                .build()
+        );
+        return Objects.requireNonNull(AdminService.findAdminByUsername(username)).getPassword();
+    }
+
 }

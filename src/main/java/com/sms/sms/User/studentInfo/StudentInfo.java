@@ -8,8 +8,12 @@ import javafx.scene.layout.VBox;
 
 public interface StudentInfo extends CellFactory {
     VBox createTopBar();
+
     TableView<Grade> createGradeTable();
+
     VBox createTitleBox();
+
     SimpleStringProperty createCellValue(Grade entry, int colIndex);
+
     VBox createCenterContent();
 }

@@ -6,7 +6,9 @@ import lombok.*;
 
 import java.util.List;
 import java.util.UUID;
+
 import jakarta.persistence.*;
+
 @Entity
 @Setter
 @Getter
@@ -21,7 +23,7 @@ public class Student {
     private UUID id;
 
     @Column(nullable = false)
-    private String name;
+    private String fullName;
 
     @Column(nullable = false)
     private String username;
@@ -35,7 +37,11 @@ public class Student {
     @Column(nullable = false)
     private String phone;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)  // Add CascadeType.ALL to persist courses along with student
+    @Column(nullable = false)
+    private String address;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    // Add CascadeType.ALL to persist courses along with student
     private List<Course> courses;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

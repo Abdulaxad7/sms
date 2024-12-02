@@ -17,7 +17,7 @@ import static com.sms.sms.styles.Images.PHONE_ICON;
 
 public class SupportScreen {
 
-    public Scene scene(){
+    public Scene scene() {
         HBox header = createHeader();
 
         VBox formBox = createForm(header);

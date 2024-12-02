@@ -25,7 +25,7 @@ public class LeftSideBar {
     private static final CoursesScreen courseScreen = new CoursesScreen();
     private static final SupportScreen supportScreen = new SupportScreen();
     private static final LoginScreenImpl loginScreen = new LoginScreenImpl();
-    private static final Settings settingsScreen  = new Settings();
+    private static final Settings settingsScreen = new Settings();
     private static final AboutStudents students = new AboutStudents();
     public static Stage primaryStage;
 
@@ -44,13 +44,13 @@ public class LeftSideBar {
         titleLabel.setFont(new Font("Arial", 14));
         titleLabel.setTextFill(Color.LIGHTGRAY);
 
-        String [] texts = {"Courses","Total Grade","Chat","Settings","Logout","Help"};
-        switch (i){
-            case 0-> texts[0]+="   <";
-            case 1-> texts[1]+="   <";
-            case 2-> texts[2]+="   <";
-            case 3-> texts[3]+="   <";
-            case 5-> texts[5]+="   <";
+        String[] texts = {"Courses", "Total Grade", "Chat", "Settings", "Logout", "Help"};
+        switch (i) {
+            case 0 -> texts[0] += "   <";
+            case 1 -> texts[1] += "   <";
+            case 2 -> texts[2] += "   <";
+            case 3 -> texts[3] += "   <";
+            case 5 -> texts[5] += "   <";
         }
         Region spacer = new Region();
         spacer.setPrefHeight(5);
@@ -58,8 +58,8 @@ public class LeftSideBar {
         spacer1.setPrefHeight(10);
 
 
-        Button coursesButton,gradesButton,chatButton,settingsButton,logoutButton,helpButton;
-        if (!isAdmin){
+        Button coursesButton, gradesButton, chatButton, settingsButton, logoutButton, helpButton;
+        if (!isAdmin) {
             coursesButton = createSidebarButton(texts[0], COURSES_ICON);
             gradesButton = createSidebarButton(texts[1], GRADES_ICON);
             chatButton = createSidebarButton(texts[2], CHAT_ICON);
@@ -70,7 +70,7 @@ public class LeftSideBar {
             coursesButton.setOnAction(actionEvent -> primaryStage.setScene(courseScreen.scene()));
             gradesButton.setOnAction(actionEvent -> primaryStage.setScene(studentInfo.scene()));
             chatButton.setOnAction(actionEvent -> primaryStage.setScene(chatScreen.scene()));
-            settingsButton.setOnAction(actionEvent -> primaryStage.setScene(settingsScreen.scene()));
+            settingsButton.setOnAction(actionEvent -> primaryStage.setScene(settingsScreen.scene(primaryStage)));
             logoutButton.setOnAction(actionEvent -> loginScreen.scene());
             helpButton.setOnAction(actionEvent -> primaryStage.setScene(supportScreen.scene()));
 
@@ -89,11 +89,11 @@ public class LeftSideBar {
                     logoutButton,
                     helpButton);
 
-        }else{
+        } else {
             Button studentTable = createSidebarButton("Students   <", STUDENTS_ICON);
             logoutButton = createSidebarButton(texts[4], LOGOUT_ICON);
             logoutButton.setOnAction(actionEvent -> loginScreen.scene());
-            studentTable.setOnAction(actionEvent ->primaryStage.setScene(students.scene(primaryStage)));
+            studentTable.setOnAction(actionEvent -> primaryStage.setScene(students.scene(primaryStage)));
             sidebar.getChildren().addAll(
                     logo,
                     spacer,

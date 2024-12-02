@@ -25,10 +25,12 @@ public class LoginScreenImpl extends Application implements LoginScreen {
     private final AboutStudents students = new AboutStudents();
     private final CoursesScreen courseScreen = new CoursesScreen();
     private final LoginServiceImpl loginService = new LoginServiceImpl();
+
     public void scene() {
         LeftSideBar.primaryStage.close();
         start(new Stage());
     }
+
     @Override
     public void start(Stage primaryStage) {
         HBox root = new HBox();
@@ -134,7 +136,7 @@ public class LoginScreenImpl extends Application implements LoginScreen {
         loginButton.maxWidthProperty().bind(formBox.widthProperty());
         loginButton.setOnAction(e -> {
             LeftSideBar.primaryStage = primaryStage;
-            boolean [] isValid = loginService.validateCredentials(usernameField.getText(), passwordField.getText());
+            boolean[] isValid = loginService.validateCredentials(usernameField.getText(), passwordField.getText());
             if (isValid[0] && isValid[1]) {
                 primaryStage.setScene(students.scene(primaryStage));
             } else if (isValid[1]) {

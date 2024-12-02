@@ -1,6 +1,7 @@
 package com.sms.sms.User;
 
 import com.sms.sms.User.entity.Course;
+import com.sms.sms.User.studentInfo.service.StudentInfoServiceImpl;
 import com.sms.sms.leftbar.LeftSideBar;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,6 +19,7 @@ import java.util.List;
 import static com.sms.sms.styles.Images.*;
 
 public class CoursesScreen {
+    private final StudentInfoServiceImpl service = new StudentInfoServiceImpl();
     public Scene scene() {
         VBox mainPanel = createMainPanel();
         HBox layout = createLayout(mainPanel);
@@ -149,9 +151,9 @@ public class CoursesScreen {
                         "-fx-padding: 10px 15px;" +
                         "-fx-font-size: 14px;";
         searchField.setStyle(searchFieldStyle);
-        searchField.setOnMouseEntered(e -> searchField.setStyle(searchFieldStyle ));
+        searchField.setOnMouseEntered(e -> searchField.setStyle(searchFieldStyle));
         searchField.setOnMouseExited(e -> searchField.setStyle(searchFieldStyle));
-        searchField.setOnMousePressed(e -> searchField.setStyle(searchFieldStyle ));
+        searchField.setOnMousePressed(e -> searchField.setStyle(searchFieldStyle));
     }
 
     public static VBox createProfileSection() {
@@ -195,7 +197,7 @@ public class CoursesScreen {
         coursesContainer.setHgap(20);
         coursesContainer.setVgap(20);
 
-        List<Course> courses = getCourses();
+        List<Course> courses = service.getSampleCourses();
         for (Course course : courses) {
             coursesContainer.getChildren().add(createCourseCard(course));
         }
@@ -232,6 +234,7 @@ public class CoursesScreen {
         courseCard.getChildren().addAll(courseImage, title, instructor, description, grade);
         return courseCard;
     }
+
     private VBox createContinueLearningContainer() {
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(10));
@@ -239,7 +242,7 @@ public class CoursesScreen {
         sectionTitle.setFont(Font.font("Arial", 24));
         sectionTitle.setTextFill(Color.BLACK);
         vBox.getChildren().addAll(sectionTitle);
-        List<Course> courses = getCourses();
+        List<Course> courses = service.getSampleCourses();
         for (Course course : courses) {
             vBox.getChildren().add(createContinueLearningSection(course));
         }
@@ -279,35 +282,6 @@ public class CoursesScreen {
         return continueLearningSection;
     }
 
-    private List<Course> getCourses() {
-        List<Course> courses = new ArrayList<>();
-
-//        courses.add(Course.builder()
-//                .title("Course 1")
-//                .imageUrl(COURSE_IMAGE1)
-//                .instructorName(" Instructor 1")
-//                .description("Description 1")
-//                .grade("A")
-//                .status(0.75)
-//                .build());
-//        courses.add(Course.builder()
-//                .title("Course 2")
-//                .imageUrl(COURSE_IMAGE1)
-//                .instructorName(" Instructor 2")
-//                .description("Description 2")
-//                .grade("B")
-//                .status(0.80)
-//                .build());
-//        courses.add(Course.builder()
-//                .title("Course 3")
-//                .imageUrl(COURSE_IMAGE1)
-//                .instructorName(" Instructor 3")
-//                .description("Description 3")
-//                .grade("A+")
-//                .status(0.50)
-//                .build());
-        return courses;
-    }
 
 }
 

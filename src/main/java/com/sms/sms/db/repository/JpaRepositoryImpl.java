@@ -2,8 +2,10 @@ package com.sms.sms.db.repository;
 
 import com.sms.sms.db.HibernateUtil;
 import com.sms.sms.exceptions.FailedToStartHibernate;
+import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
 import java.util.List;
 
 public class JpaRepositoryImpl<T, ID> implements JpaRepository<T, ID> {
@@ -23,7 +25,7 @@ public class JpaRepositoryImpl<T, ID> implements JpaRepository<T, ID> {
             return entity;
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            throw new FailedToStartHibernate("Failed on update: "+e.getMessage());
+            throw new FailedToStartHibernate("Failed on update: " + e.getMessage());
         }
     }
 
@@ -50,7 +52,7 @@ public class JpaRepositoryImpl<T, ID> implements JpaRepository<T, ID> {
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            throw new FailedToStartHibernate("Failed on update: "+e.getMessage());
+            throw new FailedToStartHibernate("Failed on update: " + e.getMessage());
         }
     }
 
@@ -66,9 +68,10 @@ public class JpaRepositoryImpl<T, ID> implements JpaRepository<T, ID> {
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            throw new FailedToStartHibernate("Failed on update: "+e.getMessage());
+            throw new FailedToStartHibernate("Failed on update: " + e.getMessage());
         }
     }
+
     @Override
     public T update(ID id, T entity) {
         Transaction transaction = null;
@@ -76,7 +79,7 @@ public class JpaRepositoryImpl<T, ID> implements JpaRepository<T, ID> {
             transaction = session.beginTransaction();
             T existingEntity = session.get(entityClass, id);
             if (existingEntity != null
-                    && existingEntity.equals(findById(id))){
+                    && existingEntity.equals(findById(id))) {
                 deleteById(id);
                 session.persist(entity);
             }
@@ -84,7 +87,21 @@ public class JpaRepositoryImpl<T, ID> implements JpaRepository<T, ID> {
             return existingEntity;
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            throw new FailedToStartHibernate("Failed on update: "+e.getMessage());
+            throw new FailedToStartHibernate("Failed on update: " + e.getMessage());
         }
     }
+
+    @Override
+    public List<T> findByField(String fieldName, Object value) {
+        try (Session session = HibernateUtil.getSession()) {
+            String queryString = String.format("FROM %s e WHERE e.%s = :value", entityClass.getSimpleName(), fieldName);
+            TypedQuery<T> query = session.createQuery(queryString, entityClass);
+            query.setParameter("value", value);
+
+            return query.getResultList();
+        } catch (Exception e) {
+            throw new FailedToStartHibernate("Failed to find by field: " + e.getMessage());
+        }
+    }
+
 }
