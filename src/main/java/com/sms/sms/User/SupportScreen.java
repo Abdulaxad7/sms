@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import static com.sms.sms.styles.Colors.*;
 import static com.sms.sms.styles.Images.MAIL_ICON;
 import static com.sms.sms.styles.Images.PHONE_ICON;
 
@@ -31,7 +32,7 @@ public class SupportScreen {
     private HBox createHeader() {
         HBox header = new HBox(50);
         header.setPadding(new Insets(10));
-        header.setStyle("-fx-background-color: #F4F4F4;");
+        header.setStyle(CREATE_HEADER);
         header.setMaxWidth(Double.MAX_VALUE);
         header.setAlignment(Pos.TOP_CENTER);
 
@@ -97,13 +98,13 @@ public class SupportScreen {
 
         if (isTextArea) {
             TextArea textArea = new TextArea();
-            textArea.setStyle("-fx-background-color: #e6e6fa; -fx-border-radius: 15; -fx-background-radius: 15;");
+            textArea.setStyle(CREATE_INPUT_HEADER);
             textArea.setFont(new Font("Arial", 18));
             textArea.setPrefRowCount(5);
             return new VBox(label, textArea);
         } else {
             TextField textField = new TextField();
-            textField.setStyle("-fx-background-color: #e6e6fa; -fx-border-radius: 15; -fx-background-radius: 15;");
+            textField.setStyle(CREATE_INPUT_HEADER);
             textField.setFont(new Font("Arial", 18));
             textField.setAlignment(Pos.CENTER_LEFT);
             return new VBox(label, textField);
@@ -114,7 +115,7 @@ public class SupportScreen {
         Button sendButton = new Button("Save");
         sendButton.setFont(new Font("Arial", 18));
         sendButton.setAlignment(Pos.CENTER);
-        sendButton.setStyle("-fx-background-color: #1e90ff; -fx-text-fill: #ffffff; -fx-border-radius: 20; -fx-background-radius: 20;");
+        sendButton.setStyle(CREATE_SUBMIT_BUTTON);
         sendButton.setPrefSize(100, 40);
 
         HBox hBox = new HBox(sendButton);
