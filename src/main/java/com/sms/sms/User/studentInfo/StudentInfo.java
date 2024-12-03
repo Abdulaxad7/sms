@@ -6,14 +6,16 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 
-public interface StudentInfo extends CellFactory {
-    VBox createTopBar();
+import java.util.UUID;
 
-    TableView<Grade> createGradeTable();
+public interface StudentInfo extends CellFactory {
+    VBox createTopBar(String username);
+
+    TableView<Grade> createGradeTable(String username);
 
     VBox createTitleBox();
 
     SimpleStringProperty createCellValue(Grade entry, int colIndex);
 
-    VBox createCenterContent();
+    VBox createCenterContent(String username);
 }

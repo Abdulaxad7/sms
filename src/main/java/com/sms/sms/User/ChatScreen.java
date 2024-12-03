@@ -20,7 +20,7 @@ import static com.sms.sms.styles.Images.AVATAR_ICON1;
 
 
 public class ChatScreen {
-    public Scene scene() {
+    public Scene scene(String username) {
 
         BorderPane chatPane = new BorderPane();
         chatPane.setPadding(new Insets(10));
@@ -56,7 +56,7 @@ public class ChatScreen {
         chatPane.setBottom(inputSection);
 
         BorderPane mainLayout = new BorderPane();
-        mainLayout.setLeft(LeftSideBar.sideBar(2, false));
+        mainLayout.setLeft(LeftSideBar.sideBar(2, false,username));
         mainLayout.setCenter(chatPane);
 
 

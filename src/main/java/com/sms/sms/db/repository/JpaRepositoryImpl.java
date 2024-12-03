@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
+
 public class JpaRepositoryImpl<T, ID> implements JpaRepository<T, ID> {
     private final Class<T> entityClass;
 

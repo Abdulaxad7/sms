@@ -1,7 +1,8 @@
 package com.sms.sms.User;
 
 import com.sms.sms.User.entity.Course;
-import com.sms.sms.User.studentInfo.service.StudentInfoServiceImpl;
+import com.sms.sms.db.db_init.SampleData;
+import com.sms.sms.db.service.StudentService;
 import com.sms.sms.leftbar.LeftSideBar;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,35 +14,34 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import static com.sms.sms.security.service.LoginServiceImpl.loggedInUsers;
 import static com.sms.sms.styles.Images.*;
 
 public class CoursesScreen {
-    private final StudentInfoServiceImpl service = new StudentInfoServiceImpl();
-    public Scene scene() {
-        VBox mainPanel = createMainPanel();
-        HBox layout = createLayout(mainPanel);
+    public Scene scene(String userName) {
+        VBox mainPanel = createMainPanel(userName);
+        HBox layout = createLayout(mainPanel,userName);
 
         return new Scene(layout, 1000, 800);
     }
 
-    private HBox createLayout(VBox mainPanel) {
+    private HBox createLayout(VBox mainPanel,String username) {
         HBox layout = new HBox();
-        layout.getChildren().addAll(LeftSideBar.sideBar(0, false), mainPanel);
+        layout.getChildren().addAll(LeftSideBar.sideBar(0, false,username), mainPanel);
         HBox.setHgrow(mainPanel, Priority.ALWAYS);
         return layout;
     }
 
-    private VBox createMainPanel() {
+    private VBox createMainPanel(String username) {
         VBox mainPanel = new VBox(20);
         mainPanel.setPadding(new Insets(20));
         mainPanel.setStyle("-fx-background-color: #f4f4f4;");
 
-        HBox topBar = createTopBar();
+        HBox topBar = createTopBar(username);
         ScrollPane scrollPane = createScrollPane();
-        VBox scrollableContent = createScrollableContent();
+        VBox scrollableContent = createScrollableContent(username);
 
         scrollPane.setContent(scrollableContent);
 
@@ -97,24 +97,24 @@ public class CoursesScreen {
                 "}";
     }
 
-    private VBox createScrollableContent() {
+    private VBox createScrollableContent(String username) {
         VBox scrollableContent = new VBox(20);
         scrollableContent.setPadding(new Insets(20));
 
-        VBox coursesSection = createCoursesSection();
-        VBox continueLearningSection = createContinueLearningContainer();
+        VBox coursesSection = createCoursesSection(username);
+        VBox continueLearningSection = createContinueLearningContainer(username);
 
         scrollableContent.getChildren().addAll(coursesSection, continueLearningSection);
         return scrollableContent;
     }
 
-    private HBox createTopBar() {
+    private HBox createTopBar(String username) {
         HBox topBar = new HBox(20);
         topBar.setPadding(new Insets(10, 20, 10, 20));
         topBar.setStyle("-fx-background-color: #f4f4f4;");
 
         HBox searchBar = createSearchBar();
-        VBox profileSection = createProfileSection();
+        VBox profileSection = createProfileSection(StudentService.findById(loggedInUsers.get(username)).getFullName());
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -156,7 +156,7 @@ public class CoursesScreen {
         searchField.setOnMousePressed(e -> searchField.setStyle(searchFieldStyle));
     }
 
-    public static VBox createProfileSection() {
+    public static VBox createProfileSection(String username) {
         VBox profileSection = new VBox(5);
         profileSection.setAlignment(Pos.CENTER_RIGHT);
 
@@ -164,11 +164,12 @@ public class CoursesScreen {
         profileImage.setFitHeight(40);
         profileImage.setFitWidth(40);
 
-        Label usernameLabel = new Label("Username");
+        Label usernameLabel = new Label(username);
         usernameLabel.setFont(new Font("Arial", 14));
         usernameLabel.setTextFill(Color.BLACK);
 
-        Label authorityLabel = new Label("Authority");
+        Label authorityLabel = username.startsWith("U") ? new Label("Student")
+                : new Label("Admin");
         authorityLabel.setFont(new Font("Arial", 12));
         authorityLabel.setTextFill(Color.GRAY);
 
@@ -176,28 +177,27 @@ public class CoursesScreen {
         return profileSection;
     }
 
-    private VBox createCoursesSection() {
+    private VBox createCoursesSection(String username) {
         VBox coursesSection = new VBox(20);
         coursesSection.setPadding(new Insets(20));
         coursesSection.setAlignment(Pos.TOP_LEFT);
-
         Label sectionTitle = new Label("Courses");
         sectionTitle.setFont(Font.font("Arial", 24));
         sectionTitle.setTextFill(Color.BLACK);
 
-        FlowPane coursesContainer = createCoursesContainer();
+        FlowPane coursesContainer = createCoursesContainer(username);
 
         coursesSection.getChildren().addAll(sectionTitle, coursesContainer);
         return coursesSection;
     }
 
-    private FlowPane createCoursesContainer() {
+    private FlowPane createCoursesContainer(String username) {
         FlowPane coursesContainer = new FlowPane();
         coursesContainer.setPadding(new Insets(10));
         coursesContainer.setHgap(20);
         coursesContainer.setVgap(20);
 
-        List<Course> courses = service.getSampleCourses();
+        List<Course> courses = StudentService.findById(loggedInUsers.get(username)).getCourses();
         for (Course course : courses) {
             coursesContainer.getChildren().add(createCourseCard(course));
         }
@@ -235,14 +235,14 @@ public class CoursesScreen {
         return courseCard;
     }
 
-    private VBox createContinueLearningContainer() {
+    private VBox createContinueLearningContainer(String username) {
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(10));
         Label sectionTitle = new Label("Continue Learning");
         sectionTitle.setFont(Font.font("Arial", 24));
         sectionTitle.setTextFill(Color.BLACK);
         vBox.getChildren().addAll(sectionTitle);
-        List<Course> courses = service.getSampleCourses();
+        List<Course> courses = StudentService.findById(loggedInUsers.get(username)).getCourses();
         for (Course course : courses) {
             vBox.getChildren().add(createContinueLearningSection(course));
         }

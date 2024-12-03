@@ -1,7 +1,10 @@
 package com.sms.sms.Admin;
 
 
+import com.sms.sms.Admin.entity.Admin;
+import com.sms.sms.Admin.service.AdminService;
 import com.sms.sms.User.mapper.StudentMapper;
+import com.sms.sms.db.db_init.SampleData;
 import com.sms.sms.db.service.StudentService;
 import com.sms.sms.leftbar.LeftSideBar;
 import javafx.geometry.Insets;
@@ -21,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.sms.sms.security.service.LoginServiceImpl.loggedInUsers;
 import static com.sms.sms.styles.Colors.CREATE_FORM;
 import static com.sms.sms.styles.Colors.INPUT_STYLE;
 import static com.sms.sms.styles.Images.PROFILE_IMAGE_URL;
@@ -35,19 +39,19 @@ public class AddNewStudent {
 
 
     public Scene scene(Stage primaryStage) {
-        HBox header = createHeader();
+        HBox header = createHeader("P2310110");
 
         VBox form = createForm(primaryStage, "admin");
 
         VBox content = new VBox(10, header, form);
         BorderPane mainLayout = new BorderPane();
-        mainLayout.setLeft(LeftSideBar.sideBar(0, true));
+        mainLayout.setLeft(LeftSideBar.sideBar(0, true, "P2310110"));
         mainLayout.setCenter(content);
 
         return new Scene(mainLayout, 1000, 800);
     }
 
-    private HBox createHeader() {
+    private HBox createHeader(String username) {
         HBox header = new HBox(20);
         header.setAlignment(Pos.CENTER_LEFT);
         header.setPadding(new Insets(15, 80, 0, 80));
@@ -60,7 +64,7 @@ public class AddNewStudent {
         adminBox.setAlignment(Pos.CENTER_RIGHT);
         adminBox.setPadding(new Insets(10));
 
-        Label adminNameLabel = new Label("Admin Name");
+        Label adminNameLabel = new Label(AdminService.findById(loggedInUsers.get(username)).getFullName());
         adminNameLabel.setFont(new Font("Arial", 16));
         adminNameLabel.setTextFill(Color.BLACK);
 

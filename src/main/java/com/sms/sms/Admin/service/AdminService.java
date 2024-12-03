@@ -42,4 +42,8 @@ public class AdminService {
         log.info("Found student: {}", admins.getFirst());
         return admins.getFirst();
     }
+
+    public static Admin findById(UUID id) {
+        return repository.findById(id);
+    }
 }

@@ -2,6 +2,11 @@ package com.sms.sms.security;
 
 import com.sms.sms.Admin.AboutStudents;
 import com.sms.sms.User.CoursesScreen;
+import com.sms.sms.User.entity.Course;
+import com.sms.sms.User.entity.Grade;
+import com.sms.sms.User.entity.Student;
+import com.sms.sms.db.db_init.SampleData;
+import com.sms.sms.db.service.GradeService;
 import com.sms.sms.db.service.StudentService;
 import com.sms.sms.leftbar.LeftSideBar;
 import com.sms.sms.security.service.LoginServiceImpl;
@@ -17,6 +22,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+
+import java.util.List;
+import java.util.UUID;
 
 import static com.sms.sms.styles.Colors.*;
 import static com.sms.sms.styles.Images.*;
@@ -140,7 +148,7 @@ public class LoginScreenImpl extends Application implements LoginScreen {
             if (isValid[0] && isValid[1]) {
                 primaryStage.setScene(students.scene(primaryStage));
             } else if (isValid[1]) {
-                primaryStage.setScene(courseScreen.scene());
+                primaryStage.setScene(courseScreen.scene(usernameField.getText()));
             }
         });
         formBox.getChildren().addAll(
@@ -163,7 +171,24 @@ public class LoginScreenImpl extends Application implements LoginScreen {
     }
 
     public static void main(String[] args) {
-        launch(args);
+//        launch(args);
+
+//        System.out.println(SampleData.generateSampleData());
+        StudentService.persistNewStudent(
+                Student.builder()
+                        .grades(List.of(Grade.builder().build()))
+                        .fullName("asdsadfsdf")
+                        .courses(List.of(Course.builder().build()))
+                        .password("sadfasdf")
+                        .email("asdfadsf")
+                        .phone("asdfasdf")
+                        .address("asdfasdf")
+                        .username("asdfasdfsf")
+                        .build()
+
+        );
+
+//        SampleData.generateSampleCourses();
     }
 
 }

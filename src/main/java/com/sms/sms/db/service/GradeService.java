@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.UUID;
 
+import static com.sms.sms.db.service.CourseService.rand;
+
 @Slf4j
 public class GradeService {
     private static final JpaRepository<Grade, UUID> repository = new JpaRepositoryImpl<>(Grade.class);
@@ -45,6 +47,8 @@ public class GradeService {
     }
 
     public static List<Grade> getRandomGrades() {
-        return null;
+        List<Grade> grades = findAllGrade();
+        return grades.subList(0,rand);
     }
+
 }

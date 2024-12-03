@@ -18,8 +18,8 @@ public class StudentMapper {
                 .phone(stringMap.get("Phone").getText())
                 .address(stringMap.get("Address").getText())
                 .password(String.valueOf(PasswordEncoder.encodePassword(stringMap.get("Password").getText())))
-                .grades(GradeService.getRandomGrades())
                 .courses(CourseService.getRandomCourses())
+                .grades(GradeService.getRandomGrades())
                 .build();
     }
 }

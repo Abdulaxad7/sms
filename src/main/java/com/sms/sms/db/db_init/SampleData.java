@@ -1,18 +1,19 @@
-package com.sms.sms.User.studentInfo.service;
+package com.sms.sms.db.db_init;
 
 import com.sms.sms.User.entity.Course;
 import com.sms.sms.User.entity.Grade;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.sms.sms.db.service.CourseService;
+import com.sms.sms.db.service.GradeService;
 
+import java.util.List;
 import java.util.UUID;
 
 import static com.sms.sms.styles.Images.COURSE_IMAGE1;
 
-public class StudentInfoServiceImpl implements StudentInfoService {
-    public ObservableList<Grade> getSampleData() {
+public class SampleData {
+    public static List<Grade> generateSampleData() {
 
-        return FXCollections.observableArrayList(
+        return List.of(
                 Grade.builder()
                         .id(UUID.randomUUID())
                         .title("Calculus 101")
@@ -194,8 +195,9 @@ public class StudentInfoServiceImpl implements StudentInfoService {
                         .build()
         );
     }
-    public ObservableList<Course> getSampleCourses(){
-        return FXCollections.observableArrayList(
+
+    public static List<Course> generateSampleCourses() {
+        return List.of(
                 Course.builder()
                         .id(UUID.randomUUID())
                         .title("Calculus 101")

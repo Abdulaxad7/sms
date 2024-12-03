@@ -1,5 +1,6 @@
 package com.sms.sms.Admin;
 
+import com.sms.sms.Admin.service.AdminService;
 import com.sms.sms.User.CellFactory;
 import com.sms.sms.User.CoursesScreen;
 import com.sms.sms.User.entity.Student;
@@ -16,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import static com.sms.sms.security.service.LoginServiceImpl.loggedInUsers;
 import static com.sms.sms.styles.Colors.*;
 import static com.sms.sms.styles.Images.SEARCH_ICON;
 
@@ -31,7 +33,7 @@ public class AboutStudents implements CellFactory {
         VBox centerContent = createCenterContent(topBar, titleBar, studentTable);
 
         BorderPane mainLayout = new BorderPane();
-        mainLayout.setLeft(LeftSideBar.sideBar(0, true));
+        mainLayout.setLeft(LeftSideBar.sideBar(0, true,"P2310110"));
         mainLayout.setCenter(centerContent);
 
         return new Scene(mainLayout, 1000, 800);
@@ -55,7 +57,7 @@ public class AboutStudents implements CellFactory {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        VBox profileSection = CoursesScreen.createProfileSection();
+        VBox profileSection = CoursesScreen.createProfileSection(AdminService.findById(loggedInUsers.get("P2310110")).getFullName());
 
         topBar.getChildren().addAll(searchBar, spacer, profileSection);
         return topBar;

@@ -15,8 +15,9 @@ import jakarta.persistence.*;
 @Builder
 @ToString
 @AllArgsConstructor
-@Table(name = "student")
 @NoArgsConstructor(force = true)
+@Table(name = "student")
+
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,7 +42,6 @@ public class Student {
     private String address;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    // Add CascadeType.ALL to persist courses along with student
     private List<Course> courses;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

@@ -8,11 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class StudentService {
     private static final JpaRepository<Student, UUID> repository = new JpaRepositoryImpl<>(Student.class);
-
     public static void persistNewStudent(Student student) {
         log.info("Student inserted: {}", repository.save(student));
     }
@@ -42,5 +42,9 @@ public class StudentService {
         }
         log.info("Found student: {}", students.getFirst());
         return students.getFirst();
+    }
+
+    public static Student findById(UUID userId) {
+        return repository.findById(userId);
     }
 }
