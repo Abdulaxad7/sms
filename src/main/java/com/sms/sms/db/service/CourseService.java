@@ -1,6 +1,6 @@
 package com.sms.sms.db.service;
 
-import com.sms.sms.User.entity.Course;
+import com.sms.sms.user.entity.Course;
 
 import com.sms.sms.db.repository.JpaRepository;
 import com.sms.sms.db.repository.JpaRepositoryImpl;
@@ -11,7 +11,6 @@ import java.util.UUID;
 
 @Slf4j
 public class CourseService {
-    public static int rand;
     private static final JpaRepository<Course, UUID> repository = new JpaRepositoryImpl<>(Course.class);
 
     public static void persistNewCourse(Course course) {
@@ -36,7 +35,7 @@ public class CourseService {
     }
 
     public static Course findCourseByCourseName(String course) {
-        List<Course> courses = repository.findByField("username", course);
+        List<Course> courses = repository.findByField("title", course);
         if (courses.isEmpty()) {
             log.info("No courses found with course: {}", course);
             return null;
@@ -45,10 +44,9 @@ public class CourseService {
         return courses.getFirst();
     }
 
-    public static List<Course> getRandomCourses() {
-        List<Course> courses = findAllCourses();
-        System.out.println(courses);
-        rand = (int) (Math.random() * 9) + 1;
-        return courses.subList(0,rand);
+    public static void persistNewCourses(List<Course> courses) {
+        for (Course course : courses) {
+            persistNewCourse(course);
+        }
     }
 }

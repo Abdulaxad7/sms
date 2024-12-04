@@ -1,8 +1,8 @@
-package com.sms.sms.User.studentInfo;
+package com.sms.sms.user.studentInfo;
 
-import com.sms.sms.User.entity.Grade;
+import com.sms.sms.user.entity.Grade;
 import com.sms.sms.db.service.StudentService;
-import com.sms.sms.leftbar.LeftSideBar;
+import com.sms.sms.bars.leftBar.LeftSideBar;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -42,7 +42,7 @@ public class StudentInfoImpl implements StudentInfo {
 
         VBox userInfo = new VBox();
         Label userName = new Label(StudentService.findById(loggedInUsers.get(username)).getFullName());
-        Label userAuthority = new Label("Authority");
+        Label userAuthority = new Label("Student");
         userName.setStyle(USERNAME);
         userAuthority.setStyle(USER_AUTHORITY);
         userInfo.getChildren().addAll(userName, userAuthority);
@@ -59,7 +59,7 @@ public class StudentInfoImpl implements StudentInfo {
         return new VBox(topBar);
     }
 
-    public VBox createTitleBox() {
+    public VBox createTitleBox(String username) {
         VBox titleBox = new VBox(5);
         titleBox.setPadding(new Insets(10));
         titleBox.setAlignment(Pos.TOP_LEFT);
@@ -67,9 +67,10 @@ public class StudentInfoImpl implements StudentInfo {
         Label title = new Label("Total Grade");
         title.setStyle(TITLE_BOX);
 
-        Label studentNameLabel = new Label("Student Name");
+        Label studentNameLabel = new Label(StudentService.findById(loggedInUsers.get(username)).getFullName());
         studentNameLabel.setStyle(TITLE_BOX2);
 
+        studentNameLabel.setWrapText(true);
         titleBox.getChildren().addAll(title, studentNameLabel);
 
         return titleBox;
@@ -114,7 +115,7 @@ public class StudentInfoImpl implements StudentInfo {
     }
 
     public VBox createCenterContent(String username) {
-        VBox centerContent = new VBox(10, createTopBar(username), createTitleBox(), createGradeTable(username));
+        VBox centerContent = new VBox(10, createTopBar(username), createTitleBox(username), createGradeTable(username));
         centerContent.setPadding(new Insets(10));
         return centerContent;
     }

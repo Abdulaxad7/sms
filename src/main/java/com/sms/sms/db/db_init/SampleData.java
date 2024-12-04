@@ -1,9 +1,7 @@
 package com.sms.sms.db.db_init;
 
-import com.sms.sms.User.entity.Course;
-import com.sms.sms.User.entity.Grade;
-import com.sms.sms.db.service.CourseService;
-import com.sms.sms.db.service.GradeService;
+import com.sms.sms.user.entity.Course;
+import com.sms.sms.user.entity.Grade;
 
 import java.util.List;
 import java.util.UUID;
@@ -205,7 +203,7 @@ public class SampleData {
                         .instructorName("Dr. John Smith")
                         .description("An introduction to differential and integral calculus.")
                         .grade("A")
-                        .status(95.0)
+                        .status(30.0)
                         .build(),
 
                 Course.builder()
@@ -215,7 +213,7 @@ public class SampleData {
                         .instructorName("Dr. Jane Doe")
                         .description("Fundamentals of classical mechanics and thermodynamics.")
                         .grade("B")
-                        .status(85.0)
+                        .status(60.0)
                         .build(),
 
                 Course.builder()
@@ -225,7 +223,7 @@ public class SampleData {
                         .instructorName("Dr. Alan Turing")
                         .description("Basics of computer science, algorithms, and programming.")
                         .grade("A")
-                        .status(90.0)
+                        .status(50.0)
                         .build(),
 
                 Course.builder()
@@ -235,7 +233,7 @@ public class SampleData {
                         .instructorName("Dr. Marie Curie")
                         .description("Study of the structure, properties, and reactions of organic compounds.")
                         .grade("B")
-                        .status(88.0)
+                        .status(80.0)
                         .build(),
 
                 Course.builder()
@@ -245,7 +243,7 @@ public class SampleData {
                         .instructorName("Dr. Carl Gauss")
                         .description("Exploring vector spaces, eigenvalues, and linear transformations.")
                         .grade("A")
-                        .status(92.0)
+                        .status(40.0)
                         .build(),
 
                 Course.builder()
@@ -255,7 +253,7 @@ public class SampleData {
                         .instructorName("Dr. Pablo Picasso")
                         .description("A study of modern art movements and key artists.")
                         .grade("C")
-                        .status(75.0)
+                        .status(70.0)
                         .build(),
 
                 Course.builder()
@@ -265,7 +263,7 @@ public class SampleData {
                         .instructorName("Dr. Ada Lovelace")
                         .description("An introduction to machine learning algorithms and models.")
                         .grade("A")
-                        .status(98.0)
+                        .status(90.0)
                         .build(),
 
                 Course.builder()
@@ -275,7 +273,7 @@ public class SampleData {
                         .instructorName("Dr. John Maynard Keynes")
                         .description("Study of the economy as a whole, including inflation, GDP, and unemployment.")
                         .grade("B")
-                        .status(84.0)
+                        .status(55.0)
                         .build(),
 
                 Course.builder()
@@ -285,7 +283,7 @@ public class SampleData {
                         .instructorName("Dr. Sigmund Freud")
                         .description("Introduction to psychology and the study of the human mind and behavior.")
                         .grade("C")
-                        .status(70.0)
+                        .status(65.0)
                         .build(),
 
                 Course.builder()
@@ -295,7 +293,7 @@ public class SampleData {
                         .instructorName("Dr. Rachel Carson")
                         .description("Study of the environment, ecosystems, and human impact.")
                         .grade("A")
-                        .status(96.0)
+                        .status(85.0)
                         .build(),
 
                 Course.builder()
@@ -305,7 +303,7 @@ public class SampleData {
                         .instructorName("Dr. Donald Knuth")
                         .description("Learn about data structures, algorithms, and their implementation.")
                         .grade("A")
-                        .status(94.0)
+                        .status(45.0)
                         .build(),
 
                 Course.builder()
@@ -315,7 +313,7 @@ public class SampleData {
                         .instructorName("Dr. Florence Nightingale")
                         .description("Statistical methods for business applications and decision-making.")
                         .grade("B")
-                        .status(80.0)
+                        .status(75.0)
                         .build(),
 
                 Course.builder()
@@ -325,7 +323,7 @@ public class SampleData {
                         .instructorName("Dr. Immanuel Kant")
                         .description("Exploring moral theories and the philosophy of ethics.")
                         .grade("B")
-                        .status(82.0)
+                        .status(60.0)
                         .build(),
 
                 Course.builder()
@@ -335,7 +333,7 @@ public class SampleData {
                         .instructorName("Dr. Niels Bohr")
                         .description("Study of quantum theory and the principles of quantum mechanics.")
                         .grade("A")
-                        .status(93.0)
+                        .status(95.0)
                         .build(),
 
                 Course.builder()
@@ -345,8 +343,9 @@ public class SampleData {
                         .instructorName("Dr. Peter Drucker")
                         .description("Principles and practices of effective business management.")
                         .grade("C")
-                        .status(78.0)
+                        .status(50.0)
                         .build()
+
         );
     }
 }

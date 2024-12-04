@@ -1,9 +1,8 @@
-package com.sms.sms.leftbar;
+package com.sms.sms.bars.leftBar;
 
-import com.sms.sms.Admin.AboutStudents;
-import com.sms.sms.User.*;
-import com.sms.sms.User.entity.Student;
-import com.sms.sms.User.studentInfo.StudentInfoImpl;
+import com.sms.sms.admin.AboutStudents;
+import com.sms.sms.user.*;
+import com.sms.sms.user.studentInfo.StudentInfoImpl;
 import com.sms.sms.db.service.StudentService;
 import com.sms.sms.security.LoginScreenImpl;
 import javafx.geometry.Insets;
@@ -97,7 +96,7 @@ public class LeftSideBar {
             Button studentTable = createSidebarButton("Students   <", STUDENTS_ICON);
             logoutButton = createSidebarButton(texts[4], LOGOUT_ICON);
             logoutButton.setOnAction(actionEvent -> loginScreen.scene());
-            studentTable.setOnAction(actionEvent -> primaryStage.setScene(students.scene(primaryStage)));
+            studentTable.setOnAction(actionEvent -> primaryStage.setScene(students.scene(primaryStage,username)));
             sidebar.getChildren().addAll(
                     logo,
                     spacer,

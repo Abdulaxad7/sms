@@ -1,4 +1,4 @@
-package com.sms.sms.User;
+package com.sms.sms.user;
 
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;

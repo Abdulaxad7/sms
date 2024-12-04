@@ -1,6 +1,6 @@
-package com.sms.sms.User;
+package com.sms.sms.user;
 
-import com.sms.sms.leftbar.LeftSideBar;
+import com.sms.sms.bars.leftBar.LeftSideBar;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

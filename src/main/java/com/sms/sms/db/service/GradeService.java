@@ -1,7 +1,7 @@
 package com.sms.sms.db.service;
 
 
-import com.sms.sms.User.entity.Grade;
+import com.sms.sms.user.entity.Grade;
 import com.sms.sms.db.repository.JpaRepository;
 import com.sms.sms.db.repository.JpaRepositoryImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -9,11 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.UUID;
 
-import static com.sms.sms.db.service.CourseService.rand;
-
 @Slf4j
 public class GradeService {
     private static final JpaRepository<Grade, UUID> repository = new JpaRepositoryImpl<>(Grade.class);
+    public static int rand;
 
     public static void persistNewGrade(Grade grade) {
         log.info("Grade inserted: {}", repository.save(grade));
@@ -48,9 +47,17 @@ public class GradeService {
 
     public static List<Grade> getRandomGrades() {
         List<Grade> grades = findAllGrade();
+        int min = 4;
+        int max = 9;
+        rand = min + (int) (Math.random() * (max - min + 1));
         int limit = Math.min(rand, grades.size());
         return grades.subList(0, limit);
     }
 
 
+    public static void persistNewGrades(List<Grade> grades) {
+        for (Grade grade : grades) {
+            persistNewGrade(grade);
+        }
+    }
 }

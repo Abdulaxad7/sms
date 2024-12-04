@@ -1,11 +1,12 @@
-package com.sms.sms.Admin;
+package com.sms.sms.admin;
 
-import com.sms.sms.Admin.service.AdminService;
-import com.sms.sms.User.CellFactory;
-import com.sms.sms.User.CoursesScreen;
-import com.sms.sms.User.entity.Student;
+import com.sms.sms.admin.service.AdminService;
+import com.sms.sms.bars.form.Form;
+import com.sms.sms.user.CellFactory;
+import com.sms.sms.user.CoursesScreen;
+import com.sms.sms.user.entity.Student;
 import com.sms.sms.db.service.StudentService;
-import com.sms.sms.leftbar.LeftSideBar;
+import com.sms.sms.bars.leftBar.LeftSideBar;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,23 +24,23 @@ import static com.sms.sms.styles.Images.SEARCH_ICON;
 
 public class AboutStudents implements CellFactory {
     private static final AddNewStudent addStudent = new AddNewStudent();
-    public Scene scene(Stage stage) {
-        HBox topBar = createTopBar();
+    public Scene scene(Stage stage,String username) {
+        HBox topBar = createTopBar(username);
 
-        HBox titleBar = createTitleBar(stage);
+        HBox titleBar = createTitleBar(stage,username);
 
         TableView<Student> studentTable = createStudentTable();
 
         VBox centerContent = createCenterContent(topBar, titleBar, studentTable);
 
         BorderPane mainLayout = new BorderPane();
-        mainLayout.setLeft(LeftSideBar.sideBar(0, true,"P2310110"));
+        mainLayout.setLeft(LeftSideBar.sideBar(0, true,username));
         mainLayout.setCenter(centerContent);
 
         return new Scene(mainLayout, 1000, 800);
     }
 
-    private HBox createTopBar() {
+    private HBox createTopBar(String username) {
         HBox topBar = new HBox(20);
         topBar.setPadding(new Insets(10, 20, 10, 20));
         topBar.setStyle(TOP_BAR);
@@ -57,7 +58,7 @@ public class AboutStudents implements CellFactory {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        VBox profileSection = CoursesScreen.createProfileSection(AdminService.findById(loggedInUsers.get("P2310110")).getFullName());
+        VBox profileSection = CoursesScreen.createProfileSection(username);
 
         topBar.getChildren().addAll(searchBar, spacer, profileSection);
         return topBar;
@@ -76,7 +77,7 @@ public class AboutStudents implements CellFactory {
     }
 
 
-    private HBox createTitleBar(Stage primartStage) {
+    private HBox createTitleBar(Stage primartStage, String username) {
         HBox titleBar = new HBox(10);
         titleBar.setAlignment(Pos.CENTER_LEFT);
         titleBar.setPadding(new Insets(10));
@@ -87,7 +88,7 @@ public class AboutStudents implements CellFactory {
         Button addStudentButton = new Button("Add New Student");
         addStudentButton.setStyle(TITLE_BAR2);
         addStudentButton.setPadding(new Insets(5, 10, 5, 10));
-        addStudentButton.setOnAction(actionEvent ->  primartStage.setScene(addStudent.scene(primartStage)));
+        addStudentButton.setOnAction(actionEvent ->  primartStage.setScene(addStudent.scene(primartStage,username)));
         Region titleSpacer = new Region();
         HBox.setHgrow(titleSpacer, Priority.ALWAYS);
 

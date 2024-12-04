@@ -1,14 +1,11 @@
 package com.sms.sms.security;
 
-import com.sms.sms.Admin.AboutStudents;
-import com.sms.sms.User.CoursesScreen;
-import com.sms.sms.User.entity.Course;
-import com.sms.sms.User.entity.Grade;
-import com.sms.sms.User.entity.Student;
+import com.sms.sms.admin.AboutStudents;
+import com.sms.sms.user.CoursesScreen;
 import com.sms.sms.db.db_init.SampleData;
+import com.sms.sms.db.service.CourseService;
 import com.sms.sms.db.service.GradeService;
-import com.sms.sms.db.service.StudentService;
-import com.sms.sms.leftbar.LeftSideBar;
+import com.sms.sms.bars.leftBar.LeftSideBar;
 import com.sms.sms.security.service.LoginServiceImpl;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -23,9 +20,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 
-import java.util.List;
-import java.util.UUID;
-
+import static com.sms.sms.security.service.LoginServiceImpl.insertAdmins;
 import static com.sms.sms.styles.Colors.*;
 import static com.sms.sms.styles.Images.*;
 
@@ -146,7 +141,7 @@ public class LoginScreenImpl extends Application implements LoginScreen {
             LeftSideBar.primaryStage = primaryStage;
             boolean[] isValid = loginService.validateCredentials(usernameField.getText(), passwordField.getText());
             if (isValid[0] && isValid[1]) {
-                primaryStage.setScene(students.scene(primaryStage));
+                primaryStage.setScene(students.scene(primaryStage,usernameField.getText()));
             } else if (isValid[1]) {
                 primaryStage.setScene(courseScreen.scene(usernameField.getText()));
             }
@@ -171,20 +166,11 @@ public class LoginScreenImpl extends Application implements LoginScreen {
     }
 
     public static void main(String[] args) {
+//        GradeService.persistNewGrades(SampleData.generateSampleData());
+//        CourseService.persistNewCourses( SampleData.generateSampleCourses());
+//        insertAdmins();
         launch(args);
-        StudentService.persistNewStudent(
-                Student.builder()
-                        .grades(SampleData.generateSampleData())
-                        .fullName("asdsadfsdf")
-                        .courses(SampleData.generateSampleCourses())
-                        .password("sadfasdf")
-                        .email("asdfadsf")
-                        .phone("asdfasdf")
-                        .address("asdfasdf")
-                        .username("asdfasdfsf")
-                        .build()
 
-        );
     }
 
 }
