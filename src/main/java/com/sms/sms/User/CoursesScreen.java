@@ -16,7 +16,11 @@ import javafx.scene.text.Font;
 
 import java.util.List;
 
+
 import static com.sms.sms.security.service.LoginServiceImpl.loggedInUsers;
+
+import static com.sms.sms.styles.Colors.*;
+
 import static com.sms.sms.styles.Images.*;
 
 public class CoursesScreen {
@@ -37,7 +41,7 @@ public class CoursesScreen {
     private VBox createMainPanel(String username) {
         VBox mainPanel = new VBox(20);
         mainPanel.setPadding(new Insets(20));
-        mainPanel.setStyle("-fx-background-color: #f4f4f4;");
+        mainPanel.setStyle(CREATE_MAIN_PANEL);
 
         HBox topBar = createTopBar(username);
         ScrollPane scrollPane = createScrollPane();
@@ -54,48 +58,11 @@ public class CoursesScreen {
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        scrollPane.setStyle(getScrollBarStyle());
+        scrollPane.setStyle(GET_SCROLL_BAR_STYLE);
         return scrollPane;
     }
 
-    private String getScrollBarStyle() {
-        return ".root {" +
-                "    -fx-background-color: transparent;" +
-                "}" +
-                ".scroll-pane {" +
-                "    -fx-background-color: transparent;" +
-                "    -fx-background-radius: 10px;" +
-                "    -fx-background-insets: 0;" +
-                "    -fx-padding: 0;" +
-                "}" +
-                ".scroll-pane .viewport {" +
-                "    -fx-background-color: transparent;" +
-                "}" +
-                ".scroll-bar:vertical {" +
-                "    -fx-background-color: rgba(230, 230, 230, 0.3);" +
-                "    -fx-background-radius: 10px;" +
-                "    -fx-background-insets: 3;" +
-                "}" +
-                ".scroll-bar:vertical .track {" +
-                "    -fx-background-color: rgba(240, 240, 240, 0.5);" +
-                "    -fx-background-radius: 10px;" +
-                "}" +
-                ".scroll-bar:vertical .thumb {" +
-                "    -fx-background-color: rgba(100, 100, 100, 0.6);" +
-                "    -fx-background-radius: 10px;" +
-                "}" +
-                ".scroll-bar:vertical .thumb:hover {" +
-                "    -fx-background-color: rgba(80, 80, 80, 0.8);" +
-                "}" +
-                ".scroll-bar:vertical .increment-button, " +
-                ".scroll-bar:vertical .decrement-button {" +
-                "    -fx-background-color: transparent;" +
-                "}" +
-                ".scroll-bar {" +
-                "    -fx-padding: 0;" +
-                "    -fx-background-insets: 0;" +
-                "}";
-    }
+
 
     private VBox createScrollableContent(String username) {
         VBox scrollableContent = new VBox(20);
@@ -111,7 +78,7 @@ public class CoursesScreen {
     private HBox createTopBar(String username) {
         HBox topBar = new HBox(20);
         topBar.setPadding(new Insets(10, 20, 10, 20));
-        topBar.setStyle("-fx-background-color: #f4f4f4;");
+        topBar.setStyle(CREATE_TOP_BAR);
 
         HBox searchBar = createSearchBar();
         VBox profileSection = createProfileSection(StudentService.findById(loggedInUsers.get(username)).getFullName());
@@ -126,7 +93,7 @@ public class CoursesScreen {
     private HBox createSearchBar() {
         TextField searchField = new TextField();
         searchField.setPromptText("Explore courses...");
-        searchField.setStyle("-fx-background-color: #c2c2f4;");
+        searchField.setStyle(CREATE_SEARCH_BAR);
         searchField.setPrefWidth(350);
 
         addSearchFieldStyles(searchField);
@@ -142,18 +109,11 @@ public class CoursesScreen {
     }
 
     private void addSearchFieldStyles(TextField searchField) {
-        String searchFieldStyle =
-                "-fx-background-color: #f4f4f4;" +
-                        "-fx-background-radius: 20px;" +
-                        "-fx-border-radius: 20px;" +
-                        "-fx-border-color: #e0e0e0;" +
-                        "-fx-border-width: 1px;" +
-                        "-fx-padding: 10px 15px;" +
-                        "-fx-font-size: 14px;";
-        searchField.setStyle(searchFieldStyle);
-        searchField.setOnMouseEntered(e -> searchField.setStyle(searchFieldStyle));
-        searchField.setOnMouseExited(e -> searchField.setStyle(searchFieldStyle));
-        searchField.setOnMousePressed(e -> searchField.setStyle(searchFieldStyle));
+        searchField.setStyle(SEARCH_FIELD);
+        searchField.setOnMouseEntered(e -> searchField.setStyle(SEARCH_FIELD ));
+        searchField.setOnMouseExited(e -> searchField.setStyle(SEARCH_FIELD));
+        searchField.setOnMousePressed(e -> searchField.setStyle(SEARCH_FIELD ));
+
     }
 
     public static VBox createProfileSection(String username) {
@@ -207,7 +167,7 @@ public class CoursesScreen {
     private VBox createCourseCard(Course course) {
         VBox courseCard = new VBox(10);
         courseCard.setPadding(new Insets(10));
-        courseCard.setStyle("-fx-border-color: #ccc; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-color: #f9f9f9;");
+        courseCard.setStyle(CREATE_COURSE_CARD);
         courseCard.setAlignment(Pos.TOP_CENTER);
         courseCard.setPrefWidth(250);
 
@@ -256,7 +216,7 @@ public class CoursesScreen {
 
         HBox courseCard = new HBox(20);
         courseCard.setPadding(new Insets(10));
-        courseCard.setStyle("-fx-border-color: #ccc; -fx-border-width: 1px; -fx-background-color: #f9f9f9;");
+        courseCard.setStyle(CREATE_CONTINUE_LEARNING_SECTION);
         courseCard.setAlignment(Pos.CENTER_LEFT);
 
         ImageView courseImage = new ImageView(new Image(course.getImageUrl()));
