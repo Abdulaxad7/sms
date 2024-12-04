@@ -48,7 +48,9 @@ public class GradeService {
 
     public static List<Grade> getRandomGrades() {
         List<Grade> grades = findAllGrade();
-        return grades.subList(0,rand);
+        int limit = Math.min(rand, grades.size());
+        return grades.subList(0, limit);
     }
+
 
 }

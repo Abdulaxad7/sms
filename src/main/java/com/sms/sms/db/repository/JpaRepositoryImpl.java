@@ -21,14 +21,17 @@ public class JpaRepositoryImpl<T, ID> implements JpaRepository<T, ID> {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
-            session.persist(entity);
+            if (!session.contains(entity)) {
+                entity = session.merge(entity);
+            }
             transaction.commit();
             return entity;
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            throw new FailedToStartHibernate("Failed on update: " + e.getMessage());
+            throw new FailedToStartHibernate("Failed on update: " + e.getMessage(), e);
         }
     }
+
 
     @Override
     public T findById(ID id) {
@@ -47,13 +50,14 @@ public class JpaRepositoryImpl<T, ID> implements JpaRepository<T, ID> {
     @Override
     public void delete(T entity) {
         Transaction transaction = null;
+
         try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            throw new FailedToStartHibernate("Failed on update: " + e.getMessage());
+            throw new FailedToStartHibernate("Failed on update: " + e.getMessage(), e);
         }
     }
 
@@ -69,7 +73,7 @@ public class JpaRepositoryImpl<T, ID> implements JpaRepository<T, ID> {
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            throw new FailedToStartHibernate("Failed on update: " + e.getMessage());
+            throw new FailedToStartHibernate("Failed on update: " + e.getMessage(), e);
         }
     }
 
@@ -88,7 +92,7 @@ public class JpaRepositoryImpl<T, ID> implements JpaRepository<T, ID> {
             return existingEntity;
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            throw new FailedToStartHibernate("Failed on update: " + e.getMessage());
+            throw new FailedToStartHibernate("Failed on update: " + e.getMessage(), e);
         }
     }
 
@@ -101,7 +105,7 @@ public class JpaRepositoryImpl<T, ID> implements JpaRepository<T, ID> {
 
             return query.getResultList();
         } catch (Exception e) {
-            throw new FailedToStartHibernate("Failed to find by field: " + e.getMessage());
+            throw new FailedToStartHibernate("Failed to find by field: " + e.getMessage(), e);
         }
     }
 

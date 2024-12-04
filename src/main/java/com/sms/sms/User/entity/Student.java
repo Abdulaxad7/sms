@@ -44,6 +44,6 @@ public class Student {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Course> courses;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Grade> grades;
 }

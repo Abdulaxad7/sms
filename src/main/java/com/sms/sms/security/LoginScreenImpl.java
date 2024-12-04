@@ -171,14 +171,12 @@ public class LoginScreenImpl extends Application implements LoginScreen {
     }
 
     public static void main(String[] args) {
-//        launch(args);
-
-//        System.out.println(SampleData.generateSampleData());
+        launch(args);
         StudentService.persistNewStudent(
                 Student.builder()
-                        .grades(List.of(Grade.builder().build()))
+                        .grades(SampleData.generateSampleData())
                         .fullName("asdsadfsdf")
-                        .courses(List.of(Course.builder().build()))
+                        .courses(SampleData.generateSampleCourses())
                         .password("sadfasdf")
                         .email("asdfadsf")
                         .phone("asdfasdf")
@@ -187,8 +185,6 @@ public class LoginScreenImpl extends Application implements LoginScreen {
                         .build()
 
         );
-
-//        SampleData.generateSampleCourses();
     }
 
 }

@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class StudentService {
     private static final JpaRepository<Student, UUID> repository = new JpaRepositoryImpl<>(Student.class);
+
     public static void persistNewStudent(Student student) {
         log.info("Student inserted: {}", repository.save(student));
     }
