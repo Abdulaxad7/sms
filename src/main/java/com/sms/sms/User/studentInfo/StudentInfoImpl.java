@@ -1,8 +1,10 @@
 package com.sms.sms.User.studentInfo;
 
 import com.sms.sms.User.entity.Grade;
-import com.sms.sms.User.studentInfo.service.StudentInfoServiceImpl;
+import com.sms.sms.db.service.StudentService;
 import com.sms.sms.leftbar.LeftSideBar;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,22 +14,24 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.util.Objects;
+
+import static com.sms.sms.security.service.LoginServiceImpl.loggedInUsers;
 import static com.sms.sms.styles.Colors.*;
 import static com.sms.sms.styles.Images.AVATAR_ICON1;
 
 public class StudentInfoImpl implements StudentInfo {
-    private final StudentInfoServiceImpl infoService = new StudentInfoServiceImpl();
-    public Scene scene() {
+    public Scene scene(String username) {
         BorderPane mainLayout = new BorderPane();
 
-        mainLayout.setLeft(LeftSideBar.sideBar(1,false));
-        mainLayout.setCenter(createCenterContent());
+        mainLayout.setLeft(LeftSideBar.sideBar(1, false,username));
+        mainLayout.setCenter(createCenterContent(username));
 
         return new Scene(mainLayout, 1000, 800);
     }
 
 
-    public VBox createTopBar() {
+    public VBox createTopBar(String username) {
         HBox topBar = new HBox(10);
         topBar.setPadding(new Insets(10));
         topBar.setStyle(TOP_BAR);
@@ -37,7 +41,7 @@ public class StudentInfoImpl implements StudentInfo {
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         VBox userInfo = new VBox();
-        Label userName = new Label("Username");
+        Label userName = new Label(StudentService.findById(loggedInUsers.get(username)).getFullName());
         Label userAuthority = new Label("Authority");
         userName.setStyle(USERNAME);
         userAuthority.setStyle(USER_AUTHORITY);
@@ -71,10 +75,9 @@ public class StudentInfoImpl implements StudentInfo {
         return titleBox;
     }
 
-    public TableView<Grade> createGradeTable() {
+    public TableView<Grade> createGradeTable(String username) {
         TableView<Grade> gradeTable = new TableView<>();
         gradeTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
-        gradeTable.setStyle(GRADE_TABLE);
 
         String[] columnNames = {"Course", "Attendance", "Assignment", "Quiz", "MidTerm", "FinalTerm", "Total", "Grade"};
 
@@ -82,14 +85,18 @@ public class StudentInfoImpl implements StudentInfo {
             final int colIndex = i;
             TableColumn<Grade, String> column = new TableColumn<>(columnNames[i]);
             column.setReorderable(false);
-            column.setStyle(TABLE_COLUMN);
             column.setCellValueFactory(cellData -> createCellValue(cellData.getValue(), colIndex));
 
             gradeTable.getColumns().add(column);
         }
 
-        gradeTable.setItems(infoService.getSampleData());
+        gradeTable.setItems(getStudentGrades(username));
         return gradeTable;
+    }
+    public ObservableList<Grade> getStudentGrades(String username){
+        return FXCollections.observableArrayList(
+                Objects.requireNonNull(StudentService.findById(loggedInUsers.get(username))).getGrades()
+        );
     }
 
     public SimpleStringProperty createCellValue(Grade entry, int colIndex) {
@@ -106,8 +113,8 @@ public class StudentInfoImpl implements StudentInfo {
         };
     }
 
-    public VBox createCenterContent() {
-        VBox centerContent = new VBox(10, createTopBar(), createTitleBox(), createGradeTable());
+    public VBox createCenterContent(String username) {
+        VBox centerContent = new VBox(10, createTopBar(username), createTitleBox(), createGradeTable(username));
         centerContent.setPadding(new Insets(10));
         return centerContent;
     }

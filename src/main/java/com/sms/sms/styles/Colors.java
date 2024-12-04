@@ -14,10 +14,10 @@ public class Colors {
     public static final String FORM_BOX1 = "-fx-background-color: white; -fx-background-radius: 5;";
     public static final String FORM_BOX2 =
             "-fx-background-color: #8B9FFF; " +
-            "-fx-text-fill: white; " +
-            "-fx-background-radius: 5; " +
-            "-fx-font-size: 14px; " +
-            "-fx-padding: 10 0;";
+                    "-fx-text-fill: white; " +
+                    "-fx-background-radius: 5; " +
+                    "-fx-font-size: 14px; " +
+                    "-fx-padding: 10 0;";
     public static final String START_STYLE = "-fx-background-color: white;";
     public static final String RIGHT_PANE = "-fx-background-color: #1a1a2e;";
     public static final String USERNAME = "-fx-font-size: 14px;";

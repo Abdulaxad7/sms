@@ -1,5 +1,6 @@
 package com.sms.sms.db;
 
+import com.sms.sms.Admin.entity.Admin;
 import com.sms.sms.User.entity.Course;
 import com.sms.sms.User.entity.Grade;
 import com.sms.sms.User.entity.Student;
@@ -18,6 +19,7 @@ public class HibernateUtil {
                     .addAnnotatedClass(Student.class)
                     .addAnnotatedClass(Grade.class)
                     .addAnnotatedClass(Course.class)
+                    .addAnnotatedClass(Admin.class)
                     .buildSessionFactory();
         } catch (Throwable ex) {
             throw new ExceptionInInitializerError(ex);

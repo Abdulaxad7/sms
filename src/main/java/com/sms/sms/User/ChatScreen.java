@@ -20,7 +20,7 @@ import static com.sms.sms.styles.Images.AVATAR_ICON1;
 
 
 public class ChatScreen {
-    public Scene scene() {
+    public Scene scene(String username) {
 
         BorderPane chatPane = new BorderPane();
         chatPane.setPadding(new Insets(10));
@@ -56,7 +56,7 @@ public class ChatScreen {
         chatPane.setBottom(inputSection);
 
         BorderPane mainLayout = new BorderPane();
-        mainLayout.setLeft(LeftSideBar.sideBar(2,false));
+        mainLayout.setLeft(LeftSideBar.sideBar(2, false,username));
         mainLayout.setCenter(chatPane);
 
 
@@ -67,7 +67,7 @@ public class ChatScreen {
         ListView<HBox> chatList = new ListView<>();
         chatList.setStyle(VIEW_LIST);
 
-        //todo -> this messages are gonna come from messages table which will have one to many relation-ship with users table
+        //todo -> this messages are gonna come from firebase
         chatList.getItems().add(createChatMessage("What's new in the store for the fall season?", true));
         chatList.getItems().add(createChatMessage("We just got in our fresh autumn collection today! 😍", false));
         chatList.getItems().add(createChatMessage("What's new in the store for the fall season?", true));

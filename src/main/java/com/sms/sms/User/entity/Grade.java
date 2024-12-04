@@ -10,8 +10,9 @@ import java.util.UUID;
 @Setter
 @Getter
 @Builder
-@Table(name = "grades")
+@ToString
 @AllArgsConstructor
+@Table(name = "grades")
 @NoArgsConstructor(force = true)
 public class Grade {
     @Id

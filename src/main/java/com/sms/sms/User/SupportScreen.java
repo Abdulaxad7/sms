@@ -18,12 +18,12 @@ import static com.sms.sms.styles.Images.PHONE_ICON;
 
 public class SupportScreen {
 
-    public Scene scene(){
+    public Scene scene(String username) {
         HBox header = createHeader();
 
         VBox formBox = createForm(header);
 
-        BorderPane layout = createMainLayout(formBox);
+        BorderPane layout = createMainLayout(formBox,username);
 
         return new Scene(layout, 1000, 800);
     }
@@ -123,9 +123,9 @@ public class SupportScreen {
         return hBox;
     }
 
-    private BorderPane createMainLayout(VBox formBox) {
+    private BorderPane createMainLayout(VBox formBox,String username) {
         BorderPane layout = new BorderPane();
-        layout.setLeft(LeftSideBar.sideBar(5, false));
+        layout.setLeft(LeftSideBar.sideBar(5, false,username));
         layout.setCenter(formBox);
         return layout;
     }

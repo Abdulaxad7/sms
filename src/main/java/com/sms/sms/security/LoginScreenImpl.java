@@ -2,6 +2,11 @@ package com.sms.sms.security;
 
 import com.sms.sms.Admin.AboutStudents;
 import com.sms.sms.User.CoursesScreen;
+import com.sms.sms.User.entity.Course;
+import com.sms.sms.User.entity.Grade;
+import com.sms.sms.User.entity.Student;
+import com.sms.sms.db.db_init.SampleData;
+import com.sms.sms.db.service.GradeService;
 import com.sms.sms.db.service.StudentService;
 import com.sms.sms.leftbar.LeftSideBar;
 import com.sms.sms.security.service.LoginServiceImpl;
@@ -18,6 +23,9 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 
+import java.util.List;
+import java.util.UUID;
+
 import static com.sms.sms.styles.Colors.*;
 import static com.sms.sms.styles.Images.*;
 
@@ -25,10 +33,12 @@ public class LoginScreenImpl extends Application implements LoginScreen {
     private final AboutStudents students = new AboutStudents();
     private final CoursesScreen courseScreen = new CoursesScreen();
     private final LoginServiceImpl loginService = new LoginServiceImpl();
+
     public void scene() {
         LeftSideBar.primaryStage.close();
         start(new Stage());
     }
+
     @Override
     public void start(Stage primaryStage) {
         HBox root = new HBox();
@@ -134,11 +144,11 @@ public class LoginScreenImpl extends Application implements LoginScreen {
         loginButton.maxWidthProperty().bind(formBox.widthProperty());
         loginButton.setOnAction(e -> {
             LeftSideBar.primaryStage = primaryStage;
-            boolean [] isValid = loginService.validateCredentials(usernameField.getText(), passwordField.getText());
+            boolean[] isValid = loginService.validateCredentials(usernameField.getText(), passwordField.getText());
             if (isValid[0] && isValid[1]) {
                 primaryStage.setScene(students.scene(primaryStage));
             } else if (isValid[1]) {
-                primaryStage.setScene(courseScreen.scene());
+                primaryStage.setScene(courseScreen.scene(usernameField.getText()));
             }
         });
         formBox.getChildren().addAll(
@@ -162,6 +172,19 @@ public class LoginScreenImpl extends Application implements LoginScreen {
 
     public static void main(String[] args) {
         launch(args);
+        StudentService.persistNewStudent(
+                Student.builder()
+                        .grades(SampleData.generateSampleData())
+                        .fullName("asdsadfsdf")
+                        .courses(SampleData.generateSampleCourses())
+                        .password("sadfasdf")
+                        .email("asdfadsf")
+                        .phone("asdfasdf")
+                        .address("asdfasdf")
+                        .username("asdfasdfsf")
+                        .build()
+
+        );
     }
 
 }
