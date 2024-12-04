@@ -1,9 +1,9 @@
 package com.sms.sms.db;
 
-import com.sms.sms.Admin.entity.Admin;
-import com.sms.sms.User.entity.Course;
-import com.sms.sms.User.entity.Grade;
-import com.sms.sms.User.entity.Student;
+import com.sms.sms.admin.entity.Admin;
+import com.sms.sms.user.entity.Course;
+import com.sms.sms.user.entity.Grade;
+import com.sms.sms.user.entity.Student;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

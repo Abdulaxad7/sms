@@ -1,8 +1,9 @@
-package com.sms.sms.User;
+package com.sms.sms.user;
 
-import com.sms.sms.Admin.AddNewStudent;
+import com.sms.sms.admin.AddNewStudent;
+import com.sms.sms.bars.form.Form;
 import com.sms.sms.db.service.StudentService;
-import com.sms.sms.leftbar.LeftSideBar;
+import com.sms.sms.bars.leftBar.LeftSideBar;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,13 +19,13 @@ import javafx.stage.Stage;
 import static com.sms.sms.security.service.LoginServiceImpl.loggedInUsers;
 import static com.sms.sms.styles.Images.PROFILE_IMAGE_URL;
 
-public class Settings {
+public class Settings extends Form {
 
 
     public Scene scene(Stage primartStage,String username) {
         HBox header = createHeader(username);
         VBox form = new VBox();
-        form.getChildren().addAll(header, AddNewStudent.createForm(primartStage, "student"));
+        form.getChildren().addAll(header, createForm(primartStage, true, username));
         BorderPane mainLayout = new BorderPane();
         mainLayout.setLeft(LeftSideBar.sideBar(3, false,username));
         mainLayout.setCenter(form);

@@ -1,4 +1,4 @@
-package com.sms.sms.Admin.entity;
+package com.sms.sms.admin.entity;
 
 import lombok.*;
 

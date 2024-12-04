@@ -82,22 +82,19 @@ public class JpaRepositoryImpl<T, ID> implements JpaRepository<T, ID> {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
-            T existingEntity = session.get(entityClass, id);
-            if (existingEntity != null
-                    && existingEntity.equals(findById(id))) {
-                deleteById(id);
-                session.persist(entity);
-            }
+            T updatedEntity = (T) session.merge(entity);
             transaction.commit();
-            return existingEntity;
+            return updatedEntity;
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            throw new FailedToStartHibernate("Failed on update: " + e.getMessage(), e);
+            throw new FailedToStartHibernate("Failed to update: " + e.getMessage(), e);
         }
     }
 
+
     @Override
     public List<T> findByField(String fieldName, Object value) {
+        System.out.println(fieldName + " " + value);
         try (Session session = HibernateUtil.getSession()) {
             String queryString = String.format("FROM %s e WHERE e.%s = :value", entityClass.getSimpleName(), fieldName);
             TypedQuery<T> query = session.createQuery(queryString, entityClass);

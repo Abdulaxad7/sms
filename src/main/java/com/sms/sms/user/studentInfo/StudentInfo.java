@@ -1,19 +1,17 @@
-package com.sms.sms.User.studentInfo;
+package com.sms.sms.user.studentInfo;
 
-import com.sms.sms.User.CellFactory;
-import com.sms.sms.User.entity.Grade;
+import com.sms.sms.user.CellFactory;
+import com.sms.sms.user.entity.Grade;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
-
-import java.util.UUID;
 
 public interface StudentInfo extends CellFactory {
     VBox createTopBar(String username);
 
     TableView<Grade> createGradeTable(String username);
 
-    VBox createTitleBox();
+    VBox createTitleBox(String username);
 
     SimpleStringProperty createCellValue(Grade entry, int colIndex);
 

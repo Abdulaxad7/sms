@@ -1,6 +1,6 @@
-package com.sms.sms.Admin.service;
+package com.sms.sms.admin.service;
 
-import com.sms.sms.Admin.entity.Admin;
+import com.sms.sms.admin.entity.Admin;
 import com.sms.sms.db.repository.JpaRepository;
 import com.sms.sms.db.repository.JpaRepositoryImpl;
 import lombok.extern.slf4j.Slf4j;

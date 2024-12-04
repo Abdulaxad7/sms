@@ -1,8 +1,9 @@
-package com.sms.sms.User.entity;
+package com.sms.sms.user.entity;
 
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Immutable;
 
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Getter
 @Builder
 @ToString
+@Immutable
 @AllArgsConstructor
 @Table(name = "grades")
 @NoArgsConstructor(force = true)

@@ -1,9 +1,10 @@
-package com.sms.sms.User;
+package com.sms.sms.user;
 
-import com.sms.sms.User.entity.Course;
-import com.sms.sms.db.db_init.SampleData;
+import com.sms.sms.admin.service.AdminService;
+import com.sms.sms.bars.form.Form;
+import com.sms.sms.user.entity.Course;
 import com.sms.sms.db.service.StudentService;
-import com.sms.sms.leftbar.LeftSideBar;
+import com.sms.sms.bars.leftBar.LeftSideBar;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.util.List;
+import java.util.Objects;
 
 
 import static com.sms.sms.security.service.LoginServiceImpl.loggedInUsers;
@@ -23,7 +25,7 @@ import static com.sms.sms.styles.Colors.*;
 
 import static com.sms.sms.styles.Images.*;
 
-public class CoursesScreen {
+public class CoursesScreen extends Form {
     public Scene scene(String userName) {
         VBox mainPanel = createMainPanel(userName);
         HBox layout = createLayout(mainPanel,userName);
@@ -81,7 +83,7 @@ public class CoursesScreen {
         topBar.setStyle(CREATE_TOP_BAR);
 
         HBox searchBar = createSearchBar();
-        VBox profileSection = createProfileSection(StudentService.findById(loggedInUsers.get(username)).getFullName());
+        VBox profileSection = createProfileSection(username);
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -116,26 +118,6 @@ public class CoursesScreen {
 
     }
 
-    public static VBox createProfileSection(String username) {
-        VBox profileSection = new VBox(5);
-        profileSection.setAlignment(Pos.CENTER_RIGHT);
-
-        ImageView profileImage = new ImageView(AVATAR_ICON1);
-        profileImage.setFitHeight(40);
-        profileImage.setFitWidth(40);
-
-        Label usernameLabel = new Label(username);
-        usernameLabel.setFont(new Font("Arial", 14));
-        usernameLabel.setTextFill(Color.BLACK);
-
-        Label authorityLabel = username.startsWith("U") ? new Label("Student")
-                : new Label("Admin");
-        authorityLabel.setFont(new Font("Arial", 12));
-        authorityLabel.setTextFill(Color.GRAY);
-
-        profileSection.getChildren().addAll(profileImage, usernameLabel, authorityLabel);
-        return profileSection;
-    }
 
     private VBox createCoursesSection(String username) {
         VBox coursesSection = new VBox(20);
@@ -232,7 +214,7 @@ public class CoursesScreen {
         instructor.setFont(Font.font("Arial", 12));
         instructor.setTextFill(Color.GRAY);
 
-        ProgressBar progressBar = new ProgressBar(course.getStatus()); // 75% completed
+        ProgressBar progressBar = new ProgressBar(course.getStatus());
         Label progressLabel = new Label("2 lectures of 2 weeks left");
 
         courseDetails.getChildren().addAll(title, instructor, progressBar, progressLabel);
@@ -242,6 +224,37 @@ public class CoursesScreen {
         return continueLearningSection;
     }
 
+
+
+    public static VBox createProfileSection(String username) {
+        VBox profileSection = new VBox(5);
+        profileSection.setAlignment(Pos.CENTER_RIGHT);
+
+        ImageView profileImage = new ImageView(AVATAR_ICON1);
+        profileImage.setFitHeight(40);
+        profileImage.setFitWidth(40);
+        System.out.println(username);
+
+        boolean isStudent = username.startsWith("U");
+        Label authorityLabel = isStudent ? new Label("Student")
+                : new Label("Admin");
+        Label usernameLabel = isStudent ? new Label(Objects
+                .requireNonNull(StudentService
+                        .findStudentByUsername(username))
+                .getFullName()):
+                new Label(Objects
+                        .requireNonNull(AdminService
+                                .findAdminByUsername(username))
+                        .getFullName());
+
+        usernameLabel.setFont(new Font("Arial", 14));
+        usernameLabel.setTextFill(Color.BLACK);
+        authorityLabel.setFont(new Font("Arial", 12));
+        authorityLabel.setTextFill(Color.GRAY);
+
+        profileSection.getChildren().addAll(profileImage, usernameLabel, authorityLabel);
+        return profileSection;
+    }
 
 }
 

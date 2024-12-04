@@ -1,4 +1,4 @@
-package com.sms.sms.User.entity;
+package com.sms.sms.user.entity;
 
 
 import lombok.*;
@@ -41,9 +41,9 @@ public class Student {
     @Column(nullable = false)
     private String address;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Course> courses;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private List<Grade> grades;
 }
