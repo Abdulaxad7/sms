@@ -2,26 +2,21 @@ package com.sms.sms.bars.form;
 
 import com.sms.sms.admin.AboutStudents;
 import com.sms.sms.db.service.StudentService;
-import com.sms.sms.user.entity.Student;
 import com.sms.sms.user.mapper.StudentMapper;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.sms.sms.security.service.LoginServiceImpl.loggedInUsers;
 import static com.sms.sms.styles.Colors.CREATE_FORM;
 import static com.sms.sms.styles.Colors.INPUT_STYLE;
-import static com.sms.sms.styles.Images.AVATAR_ICON1;
 
 
 public class Form {

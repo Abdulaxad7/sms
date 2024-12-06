@@ -155,6 +155,7 @@ public class LoginScreenImpl extends Application implements LoginScreen {
                 loginButton
         );
 
+
         return formBox;
     }
 
@@ -166,10 +167,10 @@ public class LoginScreenImpl extends Application implements LoginScreen {
     }
 
     public static void main(String[] args) {
-//        GradeService.persistNewGrades(SampleData.generateSampleData());
-//        CourseService.persistNewCourses( SampleData.generateSampleCourses());
-//        insertAdmins();
-        launch(args);
+        GradeService.persistNewGrades(SampleData.generateSampleData());
+        CourseService.persistNewCourses( SampleData.generateSampleCourses());
+        LoginServiceImpl.insertAdmins();
+        Application.launch(args);
 
     }
 
