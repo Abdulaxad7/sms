@@ -2,7 +2,7 @@ package com.sms.sms.bars.leftBar;
 
 import com.sms.sms.admin.AboutStudentsImpl;
 import com.sms.sms.user.*;
-import com.sms.sms.user.studentInfo.StudentInfoImpl;
+import com.sms.sms.user.StudentInfoImpl;
 import com.sms.sms.db.service.StudentService;
 import com.sms.sms.security.LoginScreenImpl;
 import javafx.geometry.Insets;
