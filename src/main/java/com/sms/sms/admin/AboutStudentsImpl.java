@@ -1,9 +1,9 @@
 package com.sms.sms.admin;
 
-import com.sms.sms.admin.service.AdminService;
-import com.sms.sms.bars.form.Form;
+
+import com.sms.sms.admin.repository.AboutStudents;
 import com.sms.sms.user.CellFactory;
-import com.sms.sms.user.CoursesScreen;
+import com.sms.sms.user.CoursesScreenImpl;
 import com.sms.sms.user.entity.Student;
 import com.sms.sms.db.service.StudentService;
 import com.sms.sms.bars.leftBar.LeftSideBar;
@@ -18,12 +18,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import static com.sms.sms.security.service.LoginServiceImpl.loggedInUsers;
 import static com.sms.sms.styles.Colors.*;
 import static com.sms.sms.styles.Images.SEARCH_ICON;
 
-public class AboutStudents implements CellFactory {
-    private static final AddNewStudent addStudent = new AddNewStudent();
+public class AboutStudentsImpl implements CellFactory, AboutStudents {
+    private static final AddNewStudentImpl addStudent = new AddNewStudentImpl();
     public Scene scene(Stage stage,String username) {
         HBox topBar = createTopBar(username);
 
@@ -40,7 +39,7 @@ public class AboutStudents implements CellFactory {
         return new Scene(mainLayout, 1000, 800);
     }
 
-    private HBox createTopBar(String username) {
+    public HBox createTopBar(String username) {
         HBox topBar = new HBox(20);
         topBar.setPadding(new Insets(10, 20, 10, 20));
         topBar.setStyle(TOP_BAR);
@@ -58,13 +57,13 @@ public class AboutStudents implements CellFactory {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        VBox profileSection = CoursesScreen.createProfileSection(username);
+        VBox profileSection = CoursesScreenImpl.createProfileSection(username);
 
         topBar.getChildren().addAll(searchBar, spacer, profileSection);
         return topBar;
     }
 
-    private TextField createSearchField() {
+    public TextField createSearchField() {
         TextField searchField = new TextField();
         searchField.setPromptText("Search student...");
         searchField.setStyle(SEARCH_FIELD_COLOR);
@@ -77,7 +76,7 @@ public class AboutStudents implements CellFactory {
     }
 
 
-    private HBox createTitleBar(Stage primartStage, String username) {
+    public HBox createTitleBar(Stage primartStage, String username) {
         HBox titleBar = new HBox(10);
         titleBar.setAlignment(Pos.CENTER_LEFT);
         titleBar.setPadding(new Insets(10));
@@ -96,7 +95,7 @@ public class AboutStudents implements CellFactory {
         return titleBar;
     }
 
-    private TableView<Student> createStudentTable() {
+    public TableView<Student> createStudentTable() {
         TableView<Student> studentTable = new TableView<>();
         studentTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
 
@@ -112,7 +111,7 @@ public class AboutStudents implements CellFactory {
         return studentTable;
     }
 
-    private TableColumn<Student, String> createTableColumn(int index, String columnName) {
+    public TableColumn<Student, String> createTableColumn(int index, String columnName) {
         TableColumn<Student, String> column = new TableColumn<>(columnName);
         column.setReorderable(false);
         column.setStyle(TABLE_COLUMN);
@@ -132,7 +131,7 @@ public class AboutStudents implements CellFactory {
         return column;
     }
 
-    private VBox createCenterContent(HBox topBar, HBox titleBar, TableView<Student> studentTable) {
+    public VBox createCenterContent(HBox topBar, HBox titleBar, TableView<Student> studentTable) {
         VBox centerContent = new VBox(10, topBar, titleBar, studentTable);
         centerContent.setPadding(new Insets(10));
         return centerContent;

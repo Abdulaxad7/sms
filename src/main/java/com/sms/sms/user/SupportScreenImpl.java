@@ -1,6 +1,7 @@
 package com.sms.sms.user;
 
 import com.sms.sms.bars.leftBar.LeftSideBar;
+import com.sms.sms.user.repository.SupportScreen;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,14 +17,13 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static com.sms.sms.styles.Colors.*;
 import static com.sms.sms.styles.Images.MAIL_ICON;
 import static com.sms.sms.styles.Images.PHONE_ICON;
 
-public class SupportScreen {
+public class SupportScreenImpl implements SupportScreen {
     private TextField textField = new TextField();
     private TextField textField2 = new TextField();
     private TextArea textArea = new TextArea();
@@ -39,7 +39,7 @@ public class SupportScreen {
     }
 
 
-    private HBox createHeader() {
+    public HBox createHeader() {
         HBox header = new HBox(50);
         header.setPadding(new Insets(10));
         header.setStyle(CREATE_HEADER);
@@ -56,7 +56,7 @@ public class SupportScreen {
         return header;
     }
 
-    private HBox createContactBox(String iconUrl, String text) {
+    public HBox createContactBox(String iconUrl, String text) {
         ImageView icon = new ImageView(new Image(iconUrl));
         icon.setFitWidth(30);
         icon.setFitHeight(30);
@@ -70,7 +70,7 @@ public class SupportScreen {
         return contactBox;
     }
 
-    private VBox createForm(HBox header) {
+    public VBox createForm(HBox header) {
         VBox formBox = new VBox(10);
         formBox.setSpacing(30);
         formBox.setPadding(new Insets(20));
@@ -83,7 +83,7 @@ public class SupportScreen {
         return formBox;
     }
 
-    private Label createTitle() {
+    public Label createTitle() {
         Label title = new Label("Help & Support Center");
         title.setFont(new Font("Arial", 36));
         title.setAlignment(Pos.CENTER_LEFT);
@@ -91,7 +91,7 @@ public class SupportScreen {
         return title;
     }
 
-    private VBox createInputFields() {
+    public VBox createInputFields() {
         VBox fullBox = new VBox(5);
 
         VBox nameBox = createInputField("Full Name", false);
@@ -102,7 +102,7 @@ public class SupportScreen {
         return fullBox;
     }
 
-    private VBox createInputField(String labelText, boolean isTextArea) {
+    public VBox createInputField(String labelText, boolean isTextArea) {
         Label label = new Label(labelText);
         label.setFont(new Font("Arial", 18));
 
@@ -127,7 +127,7 @@ public class SupportScreen {
         }
     }
 
-    private HBox createSubmitButton() {
+    public HBox createSubmitButton() {
         Button sendButton = new Button("Send");
         sendButton.setFont(new Font("Arial", 18));
         sendButton.setAlignment(Pos.CENTER);
@@ -139,20 +139,20 @@ public class SupportScreen {
         return hBox;
     }
 
-    private void handleFormSubmission() {
+    public void handleFormSubmission() {
         clearFormFields();
 
         showConfirmationStage();
     }
 
-    private void clearFormFields() {
+    public void clearFormFields() {
         textArea.clear();
         textField.clear();
         textField2.clear();
     }
 
 
-    private void showConfirmationStage() {
+    public void showConfirmationStage() {
         Stage confirmationStage = new Stage();
         confirmationStage.setTitle("Request Submitted");
 
@@ -219,7 +219,7 @@ public class SupportScreen {
     }
 
 
-    private BorderPane createMainLayout(VBox formBox, String username) {
+    public BorderPane createMainLayout(VBox formBox, String username) {
         BorderPane layout = new BorderPane();
         layout.setLeft(LeftSideBar.sideBar(5, false, username));
         layout.setCenter(formBox);

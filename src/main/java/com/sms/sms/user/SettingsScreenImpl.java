@@ -1,9 +1,9 @@
 package com.sms.sms.user;
 
-import com.sms.sms.admin.AddNewStudent;
 import com.sms.sms.bars.form.Form;
 import com.sms.sms.db.service.StudentService;
 import com.sms.sms.bars.leftBar.LeftSideBar;
+import com.sms.sms.user.repository.SettingsScreen;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import static com.sms.sms.security.service.LoginServiceImpl.loggedInUsers;
 import static com.sms.sms.styles.Images.PROFILE_IMAGE_URL;
 
-public class Settings extends Form {
+public class SettingsScreenImpl extends Form implements SettingsScreen {
 
 
     public Scene scene(Stage primartStage,String username) {
@@ -33,7 +33,7 @@ public class Settings extends Form {
         return new Scene(mainLayout, 1000, 800);
     }
 
-    private HBox createHeader(String username) {
+    public HBox createHeader(String username) {
         ImageView studentImage = new ImageView(new Image(PROFILE_IMAGE_URL));
         studentImage.setFitWidth(100);
         studentImage.setFitHeight(100);
