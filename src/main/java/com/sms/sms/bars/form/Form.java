@@ -1,6 +1,6 @@
 package com.sms.sms.bars.form;
 
-import com.sms.sms.admin.AboutStudents;
+import com.sms.sms.admin.AboutStudentsImpl;
 import com.sms.sms.db.service.StudentService;
 import com.sms.sms.user.mapper.StudentMapper;
 import javafx.geometry.Insets;
@@ -24,7 +24,7 @@ public class Form {
     StudentMapper studentMapper = new StudentMapper();
     Font LABEL_FONT = Font.font("Arial", 18);
     Font BUTTON_FONT = Font.font("Arial", 18);
-    AboutStudents students = new AboutStudents();
+    AboutStudentsImpl students = new AboutStudentsImpl();
 
 
     public VBox createForm(Stage primartStage, Boolean isStudent, String username) {

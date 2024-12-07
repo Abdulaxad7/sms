@@ -1,7 +1,7 @@
 package com.sms.sms.security;
 
-import com.sms.sms.admin.AboutStudents;
-import com.sms.sms.user.CoursesScreen;
+import com.sms.sms.admin.AboutStudentsImpl;
+import com.sms.sms.user.CoursesScreenImpl;
 import com.sms.sms.db.db_init.SampleData;
 import com.sms.sms.db.service.CourseService;
 import com.sms.sms.db.service.GradeService;
@@ -20,13 +20,12 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 
-import static com.sms.sms.security.service.LoginServiceImpl.insertAdmins;
 import static com.sms.sms.styles.Colors.*;
 import static com.sms.sms.styles.Images.*;
 
 public class LoginScreenImpl extends Application implements LoginScreen {
-    private final AboutStudents students = new AboutStudents();
-    private final CoursesScreen courseScreen = new CoursesScreen();
+    private final AboutStudentsImpl students = new AboutStudentsImpl();
+    private final CoursesScreenImpl courseScreen = new CoursesScreenImpl();
     private final LoginServiceImpl loginService = new LoginServiceImpl();
 
     public void scene() {

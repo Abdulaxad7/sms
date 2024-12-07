@@ -1,8 +1,8 @@
 package com.sms.sms.bars.leftBar;
 
-import com.sms.sms.admin.AboutStudents;
+import com.sms.sms.admin.AboutStudentsImpl;
 import com.sms.sms.user.*;
-import com.sms.sms.user.studentInfo.StudentInfoImpl;
+import com.sms.sms.user.StudentInfoImpl;
 import com.sms.sms.db.service.StudentService;
 import com.sms.sms.security.LoginScreenImpl;
 import javafx.geometry.Insets;
@@ -24,12 +24,12 @@ import static com.sms.sms.styles.Images.*;
 
 public class LeftSideBar {
     private static final StudentInfoImpl studentInfo = new StudentInfoImpl();
-    private static final ChatScreen chatScreen = new ChatScreen();
-    private static final CoursesScreen courseScreen = new CoursesScreen();
-    private static final SupportScreen supportScreen = new SupportScreen();
+    private static final ChatScreenImpl chatScreen = new ChatScreenImpl();
+    private static final CoursesScreenImpl courseScreen = new CoursesScreenImpl();
+    private static final SupportScreenImpl supportScreen = new SupportScreenImpl();
     private static final LoginScreenImpl loginScreen = new LoginScreenImpl();
-    private static final Settings settingsScreen = new Settings();
-    private static final AboutStudents students = new AboutStudents();
+    private static final SettingsScreenImpl settingsScreen = new SettingsScreenImpl();
+    private static final AboutStudentsImpl students = new AboutStudentsImpl();
     public static Stage primaryStage;
 
 

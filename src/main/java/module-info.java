@@ -30,10 +30,10 @@ module com.sms.sms {
     opens com.sms.sms.admin.entity to javafx.fxml, org.hibernate.orm.core;
     exports com.sms.sms.user.entity;
     opens com.sms.sms.user.entity to javafx.fxml, org.hibernate.orm.core;
-    exports com.sms.sms.user.studentInfo;
-    opens com.sms.sms.user.studentInfo to javafx.fxml;
     exports com.sms.sms.db.db_init;
     opens com.sms.sms.db.db_init to javafx.fxml;
     exports com.sms.sms.security.service;
     opens com.sms.sms.security.service to javafx.fxml;
+    exports com.sms.sms.user.repository;
+    opens com.sms.sms.user.repository to javafx.fxml;
 }

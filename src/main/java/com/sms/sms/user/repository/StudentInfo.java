@@ -1,4 +1,4 @@
-package com.sms.sms.user.studentInfo;
+package com.sms.sms.user.repository;
 
 import com.sms.sms.user.CellFactory;
 import com.sms.sms.user.entity.Grade;

@@ -1,10 +1,10 @@
 package com.sms.sms.admin;
 
 
+import com.sms.sms.admin.repository.AddNewStudent;
 import com.sms.sms.admin.service.AdminService;
 import com.sms.sms.bars.form.Form;
-import com.sms.sms.user.mapper.StudentMapper;
-import com.sms.sms.db.service.StudentService;
+
 import com.sms.sms.bars.leftBar.LeftSideBar;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -26,7 +26,7 @@ import static com.sms.sms.security.service.LoginServiceImpl.loggedInUsers;
 import static com.sms.sms.styles.Images.PROFILE_IMAGE_URL;
 
 @Slf4j
-public class AddNewStudent extends Form {
+public class AddNewStudentImpl extends Form implements AddNewStudent {
 
     public Scene scene(Stage primaryStage,String username) {
         HBox header = createHeader(username);
@@ -41,7 +41,7 @@ public class AddNewStudent extends Form {
         return new Scene(mainLayout, 1000, 800);
     }
 
-    private HBox createHeader(String username) {
+    public HBox createHeader(String username) {
         HBox header = new HBox(20);
         header.setAlignment(Pos.CENTER_LEFT);
         header.setPadding(new Insets(15, 80, 0, 80));

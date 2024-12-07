@@ -1,8 +1,9 @@
-package com.sms.sms.user.studentInfo;
+package com.sms.sms.user;
 
 import com.sms.sms.user.entity.Grade;
 import com.sms.sms.db.service.StudentService;
 import com.sms.sms.bars.leftBar.LeftSideBar;
+import com.sms.sms.user.repository.StudentInfo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

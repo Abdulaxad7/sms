@@ -5,6 +5,7 @@ import com.sms.sms.bars.form.Form;
 import com.sms.sms.user.entity.Course;
 import com.sms.sms.db.service.StudentService;
 import com.sms.sms.bars.leftBar.LeftSideBar;
+import com.sms.sms.user.repository.CoursesScreen;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -25,7 +26,7 @@ import static com.sms.sms.styles.Colors.*;
 
 import static com.sms.sms.styles.Images.*;
 
-public class CoursesScreen extends Form {
+public class CoursesScreenImpl extends Form implements CoursesScreen {
     public Scene scene(String userName) {
         VBox mainPanel = createMainPanel(userName);
         HBox layout = createLayout(mainPanel,userName);
@@ -33,14 +34,14 @@ public class CoursesScreen extends Form {
         return new Scene(layout, 1000, 800);
     }
 
-    private HBox createLayout(VBox mainPanel,String username) {
+    public HBox createLayout(VBox mainPanel,String username) {
         HBox layout = new HBox();
         layout.getChildren().addAll(LeftSideBar.sideBar(0, false,username), mainPanel);
         HBox.setHgrow(mainPanel, Priority.ALWAYS);
         return layout;
     }
 
-    private VBox createMainPanel(String username) {
+    public VBox createMainPanel(String username) {
         VBox mainPanel = new VBox(20);
         mainPanel.setPadding(new Insets(20));
         mainPanel.setStyle(CREATE_MAIN_PANEL);
@@ -55,7 +56,7 @@ public class CoursesScreen extends Form {
         return mainPanel;
     }
 
-    private ScrollPane createScrollPane() {
+    public ScrollPane createScrollPane() {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -66,7 +67,7 @@ public class CoursesScreen extends Form {
 
 
 
-    private VBox createScrollableContent(String username) {
+    public VBox createScrollableContent(String username) {
         VBox scrollableContent = new VBox(20);
         scrollableContent.setPadding(new Insets(20));
 
@@ -77,7 +78,7 @@ public class CoursesScreen extends Form {
         return scrollableContent;
     }
 
-    private HBox createTopBar(String username) {
+    public HBox createTopBar(String username) {
         HBox topBar = new HBox(20);
         topBar.setPadding(new Insets(10, 20, 10, 20));
         topBar.setStyle(CREATE_TOP_BAR);
@@ -92,7 +93,7 @@ public class CoursesScreen extends Form {
         return topBar;
     }
 
-    private HBox createSearchBar() {
+    public HBox createSearchBar() {
         TextField searchField = new TextField();
         searchField.setPromptText("Explore courses...");
         searchField.setStyle(CREATE_SEARCH_BAR);
@@ -110,7 +111,7 @@ public class CoursesScreen extends Form {
         return searchBar;
     }
 
-    private void addSearchFieldStyles(TextField searchField) {
+    public void addSearchFieldStyles(TextField searchField) {
         searchField.setStyle(SEARCH_FIELD);
         searchField.setOnMouseEntered(e -> searchField.setStyle(SEARCH_FIELD ));
         searchField.setOnMouseExited(e -> searchField.setStyle(SEARCH_FIELD));
@@ -119,7 +120,7 @@ public class CoursesScreen extends Form {
     }
 
 
-    private VBox createCoursesSection(String username) {
+    public VBox createCoursesSection(String username) {
         VBox coursesSection = new VBox(20);
         coursesSection.setPadding(new Insets(20));
         coursesSection.setAlignment(Pos.TOP_LEFT);
@@ -133,7 +134,7 @@ public class CoursesScreen extends Form {
         return coursesSection;
     }
 
-    private FlowPane createCoursesContainer(String username) {
+    public FlowPane createCoursesContainer(String username) {
         FlowPane coursesContainer = new FlowPane();
         coursesContainer.setPadding(new Insets(10));
         coursesContainer.setHgap(20);
@@ -146,7 +147,7 @@ public class CoursesScreen extends Form {
         return coursesContainer;
     }
 
-    private VBox createCourseCard(Course course) {
+    public VBox createCourseCard(Course course) {
         VBox courseCard = new VBox(10);
         courseCard.setPadding(new Insets(10));
         courseCard.setStyle(CREATE_COURSE_CARD);
@@ -177,7 +178,7 @@ public class CoursesScreen extends Form {
         return courseCard;
     }
 
-    private VBox createContinueLearningContainer(String username) {
+    public VBox createContinueLearningContainer(String username) {
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(10));
         Label sectionTitle = new Label("Continue Learning");
@@ -191,7 +192,7 @@ public class CoursesScreen extends Form {
         return vBox;
     }
 
-    private VBox createContinueLearningSection(Course course) {
+    public VBox createContinueLearningSection(Course course) {
         VBox continueLearningSection = new VBox(20);
         continueLearningSection.setPadding(new Insets(20));
 

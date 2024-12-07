@@ -1,6 +1,8 @@
 package com.sms.sms.user;
 
 import com.sms.sms.bars.leftBar.LeftSideBar;
+import com.sms.sms.user.repository.ChatScreen;
+import com.sms.sms.user.repository.Scenes;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,7 +21,7 @@ import static com.sms.sms.styles.Colors.*;
 import static com.sms.sms.styles.Images.AVATAR_ICON1;
 
 
-public class ChatScreen {
+public class ChatScreenImpl implements ChatScreen {
     public Scene scene(String username) {
 
         BorderPane chatPane = new BorderPane();
@@ -63,7 +65,7 @@ public class ChatScreen {
         return new Scene(mainLayout, 1000, 800);
     }
 
-    static ListView<HBox> chatViewList() {
+    public static ListView<HBox> chatViewList() {
         ListView<HBox> chatList = new ListView<>();
         chatList.setStyle(VIEW_LIST);
 
