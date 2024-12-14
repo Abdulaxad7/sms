@@ -66,7 +66,7 @@ Before setting up the project, ensure that you have:
 
 1. **Clone the Repository**:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Abdulaxad7/sms
    cd sms
    ```
 
